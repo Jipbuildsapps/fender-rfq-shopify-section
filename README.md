@@ -24,6 +24,7 @@ De preview gebruikt voorbeeldvarianten. Het formulier verstuurt daar geen echte 
 - Live technische tekening
 - SVG en PNG download
 - Tonen/verbergen van maatlijnen
+- Automatisch DS-vooraanzicht met D-profiel, HB- en B-maatvoering
 - Hover highlights voor gerelateerde lijnen en labels
 - Zigzag labels wanneer gatlabels dicht bij elkaar staan
 - Nederlands / English taalkeuze
