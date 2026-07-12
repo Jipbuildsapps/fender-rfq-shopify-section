@@ -4,9 +4,9 @@ const sourcePath = new URL('../sections/fender-tekening-maker.liquid', import.me
 const outputPath = new URL('../index.html', import.meta.url);
 const uid = 'fender-rfq-demo';
 const variants = [
-  { id: 1001, title: '100 x 50 mm - D-bore 60 x 30 mm', sku: 'FRQ-100-50' },
-  { id: 1002, title: '150 x 60 mm - D-bore 95 x 35 mm', sku: 'FRQ-150-60' },
-  { id: 1003, title: '200 x 80 mm - D-bore 130 x 50 mm', sku: 'FRQ-200-80' }
+  { id: 1001, title: 'DS Fender 100 x 100 mm solid', sku: 'DS-100-100' },
+  { id: 1002, title: 'DD Fender 100 x 95 mm - D-bore 60 x 48 mm', sku: 'DD-100-095' },
+  { id: 1003, title: 'DC Fender 100 x 100 mm - O-bore Ø 50 mm', sku: 'DC-100-100' }
 ];
 
 let section = await readFile(sourcePath, 'utf8');
