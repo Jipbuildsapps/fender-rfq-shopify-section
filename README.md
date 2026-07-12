@@ -2,6 +2,12 @@
 
 Shopify Dawn section voor een Fender RFQ configurator met live technische tekening, downloads en Nederlands/Engelse interface.
 
+## Live demo
+
+[Open de interactieve browserpreview](https://jipbuildsapps.github.io/fender-rfq-shopify-section/)
+
+De preview gebruikt voorbeeldvarianten. Het formulier verstuurt daar geen echte offerte; in Shopify gebruikt de section de standaard `/contact`-route.
+
 ## Bestand
 
 - `sections/fender-tekening-maker.liquid`
@@ -23,3 +29,7 @@ Shopify Dawn section voor een Fender RFQ configurator met live technische tekeni
 - Nederlands / English taalkeuze
 - RFQ/contact via Shopify `/contact`
 - Configuratielink die ingevulde data herstelt
+
+## Preview bijwerken
+
+Na wijzigingen aan de Liquid-section genereert `scripts/build-demo.mjs` opnieuw de zelfstandige `index.html` voor GitHub Pages.
