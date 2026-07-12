@@ -1500,21 +1500,33 @@
     var x=600-w/2;
     var y=54+(maxH-h)/2;
     var bottom=y+h;
+    var midX=x+w/2;
     var midY=y+h/2;
+    var capRx=w/2;
+    var capRy=Math.min(capRx,h*.72);
+    var capBaseY=y+capRy;
+    var bezier=.5522848;
 
     fFrontG.setAttribute('aria-label',tr('front_view_ds'));
     addText(fFrontG,'f-view-title',600,34,tr('front_view_ds'),'middle');
 
     var shape=document.createElementNS(NS,'path');
     shape.setAttribute('class','f-front-shape');
-    shape.setAttribute('d','M '+px(x)+' '+px(y)+' L '+px(x)+' '+px(bottom)+' C '+px(x+w*4/3)+' '+px(bottom)+' '+px(x+w*4/3)+' '+px(y)+' '+px(x)+' '+px(y)+' Z');
+    shape.setAttribute('d',[
+      'M',px(x),px(bottom),
+      'L',px(x),px(capBaseY),
+      'C',px(x),px(capBaseY-capRy*bezier),px(midX-capRx*bezier),px(y),px(midX),px(y),
+      'C',px(midX+capRx*bezier),px(y),px(x+w),px(capBaseY-capRy*bezier),px(x+w),px(capBaseY),
+      'L',px(x+w),px(bottom),
+      'Z'
+    ].join(' '));
     fFrontG.appendChild(shape);
 
-    addSvgLine(fFrontG,'f-front-centerline',x-12,midY,x+w+12,midY,false);
+    addSvgLine(fFrontG,'f-front-centerline',midX,y-12,midX,bottom+12,false);
 
     var bDimY=bottom+42;
     addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,bDimY,false);
-    addSvgLine(fFrontG,'de f-front-dim',x+w,midY,x+w,bDimY,false);
+    addSvgLine(fFrontG,'de f-front-dim',x+w,bottom,x+w,bDimY,false);
     addSvgLine(fFrontG,'dl f-front-dim',x,bDimY,x+w,bDimY,true);
     addText(fFrontG,'dt f-front-dim',x+w/2,bDimY-8,'B = '+fmt(B)+' mm','middle');
 
