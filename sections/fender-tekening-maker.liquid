@@ -31,12 +31,15 @@
       </div>
 
       <div class="frq__svgWrap">
-        <svg class="frq__svg" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Fender technical drawing">
+        <svg class="frq__svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Fender technical drawing">
           <defs>
             <marker id="{{ uid }}-arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
             </marker>
           </defs>
+
+          <g class="f-front-view"></g>
+          <text class="f-view-title f-side-view-title" x="95" y="328" data-i18n="side_view">Zijaanzicht</text>
 
           <rect class="f-fill" x="0" y="0" width="0" height="0" rx="2"></rect>
           <rect class="f-outline" x="0" y="0" width="0" height="0" rx="2"></rect>
@@ -81,7 +84,7 @@
           </g>
 
           <g class="f-hole-list"></g>
-          <text class="f-warn" x="600" y="603" text-anchor="middle"></text>
+          <text class="f-warn" x="600" y="783" text-anchor="middle"></text>
         </svg>
       </div>
 
@@ -96,6 +99,7 @@
         <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="CUM" checked><span data-i18n="hole_labels">Gatlabels</span></label>
         <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="DIA" checked><span data-i18n="diameter_label">Ø-label</span></label>
         <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="HLIST" checked><span data-i18n="hole_list_toggle">Gatposities lijst</span></label>
+        <label class="frq__dimPill" data-frq-front-toggle-wrap hidden><input type="checkbox" data-frq-dim-toggle="FRONT" checked><span data-i18n="front_view">Vooraanzicht</span></label>
       </div>
     </div>
 
@@ -373,6 +377,30 @@
   vector-effect:non-scaling-stroke;
 }
 
+#{{ uid }} .f-front-shape{
+  fill:rgba(var(--frq-accent-rgb),.035);
+  stroke:currentColor;
+  stroke-width:2;
+  vector-effect:non-scaling-stroke;
+}
+
+#{{ uid }} .f-front-centerline{
+  stroke:currentColor;
+  stroke-width:1;
+  stroke-dasharray:9 5 2 5;
+  opacity:.32;
+  vector-effect:non-scaling-stroke;
+}
+
+#{{ uid }} .f-view-title{
+  fill:currentColor;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.5px;
+  opacity:.58;
+  text-transform:uppercase;
+}
+
 #{{ uid }} .f-hole-proj-line{
   stroke:currentColor;
   opacity:.28;
@@ -506,7 +534,8 @@
 #{{ uid }}.is-dim-hidden-HC [data-d^="HC-"],
 #{{ uid }}.is-dim-hidden-CUM .f-cum-label,
 #{{ uid }}.is-dim-hidden-DIA .f-dia-group,
-#{{ uid }}.is-dim-hidden-HLIST .f-hole-list{
+#{{ uid }}.is-dim-hidden-HLIST .f-hole-list,
+#{{ uid }}.is-dim-hidden-FRONT .f-front-view{
   display:none;
 }
 
@@ -532,6 +561,17 @@
 #{{ uid }}.is-hover-dim-DIA .f-dia-group rect{
   stroke:rgba(var(--frq-accent-rgb),.35) !important;
   fill:rgba(var(--frq-accent-rgb),.06) !important;
+}
+
+#{{ uid }}.is-hover-dim-FRONT .f-front-shape,
+#{{ uid }}.is-hover-dim-FRONT .f-front-view line{
+  stroke:var(--frq-accent) !important;
+  opacity:1 !important;
+}
+
+#{{ uid }}.is-hover-dim-FRONT .f-front-view text{
+  fill:var(--frq-accent) !important;
+  opacity:1 !important;
 }
 
 #{{ uid }} .frq__form{
@@ -798,9 +838,28 @@
   function parseProfileFromTitle(title){
     if(!title)return null;
     var s=String(title).trim();
-    var m=s.match(/(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*mm.*?d-bore\s*(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*mm/i);
-    if(!m)return null;
-    return {A:num(m[1]),B:num(m[2]),C:num(m[3]),D:num(m[4]),custom:false};
+    var outer=s.match(/(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*mm/i);
+    if(!outer)return null;
+
+    var kind='D';
+    if(/(^|[\s_-])DS([\s_-]|$)|\bsolid\b|\bmassief\b/i.test(s))kind='DS';
+    else if(/(^|[\s_-])DD([\s_-]|$)|d-bore/i.test(s))kind='DD';
+    else if(/(^|[\s_-])DC([\s_-]|$)|o-bore|cylind/i.test(s))kind='DC';
+
+    var C=null;
+    var D=null;
+    var dBore=s.match(/d-bore\s*(\d+(?:[.,]\d+)?)\s*x\s*(\d+(?:[.,]\d+)?)\s*mm/i);
+    var oBore=s.match(/(?:o-bore|cylind(?:rical|risch)?e?\s+bore)\s*[Øø]?\s*(\d+(?:[.,]\d+)?)\s*mm/i);
+
+    if(dBore){
+      C=num(dBore[1]);
+      D=num(dBore[2]);
+    }else if(oBore){
+      C=num(oBore[1]);
+      D=C;
+    }
+
+    return {A:num(outer[1]),B:num(outer[2]),C:C,D:D,kind:kind,custom:false};
   }
 
   var TXT={
@@ -812,6 +871,9 @@
       hole_labels:'Gatlabels',
       diameter_label:'Ø-label',
       hole_list_toggle:'Gatposities lijst',
+      front_view:'Vooraanzicht',
+      front_view_ds:'Vooraanzicht · DS massief',
+      side_view:'Zijaanzicht',
       maker:'Technische tekening maker',
       language:'Taal',
       download_svg:'Download SVG',
@@ -869,6 +931,9 @@
       hole_labels:'Hole labels',
       diameter_label:'Ø label',
       hole_list_toggle:'Hole position list',
+      front_view:'Front view',
+      front_view_ds:'Front view · DS solid',
+      side_view:'Side view',
       maker:'Technical drawing generator',
       language:'Language',
       download_svg:'Download SVG',
@@ -962,6 +1027,7 @@
   var subEl=$('[data-sub]');
   var sucEl=$('[data-success]');
   var svgWarn=$('#{{ uid }}-svgwarn');
+  var frontViewPill=$('[data-frq-front-toggle-wrap]');
 
   var variants=[];
   var selectedVariant=null;
@@ -982,6 +1048,7 @@
   var fProjG=svg.querySelector('.f-hole-proj');
   var fLabelsG=svg.querySelector('.f-hole-labels');
   var fListG=svg.querySelector('.f-hole-list');
+  var fFrontG=svg.querySelector('.f-front-view');
   var fWarnTxt=svg.querySelector('.f-warn');
 
   var DIM={};
@@ -1066,7 +1133,7 @@
 
   function buildCustomProfile(){
     var hb=num(customHbEl&&customHbEl.value);
-    return hb>0?{A:hb,B:null,C:null,D:null,custom:true}:null;
+    return hb>0?{A:hb,B:null,C:null,D:null,kind:'custom',custom:true}:null;
   }
 
   function getThreadLabel(){
@@ -1330,6 +1397,7 @@
     fProjG.innerHTML='';
     fLabelsG.innerHTML='';
     fListG.innerHTML='';
+    fFrontG.innerHTML='';
 
     lastHoleRows=[];
 
@@ -1386,6 +1454,65 @@
     return el;
   }
 
+  function addSvgLine(parent,cls,x1,y1,x2,y2,arrows){
+    var NS='http://www.w3.org/2000/svg';
+    var el=document.createElementNS(NS,'line');
+    el.setAttribute('class',cls);
+    el.setAttribute('x1',px(x1));
+    el.setAttribute('y1',px(y1));
+    el.setAttribute('x2',px(x2));
+    el.setAttribute('y2',px(y2));
+
+    if(arrows){
+      el.setAttribute('marker-start','url(#{{ uid }}-arr)');
+      el.setAttribute('marker-end','url(#{{ uid }}-arr)');
+    }
+
+    parent.appendChild(el);
+    return el;
+  }
+
+  function renderDsFrontView(HB,B){
+    var available=selectedProfile&&selectedProfile.kind==='DS'&&HB>0&&B>0;
+    if(frontViewPill)frontViewPill.hidden=!available;
+    if(!available)return;
+
+    var NS='http://www.w3.org/2000/svg';
+    var maxW=160;
+    var maxH=130;
+    var scale=Math.min(maxW/B,maxH/HB);
+    var w=B*scale;
+    var h=HB*scale;
+    var x=600-w/2;
+    var y=54+(maxH-h)/2;
+    var bottom=y+h;
+    var midY=y+h/2;
+
+    fFrontG.setAttribute('aria-label',tr('front_view_ds'));
+    addText(fFrontG,'f-view-title',600,34,tr('front_view_ds'),'middle');
+
+    var shape=document.createElementNS(NS,'path');
+    shape.setAttribute('class','f-front-shape');
+    shape.setAttribute('d','M '+px(x)+' '+px(y)+' L '+px(x)+' '+px(bottom)+' C '+px(x+w*4/3)+' '+px(bottom)+' '+px(x+w*4/3)+' '+px(y)+' '+px(x)+' '+px(y)+' Z');
+    fFrontG.appendChild(shape);
+
+    addSvgLine(fFrontG,'f-front-centerline',x-12,midY,x+w+12,midY,false);
+
+    var bDimY=bottom+42;
+    addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,bDimY,false);
+    addSvgLine(fFrontG,'de f-front-dim',x+w,midY,x+w,bDimY,false);
+    addSvgLine(fFrontG,'dl f-front-dim',x,bDimY,x+w,bDimY,true);
+    addText(fFrontG,'dt f-front-dim',x+w/2,bDimY-8,'B = '+fmt(B)+' mm','middle');
+
+    var hbDimX=x-48;
+    addSvgLine(fFrontG,'de f-front-dim',hbDimX,y,x,y,false);
+    addSvgLine(fFrontG,'de f-front-dim',hbDimX,bottom,x,bottom,false);
+    addSvgLine(fFrontG,'dl f-front-dim',hbDimX,y,hbDimX,bottom,true);
+
+    var hbText=addText(fFrontG,'dt f-front-dim',hbDimX-12,midY+5,'HB = '+fmt(HB)+' mm','middle');
+    hbText.setAttribute('transform','rotate(-90,'+px(hbDimX-12)+','+px(midY)+')');
+  }
+
   function addLabel(parent,cls,x,y,t,anchor,groupCls){
     var NS='http://www.w3.org/2000/svg';
     var g=document.createElementNS(NS,'g');
@@ -1428,6 +1555,7 @@
 
     var L=num(lenEl&&lenEl.value);
     var HB=selectedProfile&&selectedProfile.A?selectedProfile.A:null;
+    var B=selectedProfile&&selectedProfile.B?selectedProfile.B:null;
     var chamberC=selectedProfile&&!selectedProfile.custom&&selectedProfile.C?selectedProfile.C:null;
     var G=num(gEl&&gEl.value);
     var HH=num(hhEl&&hhEl.value);
@@ -1440,6 +1568,7 @@
     if(N!=null)N=Math.max(0,Math.round(N));
 
     updateSub();
+    renderDsFrontView(HB,B);
 
     if(!(L>0)||!(HB>0)){
       updateHiddenProfileFields();
@@ -1448,10 +1577,10 @@
     }
 
     var SVG_W=1200;
-    var SVG_H=620;
+    var SVG_H=800;
     var PAD_L=95;
     var PAD_R=190;
-    var PAD_T=105;
+    var PAD_T=330;
     var PAD_B=305;
 
     var maxFW=SVG_W-PAD_L-PAD_R;
@@ -1692,7 +1821,8 @@
       HC:'[data-d^="HC-"]',
       CUM:'.f-cum-label',
       DIA:'.f-dia-group',
-      HLIST:'.f-hole-list'
+      HLIST:'.f-hole-list',
+      FRONT:'.f-front-view'
     };
 
     Object.keys(hiddenMap).forEach(function(key){
@@ -1718,7 +1848,7 @@
     var clone=svg.cloneNode(true);
     clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
     clone.setAttribute('width','1200');
-    clone.setAttribute('height','620');
+    clone.setAttribute('height','800');
     clone.setAttribute('style','background:#fff;color:#111827;');
 
     applyDownloadVisibility(clone);
@@ -1728,6 +1858,9 @@
       '.f-fill{fill:transparent}',
       '.f-outline{fill:none;stroke:#111827;opacity:.65;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-hidden{stroke:#111827;opacity:.52;stroke-width:1.2;stroke-dasharray:7 5;vector-effect:non-scaling-stroke}',
+      '.f-front-shape{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
+      '.f-front-centerline{stroke:#111827;stroke-width:1;stroke-dasharray:9 5 2 5;opacity:.32;vector-effect:non-scaling-stroke}',
+      '.f-view-title{fill:#111827;font-size:13px;font-weight:800;letter-spacing:.5px;opacity:.58;font-family:Arial,Helvetica,sans-serif}',
       '.f-hole-proj,.f-hole-proj-line{display:none!important}',
       '.f-label-bg{fill:#fff;stroke:rgba(0,0,0,.08);stroke-width:1}',
       '.f-holes circle{fill:#fff;stroke:#111827;stroke-width:1.5;vector-effect:non-scaling-stroke;opacity:.86}',
@@ -1788,7 +1921,7 @@
       var canvas=document.createElement('canvas');
 
       canvas.width=1200*scale;
-      canvas.height=620*scale;
+      canvas.height=800*scale;
 
       var ctx=canvas.getContext('2d');
       ctx.fillStyle='#ffffff';
