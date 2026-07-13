@@ -92,7 +92,7 @@
 
       <div class="frq__dimTools" aria-label="Dimension toggles">
         <div class="frq__dimToolsTitle" data-i18n="show_dimensions">Toon maatlijnen</div>
-        <label class="frq__dimPill" data-frq-dim-scope="front"><input type="checkbox" data-frq-dim-toggle="B" checked><span>B</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="both"><input type="checkbox" data-frq-dim-toggle="B" checked><span>B</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="both"><input type="checkbox" data-frq-dim-toggle="HB" checked><span>HB</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="L" checked><span>L</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="G" checked><span>G</span></label>
@@ -149,6 +149,12 @@
       <input type="hidden" name="contact[Kamerbreedte_D_mm]" id="{{ uid }}-D-hidden">
       <input type="hidden" name="contact[Rechterafstand_GR_mm]" id="{{ uid }}-GR-hidden">
       <input type="hidden" name="contact[Gatposities]" id="{{ uid }}-holes-hidden">
+      <input type="hidden" name="contact[Productspecificatie_A_mm]" id="{{ uid }}-spec-a-hidden">
+      <input type="hidden" name="contact[Productspecificatie_B_mm]" id="{{ uid }}-spec-b-hidden">
+      <input type="hidden" name="contact[Productspecificatie_C_mm]" id="{{ uid }}-spec-c-hidden">
+      <input type="hidden" name="contact[Productspecificatie_D_mm]" id="{{ uid }}-spec-d-hidden">
+      <input type="hidden" name="contact[Gewicht_kg_per_m]" id="{{ uid }}-weight-hidden">
+      <input type="hidden" name="contact[Standaard_max_lengte_mm]" id="{{ uid }}-max-length-hidden">
 
       <textarea hidden name="contact[Technische samenvatting]" id="{{ uid }}-summary"></textarea>
 
@@ -161,6 +167,56 @@
         {% for variant in product.variants %}
           {"id": {{ variant.id | json }}, "title": {{ variant.title | json }}, "sku": {{ variant.sku | json }}}{% unless forloop.last %},{% endunless %}
         {% endfor %}
+      ]
+      </script>
+
+      <script type="application/json" id="{{ uid }}-catalog-data">
+      [
+        {"n":"DD-fender 042x027mm d-bore 027x013mm","s":"DD042027","k":"DD","A":42,"B":27,"C":27,"D":13,"w":1,"m":20000},
+        {"n":"DD-fender 050x060mm d-bore 020x030mm","s":"DD050060","k":"DD","A":50,"B":60,"C":20,"D":30,"w":3,"m":15000},
+        {"n":"DD-fender 080x070mm d-bore 050x040mm","s":"DD080070","k":"DD","A":80,"B":70,"C":50,"D":40,"w":5,"m":12000},
+        {"n":"DD-fender 100x095mm d-bore 060x045mm","s":"DD100095","k":"DD","A":100,"B":95,"C":60,"D":45,"w":8,"m":10000},
+        {"n":"DD-fender 125x125mm d-bore 060x060mm","s":"DD125125","k":"DD","A":125,"B":125,"C":60,"D":60,"w":13.5,"m":6000},
+        {"n":"DD-fender 150x150mm d-bore 075x075mm","s":"DD150150","k":"DD","A":150,"B":150,"C":75,"D":75,"w":19,"m":6000},
+        {"n":"DD-fender 150x170mm d-bore 075x085mm","s":"DD150170","k":"DD","A":150,"B":170,"C":75,"D":85,"w":21.7,"m":6000},
+        {"n":"DD-fender 200x150mm d-bore 100x080mm","s":"DD200150","k":"DD","A":200,"B":150,"C":100,"D":80,"w":24,"m":6000},
+        {"n":"DD-fender 200x200mm d-bore 100x100mm","s":"DD200200","k":"DD","A":200,"B":200,"C":100,"D":100,"w":34,"m":6000},
+        {"n":"DD-fender 200x250mm d-bore 080x125mm","s":"DD200250","k":"DD","A":200,"B":250,"C":80,"D":125,"w":46,"m":6000},
+        {"n":"DD-fender 250x200mm d-bore 125x100mm","s":"DD250200","k":"DD","A":250,"B":200,"C":125,"D":100,"w":41,"m":6000},
+        {"n":"DD-fender 250x250mm d-bore 125x125mm","s":"DD250250","k":"DD","A":250,"B":250,"C":125,"D":125,"w":53,"m":6000},
+        {"n":"DD-fender 300x300mm d-bore 150x150mm","s":"DD300300","k":"DD","A":300,"B":300,"C":150,"D":150,"w":76,"m":6000},
+        {"n":"DD-fender 350x350mm d-bore 175x175mm","s":"DD350350","k":"DD","A":350,"B":350,"C":175,"D":175,"w":103,"m":5000},
+        {"n":"DD-fender 380x380mm d-bore 190x190mm","s":"DD380380","k":"DD","A":380,"B":380,"C":190,"D":190,"w":122,"m":5000},
+        {"n":"DD-fender 400x400mm d-bore 200x200mm","s":"DD400400","k":"DD","A":400,"B":400,"C":200,"D":200,"w":136,"m":5000},
+        {"n":"DD-fender 500x500mm d-bore 250x250mm","s":"DD500500","k":"DD","A":500,"B":500,"C":250,"D":250,"w":210,"m":5000},
+        {"n":"DC-fender 040x030mm o-bore 014mm","s":"DC040030","k":"DC","A":40,"B":30,"C":14,"D":6,"w":1,"m":20000},
+        {"n":"DC-fender 100x100mm o-bore 030mm","s":"DC100030","k":"DC","A":100,"B":100,"C":30,"D":15,"w":10.5,"m":6000},
+        {"n":"DC-fender 100x100mm o-bore 050mm","s":"DC100100","k":"DC","A":100,"B":100,"C":50,"D":15,"w":10,"m":6000},
+        {"n":"DC-fender 100x115mm o-bore 030mm","s":"DC100115","k":"DC","A":100,"B":115,"C":30,"D":15,"w":12,"m":6000},
+        {"n":"DC-fender 125x125mm o-bore 050mm","s":"DC125125","k":"DC","A":125,"B":125,"C":50,"D":20,"w":15,"m":6000},
+        {"n":"DC-fender 125x150mm o-bore 060mm","s":"DC125150","k":"DC","A":125,"B":150,"C":60,"D":20,"w":18,"m":6000},
+        {"n":"DC-fender 125x165mm o-bore 060mm","s":"DC125165","k":"DC","A":125,"B":165,"C":60,"D":20,"w":20,"m":6000},
+        {"n":"DC-fender 150x150mm o-bore 065mm","s":"DC150150","k":"DC","A":150,"B":150,"C":65,"D":20,"w":20.6,"m":6000},
+        {"n":"DC-fender 200x200mm o-bore 075mm","s":"DC200200","k":"DC","A":200,"B":200,"C":75,"D":25,"w":38.5,"m":6000},
+        {"n":"DC-fender 200x230mm o-bore 090mm","s":"DC200230","k":"DC","A":200,"B":230,"C":90,"D":25,"w":44.2,"m":6000},
+        {"n":"DC-fender 250x250mm o-bore 100mm","s":"DC250250","k":"DC","A":250,"B":250,"C":100,"D":30,"w":59,"m":6000},
+        {"n":"DC-fender 300x300mm o-bore 100mm","s":"DC300100","k":"DC","A":300,"B":300,"C":100,"D":30,"w":90.6,"m":6000},
+        {"n":"DC-fender 300x300mm o-bore 150mm","s":"DC300150","k":"DC","A":300,"B":300,"C":150,"D":30,"w":78.3,"m":6000},
+        {"n":"DC-fender 300x300mm o-bore 125mm","s":"DC300300","k":"DC","A":300,"B":300,"C":125,"D":30,"w":83.7,"m":6000},
+        {"n":"DC-fender 350x350mm o-bore 150mm","s":"DC350350","k":"DC","A":350,"B":350,"C":150,"D":35,"w":113,"m":6000},
+        {"n":"DC-fender 400x400mm o-bore 200mm","s":"DC400400","k":"DC","A":400,"B":400,"C":200,"D":35,"w":139.3,"m":6000},
+        {"n":"DC-fender 450x450mm o-bore 225mm","s":"DC450450","k":"DC","A":450,"B":450,"C":225,"D":35,"w":165,"m":6000},
+        {"n":"DC-fender 500x500mm o-bore 250mm","s":"DC500500","k":"DC","A":500,"B":500,"C":250,"D":35,"w":214,"m":6000},
+        {"n":"DS-fender 100x100mm","s":"DS100100","k":"DS","A":100,"B":100,"C":25,"D":15,"w":11,"m":6000},
+        {"n":"DS-fender 125x125mm","s":"DS125125","k":"DS","A":125,"B":125,"C":25,"D":20,"w":19,"m":6000},
+        {"n":"DS-fender 150x150mm","s":"DS150150","k":"DS","A":150,"B":150,"C":30,"D":20,"w":24.8,"m":6000},
+        {"n":"DS-fender 200x200mm","s":"DS200200","k":"DS","A":200,"B":200,"C":45,"D":25,"w":44.2,"m":6000},
+        {"n":"DS-fender 250x250mm","s":"DS250250","k":"DS","A":250,"B":250,"C":50,"D":30,"w":69,"m":6000},
+        {"n":"DS-fender 300x300mm","s":"DS300300","k":"DS","A":300,"B":300,"C":60,"D":30,"w":99.4,"m":6000},
+        {"n":"DS-fender 350x350mm","s":"DS350350","k":"DS","A":350,"B":350,"C":70,"D":35,"w":135.2,"m":6000},
+        {"n":"DS-fender 400x400mm","s":"DS400400","k":"DS","A":400,"B":400,"C":80,"D":35,"w":176.6,"m":6000},
+        {"n":"DS-fender 450x450mm","s":"DS450450","k":"DS","A":450,"B":450,"C":90,"D":35,"w":226,"m":6000},
+        {"n":"DS-fender 500x500mm","s":"DS500500","k":"DS","A":500,"B":500,"C":100,"D":35,"w":280,"m":6000}
       ]
       </script>
 
@@ -198,25 +254,18 @@
       </div>
 
       <div data-frq-variant-wrap>
-      <div class="frq__section-label" data-i18n="profile_variant">Startmaat uit variant</div>
+      <div class="frq__section-label" data-i18n="profile_variant">Startprofiel</div>
 
       <div class="frq__row frq__row--3">
         <div data-frq-variant-picker>
           <label class="frq__label" for="{{ uid }}-variant-select" data-i18n="choose_variant">Kies een startmaat</label>
-          <select class="frq__input" id="{{ uid }}-variant-select">
-            {% for variant in product.variants %}
-              <option value="{{ forloop.index0 }}" {% if variant.id == v.id %}selected{% endif %}>
-                {{ variant.title | escape }}{% if variant.sku != blank %} — {{ variant.sku | escape }}{% endif %}
-              </option>
-            {% endfor %}
-            <option value="custom" data-i18n-option="custom_height">Aangepaste hoogte</option>
-          </select>
+          <select class="frq__input" id="{{ uid }}-variant-select"></select>
           <div class="frq__hint" id="{{ uid }}-variant-meta">Geselecteerde SKU: {{ v.sku | escape }}</div>
         </div>
 
         <div class="frq__customHeight" id="{{ uid }}-custom-height-wrap" hidden>
           <label class="frq__label" for="{{ uid }}-CUSTOM-HB" data-i18n="custom_hb">Aangepaste hoogte HB (mm) *</label>
-          <input class="frq__input" id="{{ uid }}-CUSTOM-HB" name="contact[Aangepaste_profielhoogte_HB_mm]" type="text" inputmode="decimal" placeholder="bijv. 45" data-ph-nl="bijv. 45" data-ph-en="e.g. 45">
+          <input class="frq__input" id="{{ uid }}-CUSTOM-HB" name="contact[Aangepaste_profielhoogte_HB_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 45" data-ph-nl="bijv. 45" data-ph-en="e.g. 45" data-frq-number>
         </div>
 
       </div>
@@ -227,12 +276,12 @@
         <div class="frq__row frq__row--2">
           <div>
             <label class="frq__label" for="{{ uid }}-OUTER-HB" data-i18n="outer_hb">Hoogte HB (mm) *</label>
-            <input class="frq__input" id="{{ uid }}-OUTER-HB" name="contact[Vrije_profielhoogte_HB_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
+            <input class="frq__input" id="{{ uid }}-OUTER-HB" name="contact[Vrije_profielhoogte_HB_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
             <div class="frq__hint" data-i18n="variant_start_hint">De variant is alleen een startmaat; deze maat is vrij aanpasbaar.</div>
           </div>
           <div>
             <label class="frq__label" for="{{ uid }}-OUTER-B" data-i18n="outer_b">Breedte B (mm) *</label>
-            <input class="frq__input" id="{{ uid }}-OUTER-B" name="contact[Vrije_profielbreedte_B_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
+            <input class="frq__input" id="{{ uid }}-OUTER-B" name="contact[Vrije_profielbreedte_B_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
           </div>
         </div>
       </div>
@@ -240,19 +289,19 @@
       <div class="frq__row frq__row--2" data-frq-dd-bore hidden>
         <div>
           <label class="frq__label" for="{{ uid }}-BORE-H" data-i18n="bore_h">Hoogte D-boring (mm)</label>
-          <input class="frq__input" id="{{ uid }}-BORE-H" name="contact[D_boring_hoogte_mm]" type="text" inputmode="decimal">
+          <input class="frq__input" id="{{ uid }}-BORE-H" name="contact[D_boring_hoogte_mm]" type="number" inputmode="decimal" min="1" step="1" data-frq-number>
           <div class="frq__hint" data-i18n="bore_half_hint">Standaard de helft van de buitenmaat; vrij aanpasbaar.</div>
         </div>
         <div>
           <label class="frq__label" for="{{ uid }}-BORE-W" data-i18n="bore_w">Breedte D-boring (mm)</label>
-          <input class="frq__input" id="{{ uid }}-BORE-W" name="contact[D_boring_breedte_mm]" type="text" inputmode="decimal">
+          <input class="frq__input" id="{{ uid }}-BORE-W" name="contact[D_boring_breedte_mm]" type="number" inputmode="decimal" min="1" step="1" data-frq-number>
         </div>
       </div>
 
       <div class="frq__row frq__row--2" data-frq-dc-bore hidden>
         <div>
           <label class="frq__label" for="{{ uid }}-BORE-DIA" data-i18n="bore_dia">Diameter cilindrische boring (mm)</label>
-          <input class="frq__input" id="{{ uid }}-BORE-DIA" name="contact[Cilindrische_boring_diameter_mm]" type="text" inputmode="decimal">
+          <input class="frq__input" id="{{ uid }}-BORE-DIA" name="contact[Cilindrische_boring_diameter_mm]" type="number" inputmode="decimal" min="1" step="1" data-frq-number>
           <div class="frq__hint" data-i18n="bore_dia_hint">Standaard de helft van de kleinste buitenmaat; vrij aanpasbaar.</div>
         </div>
       </div>
@@ -267,7 +316,8 @@
       <div class="frq__row frq__row--2">
         <div>
           <label class="frq__label" for="{{ uid }}-L" data-i18n="length">Lengte (L) mm *</label>
-          <input class="frq__input" id="{{ uid }}-L" name="contact[Lengte_mm]" type="text" inputmode="decimal" placeholder="bijv. 500" data-ph-nl="bijv. 500" data-ph-en="e.g. 500" required>
+          <input class="frq__input" id="{{ uid }}-L" name="contact[Lengte_mm]" type="number" inputmode="decimal" min="1" step="10" placeholder="bijv. 500" data-ph-nl="bijv. 500" data-ph-en="e.g. 500" data-frq-number required>
+          <div class="frq__hint" data-frq-length-hint></div>
         </div>
       </div>
 
@@ -276,12 +326,12 @@
       <div class="frq__row frq__row--6">
         <div>
           <label class="frq__label" for="{{ uid }}-G" data-i18n="g_left">G links (mm)</label>
-          <input class="frq__input" id="{{ uid }}-G" name="contact[G_links_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
+          <input class="frq__input" id="{{ uid }}-G" name="contact[G_links_mm]" type="number" inputmode="decimal" min="0" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
         </div>
 
         <div>
           <label class="frq__label" for="{{ uid }}-HH" data-i18n="h_center">H hart-op-hart (mm)</label>
-          <input class="frq__input" id="{{ uid }}-HH" name="contact[H_hart_op_hart_mm]" type="text" inputmode="decimal" placeholder="bijv. 250" data-ph-nl="bijv. 250" data-ph-en="e.g. 250">
+          <input class="frq__input" id="{{ uid }}-HH" name="contact[H_hart_op_hart_mm]" type="number" inputmode="decimal" min="0" step="1" placeholder="bijv. 250" data-ph-nl="bijv. 250" data-ph-en="e.g. 250" data-frq-number>
         </div>
 
         <div>
@@ -301,19 +351,20 @@
 
         <div>
           <label class="frq__label" for="{{ uid }}-DIA" data-i18n="diameter">Gatdiameter Ø (mm)</label>
-          <input class="frq__input" id="{{ uid }}-DIA" name="contact[Gatdiameter_mm]" type="text" inputmode="decimal" placeholder="bijv. 30" data-ph-nl="bijv. 30" data-ph-en="e.g. 30">
+          <input class="frq__input" id="{{ uid }}-DIA" name="contact[Gatdiameter_mm]" type="number" inputmode="decimal" min="0.5" step="0.5" placeholder="bijv. 30" data-ph-nl="bijv. 30" data-ph-en="e.g. 30" data-frq-number>
         </div>
 
         <div>
           <label class="frq__label" for="{{ uid }}-N" data-i18n="hole_count">Aantal gaten</label>
-          <input class="frq__input" id="{{ uid }}-N" name="contact[Aantal_gaten]" type="number" min="0" step="1" placeholder="bijv. 2" data-ph-nl="bijv. 2" data-ph-en="e.g. 2">
+          <input class="frq__input" id="{{ uid }}-N" name="contact[Aantal_gaten]" type="number" min="0" max="20" step="1" placeholder="bijv. 2" data-ph-nl="bijv. 2" data-ph-en="e.g. 2" data-frq-number>
         </div>
 
         <div>
           <label class="frq__label" for="{{ uid }}-HC" data-i18n="hc">HC vanaf onderzijde (mm)</label>
-          <input class="frq__input" id="{{ uid }}-HC" name="contact[Hart_hoogte_gaten_mm]" type="text" inputmode="decimal" placeholder="bijv. 21" data-ph-nl="bijv. 21" data-ph-en="e.g. 21">
+          <input class="frq__input" id="{{ uid }}-HC" name="contact[Hart_hoogte_gaten_mm]" type="number" inputmode="decimal" min="0" step="1" placeholder="bijv. 21" data-ph-nl="bijv. 21" data-ph-en="e.g. 21" data-frq-number>
         </div>
       </div>
+      <div class="frq__constraintNotice" data-frq-hole-notice aria-live="polite"></div>
 
       <div class="frq__divider"></div>
 
@@ -339,7 +390,7 @@
       <div class="frq__row frq__row--2">
         <div>
           <label class="frq__label" for="{{ uid }}-qty" data-i18n="quantity">Aantal stuks</label>
-          <input class="frq__input" id="{{ uid }}-qty" name="contact[Quantity]" type="number" min="1" step="1">
+          <input class="frq__input" id="{{ uid }}-qty" name="contact[Quantity]" type="number" min="1" step="1" data-frq-number>
         </div>
 
         <div>
@@ -597,8 +648,7 @@
   display:none;
 }
 
-#{{ uid }}.is-step-side .f-front-view .f-front-dim,
-#{{ uid }}.is-step-side .f-front-view .f-view-title{
+#{{ uid }}.is-step-side.has-side-front .f-side-view [data-d^="HB-"]{
   display:none;
 }
 
@@ -915,7 +965,7 @@
 
 #{{ uid }} .frq__row--6{
   display:grid;
-  grid-template-columns:repeat(6,1fr);
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:10px;
 }
 
@@ -938,13 +988,94 @@
 #{{ uid }} .frq__input,
 #{{ uid }} .frq__textarea{
   width:100%;
+  min-height:46px;
   border:1px solid var(--frq-border);
-  border-radius:14px;
+  border-radius:8px;
   padding:12px 13px;
   font-size:14px;
   background:var(--frq-field);
   color:rgba(0,0,0,.85);
   box-sizing:border-box;
+}
+
+#{{ uid }} .frq__input[readonly]{
+  background:#eef2f6;
+  color:rgba(15,23,42,.64);
+}
+
+#{{ uid }} .frq__numberControl{
+  position:relative;
+}
+
+#{{ uid }} .frq__numberControl .frq__input{
+  padding-right:47px;
+}
+
+#{{ uid }} .frq__numberControl input[type="number"]{
+  appearance:textfield;
+}
+
+#{{ uid }} .frq__numberControl input[type="number"]::-webkit-inner-spin-button,
+#{{ uid }} .frq__numberControl input[type="number"]::-webkit-outer-spin-button{
+  margin:0;
+  appearance:none;
+}
+
+#{{ uid }} .frq__numberButtons{
+  position:absolute;
+  top:1px;
+  right:1px;
+  bottom:1px;
+  width:38px;
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  border-left:1px solid var(--frq-border);
+  overflow:hidden;
+  border-radius:0 7px 7px 0;
+}
+
+#{{ uid }} .frq__numberButton{
+  display:grid;
+  place-items:center;
+  width:100%;
+  min-width:0;
+  min-height:0;
+  padding:0;
+  border:0;
+  background:#fff;
+  color:rgba(15,23,42,.62);
+  font-size:8px;
+  line-height:1;
+  cursor:pointer;
+}
+
+#{{ uid }} .frq__numberButton + .frq__numberButton{
+  border-top:1px solid var(--frq-border);
+}
+
+#{{ uid }} .frq__numberButton:hover,
+#{{ uid }} .frq__numberButton:focus-visible{
+  background:var(--frq-accent-soft);
+  color:var(--frq-accent);
+  outline:none;
+}
+
+#{{ uid }} .frq__numberControl:has(input[readonly]) .frq__numberButtons,
+#{{ uid }} .frq__numberControl:has(input:disabled) .frq__numberButtons{
+  opacity:.36;
+}
+
+#{{ uid }} .frq__constraintNotice{
+  min-height:20px;
+  margin:-4px 0 10px;
+  color:rgba(15,23,42,.56);
+  font-size:12px;
+  line-height:1.4;
+}
+
+#{{ uid }} .frq__constraintNotice.is-adjusted{
+  color:#8b1621;
+  font-weight:700;
 }
 
 #{{ uid }} .frq__input:focus,
@@ -1014,13 +1145,7 @@
 
 @media(max-width:1120px){
   #{{ uid }} .frq__row--6{
-    grid-template-columns:repeat(3,1fr);
-  }
-}
-
-@media(max-width:980px){
-  #{{ uid }} .frq__row--6{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 
@@ -1103,6 +1228,16 @@
     if(n==null||isNaN(n))return '';
     return String(Math.round(n*10)/10).replace('.',',');
   }
+  function inputValue(n){
+    if(n==null||isNaN(n))return '';
+    return String(Math.round(n*10)/10);
+  }
+  function clamp(n,min,max){
+    return Math.min(max,Math.max(min,n));
+  }
+  function floorTenth(n){
+    return Math.floor((n+1e-8)*10)/10;
+  }
   function px(n){return Math.round(n*10)/10;}
   function qs(k){
     try{return new URLSearchParams(location.search||'').get(k)||'';}
@@ -1125,14 +1260,14 @@
     var oBore=s.match(/(?:o-bore|cylind(?:rical|risch)?e?\s+bore)\s*[Øø]?\s*(\d+(?:[.,]\d+)?)\s*mm/i);
 
     if(dBore){
-      C=num(dBore[1]);
-      D=num(dBore[2]);
+      C=num(dBore[2]);
+      D=num(dBore[1]);
     }else if(oBore){
       C=num(oBore[1]);
       D=C;
     }
 
-    return {A:num(outer[1]),B:num(outer[2]),C:C,D:D,kind:kind,custom:false};
+    return {A:num(outer[2]),B:num(outer[1]),C:C,D:D,kind:kind,custom:false};
   }
 
   var TXT={
@@ -1176,8 +1311,8 @@
       language:'Taal',
       download_svg:'Download SVG',
       download_png:'Download PNG',
-      profile_variant:'Startmaat uit variant',
-      choose_variant:'Kies een startmaat',
+      profile_variant:'Startprofiel',
+      choose_variant:'Kies een standaardmaat',
       custom_height:'Aangepaste hoogte',
       custom_hb:'Aangepaste hoogte HB (mm) *',
       length:'Lengte (L) mm *',
@@ -1189,6 +1324,12 @@
       diameter:'Gatdiameter Ø (mm)',
       hole_count:'Aantal gaten',
       hc:'HC vanaf onderzijde (mm)',
+      length_default:'Standaardlengte voor dit profiel: ',
+      length_adjustable:' mm. Deze waarde blijft vrij aanpasbaar.',
+      holes_guarded:'Maximaal 20 gaten. Ø, G, H en HC worden automatisch binnen het profiel begrensd.',
+      holes_adjusted:'Een of meer waarden zijn aangepast zodat alle gaten volledig binnen het profiel blijven.',
+      increase_value:'Waarde verhogen',
+      decrease_value:'Waarde verlagen',
       contact_send:'Contact / configuratie versturen',
       name:'Naam *',
       email:'E-mail *',
@@ -1260,8 +1401,8 @@
       language:'Language',
       download_svg:'Download SVG',
       download_png:'Download PNG',
-      profile_variant:'Starting size from variant',
-      choose_variant:'Choose a starting size',
+      profile_variant:'Starting profile',
+      choose_variant:'Choose a standard size',
       custom_height:'Custom height',
       custom_hb:'Custom height HB (mm) *',
       length:'Length (L) mm *',
@@ -1273,6 +1414,12 @@
       diameter:'Hole diameter Ø (mm)',
       hole_count:'Number of holes',
       hc:'HC from bottom edge (mm)',
+      length_default:'Default length for this profile: ',
+      length_adjustable:' mm. You can freely adjust this value.',
+      holes_guarded:'Maximum 20 holes. Ø, G, H and HC are automatically constrained within the profile.',
+      holes_adjusted:'One or more values were adjusted so every hole remains fully inside the profile.',
+      increase_value:'Increase value',
+      decrease_value:'Decrease value',
       contact_send:'Contact / send configuration',
       name:'Name *',
       email:'Email *',
@@ -1318,6 +1465,7 @@
   var variantHiddenEl=$('#{{ uid }}-variant-hidden');
   var skuHiddenEl=$('#{{ uid }}-sku-hidden');
   var variantDataEl=$('#{{ uid }}-variant-data');
+  var catalogDataEl=$('#{{ uid }}-catalog-data');
   var customHbWrapEl=$('#{{ uid }}-custom-height-wrap');
   var customHbEl=$('#{{ uid }}-CUSTOM-HB');
   var bDimToggleEl=$('[data-frq-dim-toggle="B"]');
@@ -1340,6 +1488,8 @@
   var diaEl=$('#{{ uid }}-DIA');
   var nEl=$('#{{ uid }}-N');
   var hcEl=$('#{{ uid }}-HC');
+  var lengthHintEl=$('[data-frq-length-hint]');
+  var holeNoticeEl=$('[data-frq-hole-notice]');
   var qtyEl=$('#{{ uid }}-qty');
   var nameEl=$('#{{ uid }}-name');
   var emailEl=$('#{{ uid }}-email');
@@ -1354,6 +1504,12 @@
   var dHiddenEl=$('#{{ uid }}-D-hidden');
   var grHiddenEl=$('#{{ uid }}-GR-hidden');
   var holesHiddenEl=$('#{{ uid }}-holes-hidden');
+  var specAHiddenEl=$('#{{ uid }}-spec-a-hidden');
+  var specBHiddenEl=$('#{{ uid }}-spec-b-hidden');
+  var specCHiddenEl=$('#{{ uid }}-spec-c-hidden');
+  var specDHiddenEl=$('#{{ uid }}-spec-d-hidden');
+  var weightHiddenEl=$('#{{ uid }}-weight-hidden');
+  var maxLengthHiddenEl=$('#{{ uid }}-max-length-hidden');
   var summEl=$('#{{ uid }}-summary');
   var viewImageEl=$('#{{ uid }}-view-image-hidden');
   var returnToEl=$('#{{ uid }}-return-to');
@@ -1369,6 +1525,9 @@
   var stepPanels=root.querySelectorAll('[data-frq-step-panel]');
 
   var variants=[];
+  var shopifyVariants=[];
+  var catalogRows=[];
+  var initialSku=skuHiddenEl?skuHiddenEl.value:'';
   var selectedVariant=null;
   var selectedProfile=null;
   var lastGR=null;
@@ -1376,12 +1535,118 @@
   var currentStep='front';
   var frontApproved=false;
   var selectedKind='DS';
-  var lastFrontLayout=null;
+  var holeValuesAdjusted=false;
 
   try{
-    variants=JSON.parse((variantDataEl&&variantDataEl.textContent)||'[]');
+    shopifyVariants=JSON.parse((variantDataEl&&variantDataEl.textContent)||'[]');
   }catch(e){
-    variants=[];
+    shopifyVariants=[];
+  }
+
+  try{
+    catalogRows=JSON.parse((catalogDataEl&&catalogDataEl.textContent)||'[]');
+  }catch(e){
+    catalogRows=[];
+  }
+
+  function skuKey(value){
+    return String(value||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  }
+
+  catalogRows.forEach(function(row){
+    var profile={
+      A:Number(row.B),
+      B:Number(row.A),
+      C:row.k==='DD'?Number(row.D):row.k==='DC'?Number(row.C):null,
+      D:row.k==='DD'?Number(row.C):row.k==='DC'?Number(row.C):null,
+      boreOffset:row.k==='DC'?Number(row.D):null,
+      kind:row.k,
+      custom:false
+    };
+
+    variants.push({
+      id:'catalog-'+row.s,
+      title:row.n,
+      sku:row.s,
+      kind:row.k,
+      specA:Number(row.A),
+      specB:Number(row.B),
+      specC:Number(row.C),
+      specD:Number(row.D),
+      weight:Number(row.w),
+      maxLength:Number(row.m),
+      catalog:true,
+      profile:profile
+    });
+  });
+
+  shopifyVariants.forEach(function(variant){
+    var key=skuKey(variant.sku);
+    var match=-1;
+
+    for(var i=0;i<variants.length;i++){
+      if(key&&skuKey(variants[i].sku)===key){
+        match=i;
+        break;
+      }
+    }
+
+    if(match>=0){
+      variants[match].id=variant.id;
+      variants[match].shopifyTitle=variant.title;
+    }else{
+      variants.push(variant);
+    }
+  });
+
+  function getProfileForVariant(variant){
+    if(!variant)return null;
+    var profile=variant.profile||parseProfileFromTitle(variant.title);
+    if(!profile)return null;
+    return {
+      A:profile.A,
+      B:profile.B,
+      C:profile.C,
+      D:profile.D,
+      boreOffset:profile.boreOffset,
+      kind:profile.kind,
+      custom:false
+    };
+  }
+
+  function populateVariantOptions(){
+    if(!variantSelectEl)return;
+    variantSelectEl.innerHTML='';
+
+    variants.forEach(function(variant,index){
+      var option=document.createElement('option');
+      option.value=String(index);
+      option.textContent=(variant.title||'')+(variant.sku?' · '+variant.sku:'');
+      variantSelectEl.appendChild(option);
+    });
+
+    var customOption=document.createElement('option');
+    customOption.value='custom';
+    customOption.textContent=tr('custom_height');
+    variantSelectEl.appendChild(customOption);
+  }
+
+  populateVariantOptions();
+
+  if(variantSelectEl&&variants.length){
+    var initialOptionIndex=-1;
+    var initialKey=skuKey(initialSku);
+
+    for(var initialI=0;initialI<variants.length;initialI++){
+      var initialProfile=getProfileForVariant(variants[initialI]);
+      if(initialOptionIndex<0&&initialProfile&&initialProfile.kind==='DS')initialOptionIndex=initialI;
+      if(initialKey&&skuKey(variants[initialI].sku)===initialKey){
+        initialOptionIndex=initialI;
+        break;
+      }
+    }
+
+    variantSelectEl.value=String(Math.max(0,initialOptionIndex));
   }
 
   var svg=root.querySelector('.frq__svg');
@@ -1480,6 +1745,12 @@
       el.setAttribute('placeholder',currentLang==='en'?el.getAttribute('data-ph-en'):el.getAttribute('data-ph-nl'));
     });
 
+    root.querySelectorAll('[data-i18n-aria]').forEach(function(el){
+      var k=el.getAttribute('data-i18n-aria');
+      el.setAttribute('aria-label',tr(k));
+      el.setAttribute('title',tr(k));
+    });
+
     if(languageEl)languageEl.value=currentLang;
   }
 
@@ -1503,7 +1774,7 @@
 
     input.addEventListener('change',function(){
       applyToggle();
-      if(key==='FRONT')render();
+      render();
     });
     label.addEventListener('mouseenter',hoverOn);
     label.addEventListener('mouseleave',hoverOff);
@@ -1532,9 +1803,9 @@
 
   function getVariantIndexBySku(sku){
     if(!sku)return -1;
-    sku=String(sku).toLowerCase();
+    sku=skuKey(sku);
     for(var i=0;i<variants.length;i++){
-      if(String(variants[i].sku||'').toLowerCase()===sku)return i;
+      if(skuKey(variants[i].sku)===sku)return i;
     }
     return -1;
   }
@@ -1559,20 +1830,20 @@
     if(dcBoreWrapEl)dcBoreWrapEl.hidden=selectedKind!=='DC';
   }
 
-  function setBoreDefaults(){
+  function setBoreDefaults(useProfileValues){
     if(!selectedProfile||!(selectedProfile.A>0&&selectedProfile.B>0))return;
 
     if(selectedKind==='DD'){
-      if(boreHEl)boreHEl.value=fmt(selectedProfile.A/2);
-      if(boreWEl)boreWEl.value=fmt(selectedProfile.B/2);
+      if(boreHEl)boreHEl.value=inputValue(useProfileValues&&selectedProfile.C>0?selectedProfile.C:selectedProfile.A/2);
+      if(boreWEl)boreWEl.value=inputValue(useProfileValues&&selectedProfile.D>0?selectedProfile.D:selectedProfile.B/2);
     }else if(selectedKind==='DC'&&boreDiaEl){
-      boreDiaEl.value=fmt(Math.min(selectedProfile.A,selectedProfile.B)/2);
+      boreDiaEl.value=inputValue(useProfileValues&&selectedProfile.D>0?selectedProfile.D:Math.min(selectedProfile.A,selectedProfile.B)/2);
     }
   }
 
   function findFirstVariantForKind(kind){
     for(var i=0;i<variants.length;i++){
-      var profile=parseProfileFromTitle(variants[i].title);
+      var profile=getProfileForVariant(variants[i]);
       if(profile&&profile.kind===kind)return i;
     }
     return -1;
@@ -1590,7 +1861,7 @@
         return;
       }
 
-      var profile=variants[index]&&parseProfileFromTitle(variants[index].title);
+      var profile=variants[index]&&getProfileForVariant(variants[index]);
       var matches=!!(profile&&profile.kind===kind);
       if(matches)matchCount++;
       option.hidden=!matches;
@@ -1608,6 +1879,126 @@
 
   function getThreadLabel(){
     return !diaTypeEl?'':String(diaTypeEl.value||'')==='custom'?tr('own_dia'):String(diaTypeEl.value||'');
+  }
+
+  function setDynamicLimit(el,name,value){
+    if(!el)return;
+    if(value==null||!isFinite(value))el.removeAttribute(name);
+    else el.setAttribute(name,inputValue(Math.max(0,value)));
+  }
+
+  function setConstrainedValue(el,value){
+    if(!el||value==null||!isFinite(value))return false;
+    var next=inputValue(value);
+    if(String(el.value)===next)return false;
+    el.value=next;
+    return true;
+  }
+
+  function constrainHoleInputs(){
+    var L=num(lenEl&&lenEl.value);
+    var HB=selectedProfile&&selectedProfile.A;
+    var adjusted=false;
+    var N=num(nEl&&nEl.value);
+
+    if(N!=null){
+      N=clamp(Math.round(N),0,20);
+      adjusted=setConstrainedValue(nEl,N)||adjusted;
+    }
+
+    setDynamicLimit(nEl,'max',20);
+
+    if(!(L>0&&HB>0)){
+      if(holeNoticeEl){
+        holeNoticeEl.textContent=tr('holes_guarded');
+        holeNoticeEl.classList.remove('is-adjusted');
+      }
+      return adjusted;
+    }
+
+    var maxDia=Math.max(0.5,floorTenth(Math.min(L,HB)));
+    var DIA=num(diaEl&&diaEl.value);
+    setDynamicLimit(diaEl,'max',maxDia);
+
+    if(diaTypeEl){
+      Array.prototype.forEach.call(diaTypeEl.options,function(option){
+        var optionDia=num(option.getAttribute('data-dia'));
+        option.disabled=optionDia!=null&&optionDia>maxDia;
+      });
+
+      var selectedOption=diaTypeEl.options[diaTypeEl.selectedIndex];
+      if(selectedOption&&selectedOption.disabled){
+        diaTypeEl.value='custom';
+        if(diaEl)diaEl.readOnly=false;
+        adjusted=true;
+      }
+    }
+
+    if(DIA!=null&&DIA>maxDia){
+      DIA=maxDia;
+      adjusted=setConstrainedValue(diaEl,DIA)||adjusted;
+    }
+
+    if(!(DIA>0)){
+      if(holeNoticeEl){
+        holeNoticeEl.textContent=adjusted?tr('holes_adjusted'):tr('holes_guarded');
+        holeNoticeEl.classList.toggle('is-adjusted',adjusted);
+      }
+      return adjusted;
+    }
+
+    var radius=DIA/2;
+    var maxG=Math.max(radius,floorTenth(L-radius));
+    var maxHC=Math.max(radius,floorTenth(HB-radius));
+    var G=num(gEl&&gEl.value);
+    var HC=num(hcEl&&hcEl.value);
+
+    setDynamicLimit(gEl,'min',radius);
+    setDynamicLimit(gEl,'max',maxG);
+    setDynamicLimit(hcEl,'min',radius);
+    setDynamicLimit(hcEl,'max',maxHC);
+
+    if(G!=null){
+      G=clamp(G,radius,maxG);
+      adjusted=setConstrainedValue(gEl,G)||adjusted;
+    }
+
+    if(HC!=null){
+      HC=clamp(HC,radius,maxHC);
+      adjusted=setConstrainedValue(hcEl,HC)||adjusted;
+    }
+
+    if(N>1&&G!=null){
+      var freeRun=Math.max(0,L-radius-G);
+      var maxCount=Math.max(1,Math.floor(freeRun/Math.max(DIA,0.5))+1);
+
+      if(N>maxCount){
+        N=Math.min(20,maxCount);
+        adjusted=setConstrainedValue(nEl,N)||adjusted;
+      }
+
+      if(N>1){
+        var maxHH=floorTenth(freeRun/(N-1));
+        var HH=num(hhEl&&hhEl.value);
+        setDynamicLimit(hhEl,'min',DIA);
+        setDynamicLimit(hhEl,'max',maxHH);
+
+        if(HH!=null){
+          HH=clamp(HH,DIA,maxHH);
+          adjusted=setConstrainedValue(hhEl,HH)||adjusted;
+        }
+      }
+    }else{
+      setDynamicLimit(hhEl,'min',0);
+      setDynamicLimit(hhEl,'max',null);
+    }
+
+    if(holeNoticeEl){
+      holeNoticeEl.textContent=adjusted?tr('holes_adjusted'):tr('holes_guarded');
+      holeNoticeEl.classList.toggle('is-adjusted',adjusted);
+    }
+
+    return adjusted;
   }
 
   function updateSelectedProfileFromState(){
@@ -1637,9 +2028,19 @@
       selectedProfile.custom=false;
 
       if(selectedKind==='DD'){
+        setDynamicLimit(boreHEl,'max',outerHB>1?outerHB-1:null);
+        setDynamicLimit(boreWEl,'max',outerB>1?outerB-1:null);
+
+        if(num(boreHEl&&boreHEl.value)>=outerHB)setConstrainedValue(boreHEl,Math.max(1,outerHB-1));
+        if(num(boreWEl&&boreWEl.value)>=outerB)setConstrainedValue(boreWEl,Math.max(1,outerB-1));
+
         selectedProfile.C=num(boreHEl&&boreHEl.value);
         selectedProfile.D=num(boreWEl&&boreWEl.value);
       }else if(selectedKind==='DC'){
+        var maxBore=Math.min(outerHB||0,outerB||0)-1;
+        setDynamicLimit(boreDiaEl,'max',maxBore>0?maxBore:null);
+        if(num(boreDiaEl&&boreDiaEl.value)>=Math.min(outerHB||0,outerB||0))setConstrainedValue(boreDiaEl,Math.max(1,maxBore));
+
         var boreDia=num(boreDiaEl&&boreDiaEl.value);
         selectedProfile.C=boreDia;
         selectedProfile.D=boreDia;
@@ -1650,7 +2051,7 @@
     }
   }
 
-  function applyVariantByIndex(index){
+  function applyVariantByIndex(index,preserveLength){
     if(!variantSelectEl)return;
 
     if(String(index)==='custom'){
@@ -1676,13 +2077,17 @@
 
     variantSelectEl.value=String(index);
     selectedVariant=variants[index];
-    selectedProfile=parseProfileFromTitle(selectedVariant.title);
+    selectedProfile=getProfileForVariant(selectedVariant);
 
     setSelectedKind(selectedProfile&&selectedProfile.kind);
-    if(outerHbEl)outerHbEl.value=selectedProfile&&selectedProfile.A?fmt(selectedProfile.A):'';
-    if(outerBEl)outerBEl.value=selectedProfile&&selectedProfile.B?fmt(selectedProfile.B):'';
+    if(outerHbEl)outerHbEl.value=selectedProfile&&selectedProfile.A?inputValue(selectedProfile.A):'';
+    if(outerBEl)outerBEl.value=selectedProfile&&selectedProfile.B?inputValue(selectedProfile.B):'';
     filterVariantOptions(selectedKind);
-    setBoreDefaults();
+    setBoreDefaults(true);
+
+    if(lenEl&&selectedVariant.maxLength>0&&!preserveLength){
+      lenEl.value=inputValue(selectedVariant.maxLength);
+    }
 
     if(customHbWrapEl)customHbWrapEl.hidden=true;
     if(variantHiddenEl)variantHiddenEl.value=selectedVariant.title||'';
@@ -1690,9 +2095,15 @@
 
     if(variantMetaEl){
       var txt=selectedVariant.sku?tr('selected_sku')+selectedVariant.sku:tr('no_sku');
-      if(selectedProfile&&selectedProfile.A)txt+=tr('profile_height')+fmt(selectedProfile.A)+' mm';
+      if(selectedVariant.weight>0)txt+=' · '+fmt(selectedVariant.weight)+' kg/m';
+      if(selectedVariant.maxLength>0)txt+=' · L '+fmt(selectedVariant.maxLength)+' mm';
+      if(!selectedVariant.catalog&&selectedProfile&&selectedProfile.A)txt+=tr('profile_height')+fmt(selectedProfile.A)+' mm';
       if(!selectedProfile)txt+=tr('not_parsed');
       variantMetaEl.textContent=txt;
+    }
+
+    if(lengthHintEl){
+      lengthHintEl.textContent=selectedVariant.maxLength>0?tr('length_default')+fmt(selectedVariant.maxLength)+tr('length_adjustable'):'';
     }
 
     updateHiddenProfileFields();
@@ -1708,6 +2119,12 @@
     if(dHiddenEl)dHiddenEl.value=selectedProfile&&selectedProfile.D?fmt(selectedProfile.D):'';
     if(grHiddenEl)grHiddenEl.value=lastGR!=null?fmt(lastGR):'';
     if(holesHiddenEl)holesHiddenEl.value=lastHoleRows.join(' | ');
+    if(specAHiddenEl)specAHiddenEl.value=selectedVariant&&selectedVariant.specA?fmt(selectedVariant.specA):'';
+    if(specBHiddenEl)specBHiddenEl.value=selectedVariant&&selectedVariant.specB?fmt(selectedVariant.specB):'';
+    if(specCHiddenEl)specCHiddenEl.value=selectedVariant&&selectedVariant.specC?fmt(selectedVariant.specC):'';
+    if(specDHiddenEl)specDHiddenEl.value=selectedVariant&&selectedVariant.specD?fmt(selectedVariant.specD):'';
+    if(weightHiddenEl)weightHiddenEl.value=selectedVariant&&selectedVariant.weight?fmt(selectedVariant.weight):'';
+    if(maxLengthHiddenEl)maxLengthHiddenEl.value=selectedVariant&&selectedVariant.maxLength?fmt(selectedVariant.maxLength):'';
   }
 
   function fillTracking(){
@@ -1857,6 +2274,12 @@
       'Profiel: '+profileTitle,
       'Profielmodus: '+profileMode,
       'SKU: '+sku,
+      'Productspecificatie A: '+(selectedVariant&&selectedVariant.specA?fmt(selectedVariant.specA):'')+' mm',
+      'Productspecificatie B: '+(selectedVariant&&selectedVariant.specB?fmt(selectedVariant.specB):'')+' mm',
+      'Productspecificatie C: '+(selectedVariant&&selectedVariant.specC?fmt(selectedVariant.specC):'')+' mm',
+      'Productspecificatie D: '+(selectedVariant&&selectedVariant.specD?fmt(selectedVariant.specD):'')+' mm',
+      'Gewicht: '+(selectedVariant&&selectedVariant.weight?fmt(selectedVariant.weight):'')+' kg/m',
+      'Standaard max. lengte: '+(selectedVariant&&selectedVariant.maxLength?fmt(selectedVariant.maxLength):'')+' mm',
       'HB profielhoogte: '+HB+' mm',
       'B profielbreedte: '+B+' mm',
       'C kamerhoogte: '+C+' mm',
@@ -1913,7 +2336,6 @@
     fFrontG.removeAttribute('transform');
 
     lastHoleRows=[];
-    lastFrontLayout=null;
 
     if(fWarnTxt)fWarnTxt.textContent='';
     if(svgWarn)svgWarn.textContent='';
@@ -2034,28 +2456,28 @@
     markFrontDim(hbText,'HB','custom-text');
   }
 
-  function renderFrontView(HB,B){
+  function renderFrontView(HB,B,layout){
     var available=selectedProfile&&HB>0&&B>0;
     if(!available)return;
 
     var NS='http://www.w3.org/2000/svg';
+    var sideMode=!!(layout&&layout.side);
     var maxW=160;
     var maxH=130;
-    var scale=Math.min(maxW/B,maxH/HB);
-    var w=B*scale;
-    var h=HB*scale;
-    var x=600-w/2;
-    var y=54+(maxH-h)/2;
+    var scale=sideMode?layout.h/HB:Math.min(maxW/B,maxH/HB);
+    var w=sideMode?layout.w:B*scale;
+    var h=sideMode?layout.h:HB*scale;
+    var x=sideMode?layout.x:600-w/2;
+    var y=sideMode?layout.y:54+(maxH-h)/2;
     var bottom=y+h;
     var midX=x+w/2;
     var midY=y+h/2;
     var kind=selectedProfile.kind||'D';
     var titleKey=kind==='DD'?'front_view_dd':kind==='DC'?'front_view_dc':kind==='custom'?'front_view_custom':'front_view_ds';
     var title=tr(titleKey);
-    lastFrontLayout={x:x,y:y,w:w,h:h};
 
     fFrontG.setAttribute('aria-label',title);
-    addText(fFrontG,'f-view-title',600,34,title,'middle');
+    addText(fFrontG,'f-view-title',midX,sideMode?y-86:34,title,'middle');
 
     var shape=document.createElementNS(NS,'path');
     shape.setAttribute('class','f-front-shape');
@@ -2077,22 +2499,29 @@
       var boreRadius=Math.min(boreDia*scale/2,w/2-9,h/2-9);
 
       if(boreRadius>5){
+        var boreCenterY=midY;
+
+        if(selectedProfile.boreOffset>0){
+          boreCenterY=bottom-(selectedProfile.boreOffset+boreDia/2)*scale;
+          boreCenterY=clamp(boreCenterY,y+boreRadius,bottom-boreRadius);
+        }
+
         var circle=document.createElementNS(NS,'circle');
         circle.setAttribute('class','f-front-bore');
         circle.setAttribute('cx',px(midX));
-        circle.setAttribute('cy',px(midY));
+        circle.setAttribute('cy',px(boreCenterY));
         circle.setAttribute('r',px(boreRadius));
         fFrontG.appendChild(circle);
       }
     }
 
-    var bDimY=bottom+42;
+    var bDimY=bottom+(sideMode?52:42);
     markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,bDimY,false),'B','el');
     markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x+w,bottom,x+w,bDimY,false),'B','er');
     markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',x,bDimY,x+w,bDimY,true),'B','line');
     markFrontDim(addText(fFrontG,'dt f-front-dim',x+w/2,bDimY-8,'B = '+fmt(B)+' mm','middle'),'B','text');
 
-    var hbDimX=x-48;
+    var hbDimX=x-(sideMode?58:48);
     markFrontDim(addSvgLine(fFrontG,'de f-front-dim',hbDimX,y,midX,y,false),'HB','et');
     markFrontDim(addSvgLine(fFrontG,'de f-front-dim',hbDimX,bottom,x,bottom,false),'HB','eb');
     markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',hbDimX,y,hbDimX,bottom,true),'HB','line');
@@ -2138,8 +2567,86 @@
     });
   }
 
+  function getVisibleSvgBounds(source){
+    var rootMatrix=source.getCTM&&source.getCTM();
+    if(!rootMatrix)return null;
+
+    var rootInverse;
+    try{rootInverse=rootMatrix.inverse();}
+    catch(e){return null;}
+
+    var minX=Infinity;
+    var minY=Infinity;
+    var maxX=-Infinity;
+    var maxY=-Infinity;
+
+    source.querySelectorAll('path,rect,line,circle,text').forEach(function(el){
+      if(el.closest('defs'))return;
+      if(el.tagName.toLowerCase()==='text'&&!String(el.textContent||'').trim())return;
+
+      var node=el;
+      var hidden=false;
+
+      while(node&&node!==source){
+        var style=getComputedStyle(node);
+        if(style.display==='none'||style.visibility==='hidden'){
+          hidden=true;
+          break;
+        }
+        node=node.parentNode;
+      }
+
+      if(hidden)return;
+
+      try{
+        var box=el.getBBox();
+        var elementMatrix=el.getCTM();
+        if(!elementMatrix)return;
+        var matrix=rootInverse.multiply(elementMatrix);
+        var points=[
+          {x:box.x,y:box.y},
+          {x:box.x+box.width,y:box.y},
+          {x:box.x,y:box.y+box.height},
+          {x:box.x+box.width,y:box.y+box.height}
+        ];
+
+        points.forEach(function(point){
+          var x=matrix.a*point.x+matrix.c*point.y+matrix.e;
+          var y=matrix.b*point.x+matrix.d*point.y+matrix.f;
+          minX=Math.min(minX,x);
+          minY=Math.min(minY,y);
+          maxX=Math.max(maxX,x);
+          maxY=Math.max(maxY,y);
+        });
+      }catch(e){}
+    });
+
+    if(!isFinite(minX)||!isFinite(minY)||!isFinite(maxX)||!isFinite(maxY))return null;
+    return {minX:minX,minY:minY,maxX:maxX,maxY:maxY};
+  }
+
+  function fitLiveSvg(){
+    var bounds=getVisibleSvgBounds(svg);
+    if(!bounds)return;
+
+    var contentW=Math.max(1,bounds.maxX-bounds.minX);
+    var contentH=Math.max(1,bounds.maxY-bounds.minY);
+    var padding=Math.max(currentStep==='front'?18:30,Math.min(64,Math.max(contentW,contentH)*.055));
+    var viewW=contentW+padding*2;
+    var viewH=contentH+padding*2;
+    var targetAspect=currentStep==='front'?1.5:2.05;
+    var centerX=(bounds.minX+bounds.maxX)/2;
+    var centerY=(bounds.minY+bounds.maxY)/2;
+
+    if(viewW/viewH>targetAspect)viewH=viewW/targetAspect;
+    else viewW=viewH*targetAspect;
+
+    svg.setAttribute('viewBox',[px(centerX-viewW/2),px(centerY-viewH/2),px(viewW),px(viewH)].join(' '));
+  }
+
   function render(){
     updateSelectedProfileFromState();
+    holeValuesAdjusted=constrainHoleInputs();
     resetAll();
 
     var L=num(lenEl&&lenEl.value);
@@ -2154,16 +2661,27 @@
 
     lastGR=null;
 
-    if(N!=null)N=Math.max(0,Math.round(N));
+    if(N!=null)N=Math.min(20,Math.max(0,Math.round(N)));
 
     updateSub();
-    if(selectedKind==='custom')renderCustomHeightView(HB);
-    else renderFrontView(HB,B);
     updateFrontProgress();
 
-    if(!(L>0)||!(HB>0)){
+    if(currentStep==='front'){
+      root.classList.remove('has-side-front');
+      if(bDimPillEl)bDimPillEl.hidden=selectedKind==='custom';
+      if(selectedKind==='custom')renderCustomHeightView(HB);
+      else renderFrontView(HB,B);
       updateHiddenProfileFields();
       updateSummary();
+      fitLiveSvg();
+      return;
+    }
+
+    if(!(L>0)||!(HB>0)){
+      root.classList.remove('has-side-front');
+      updateHiddenProfileFields();
+      updateSummary();
+      fitLiveSvg();
       return;
     }
 
@@ -2176,8 +2694,8 @@
 
     var maxFW=SVG_W-PAD_L-PAD_R;
     var maxFH=SVG_H-PAD_T-PAD_B;
-    var showSideFront=currentStep==='side'&&selectedKind!=='custom'&&B>0&&lastFrontLayout&&!root.classList.contains('is-dim-hidden-FRONT');
-    var frontGap=110;
+    var showSideFront=selectedKind!=='custom'&&B>0&&!root.classList.contains('is-dim-hidden-FRONT');
+    var frontGap=120;
     var widthScale=showSideFront?(maxFW-frontGap)/(L+B):maxFW/L;
 
     var scale=Math.min(widthScale,maxFH/HB);
@@ -2197,18 +2715,19 @@
 
     var fy=PAD_T+(maxFH-fH)/2;
     var fx;
+    var scaleX=fW/L;
+    var scaleY=fH/HB;
+
+    root.classList.toggle('has-side-front',showSideFront);
+    if(bDimPillEl)bDimPillEl.hidden=!showSideFront;
 
     if(showSideFront){
-      var frontScale=fH/lastFrontLayout.h;
-      var frontDisplayW=lastFrontLayout.w*frontScale;
+      var frontDisplayW=B*scaleY;
       var compositionW=frontDisplayW+frontGap+fW;
       var frontX=PAD_L+(maxFW-compositionW)/2;
 
       fx=frontX+frontDisplayW+frontGap;
-
-      var frontTx=frontX-lastFrontLayout.x*frontScale;
-      var frontTy=fy-lastFrontLayout.y*frontScale;
-      fFrontG.setAttribute('transform','matrix('+frontScale+' 0 0 '+frontScale+' '+px(frontTx)+' '+px(frontTy)+')');
+      renderFrontView(HB,B,{side:true,x:frontX,y:fy,w:frontDisplayW,h:fH});
     }else{
       fx=PAD_L+(maxFW-fW)/2;
     }
@@ -2229,7 +2748,7 @@
     setA(fOutline,'height',fH);
 
     if(chamberC>0&&chamberC<HB){
-      var cH=chamberC*scale;
+      var cH=chamberC*scaleY;
       var yC1=fy+(fH-cH)/2;
       var yC2=yC1+cH;
 
@@ -2264,15 +2783,15 @@
 
     if(hasHoles){
       var NS='http://www.w3.org/2000/svg';
-      var rH=(DIA/2)*scale;
+      var rH=(DIA/2)*Math.min(scaleX,scaleY);
 
-      holeCy=HC>0?fy+fH-HC*scale:fy+fH/2;
+      holeCy=HC>0?fy+fH-HC*scaleY:fy+fH/2;
 
       for(var i=0;i<N;i++){
         if(i>0&&!(HH>0))break;
 
         var dist=G+i*(HH||0);
-        var cx=fx+dist*scale;
+        var cx=fx+dist*scaleX;
 
         if(i===0)first={x:cx,dist:dist};
         if(i===1)second={x:cx,dist:dist};
@@ -2296,7 +2815,7 @@
 
         addLabel(fLabelsG,'f-hole-label',cx,labelY,fmt(dist)+' mm','middle','f-cum-label');
 
-        if(cx-rH<fx+2||cx+rH>fx+fW-2||holeCy-rH<fy+2||holeCy+rH>fy+fH-2){
+        if(cx-rH<fx-.5||cx+rH>fx+fW+.5||holeCy-rH<fy-.5||holeCy+rH>fy+fH+.5){
           holeFitWarn=true;
           continue;
         }
@@ -2334,7 +2853,7 @@
 
       if(DIA>0&&first){
         var diaLabel=(getThreadLabel()!==tr('own_dia')?getThreadLabel()+' / ':'')+'Ø '+fmt(DIA)+' mm';
-        addLabel(fLabelsG,'f-dia-text',first.x,holeCy-(DIA/2)*scale-10,diaLabel,'middle','f-dia-group');
+        addLabel(fLabelsG,'f-dia-text',first.x,holeCy-rH-10,diaLabel,'middle','f-dia-group');
       }
 
       var xHC=fx+fW+92;
@@ -2348,6 +2867,8 @@
     }
 
     if(clamped&&fWarnTxt){
+      setA(fWarnTxt,'x',fx+fW/2);
+      setA(fWarnTxt,'y',fy-112);
       fWarnTxt.textContent=tr('not_to_scale');
     }
 
@@ -2355,6 +2876,7 @@
 
     updateHiddenProfileFields();
     updateSummary();
+    fitLiveSvg();
   }
 
   function loadFromUrl(){
@@ -2395,7 +2917,7 @@
     Object.keys(map).forEach(function(k){
       var el=map[k];
       var v=qs(k);
-      if(el&&v)el.value=v;
+      if(el&&v)el.value=el.type==='number'?inputValue(num(v)):v;
     });
 
     var diaType=qs('frq_DIA_TYPE');
@@ -2424,6 +2946,60 @@
     }
 
     render();
+  }
+
+  function enhanceNumberInputs(){
+    root.querySelectorAll('[data-frq-number]').forEach(function(input){
+      if(input.parentElement&&input.parentElement.classList.contains('frq__numberControl'))return;
+
+      var wrapper=document.createElement('div');
+      wrapper.className='frq__numberControl';
+      input.parentNode.insertBefore(wrapper,input);
+      wrapper.appendChild(input);
+
+      var controls=document.createElement('div');
+      controls.className='frq__numberButtons';
+
+      [
+        {direction:1,symbol:'▲',label:'increase_value'},
+        {direction:-1,symbol:'▼',label:'decrease_value'}
+      ].forEach(function(config){
+        var button=document.createElement('button');
+        button.type='button';
+        button.className='frq__numberButton';
+        button.textContent=config.symbol;
+        button.setAttribute('data-i18n-aria',config.label);
+        button.setAttribute('aria-label',tr(config.label));
+        button.setAttribute('title',tr(config.label));
+
+        button.addEventListener('click',function(){
+          if(input.disabled||input.readOnly)return;
+
+          var step=num(input.getAttribute('step'))||1;
+          var min=num(input.getAttribute('min'));
+          var max=num(input.getAttribute('max'));
+          var current=num(input.value);
+          var next;
+
+          if(current==null){
+            next=config.direction>0?(min!=null?min:step):(max!=null?max:0);
+          }else{
+            next=current+config.direction*step;
+          }
+
+          if(min!=null)next=Math.max(min,next);
+          if(max!=null)next=Math.min(max,next);
+
+          input.value=inputValue(next);
+          input.dispatchEvent(new Event('input',{bubbles:true}));
+          input.focus();
+        });
+
+        controls.appendChild(button);
+      });
+
+      wrapper.appendChild(controls);
+    });
   }
 
   function getDownloadFileBaseName(){
@@ -2466,8 +3042,8 @@
         el.setAttribute('display','none');
         el.style.display='none';
       });
-    }else{
-      clone.querySelectorAll('.f-front-dim, .f-front-view .f-view-title').forEach(function(el){
+    }else if(root.classList.contains('has-side-front')&&!root.classList.contains('is-dim-hidden-FRONT')){
+      clone.querySelectorAll('.f-side-view [data-d^="HB-"]').forEach(function(el){
         el.setAttribute('display','none');
         el.style.display='none';
       });
@@ -2671,6 +3247,7 @@
 
   loadFromUrl();
   applyLanguage();
+  enhanceNumberInputs();
   fillTracking();
   checkPosted();
   setStep('front');
@@ -2802,7 +3379,7 @@
   }else if(variants.length){
     var initialIndex=variantSelectEl?Number(variantSelectEl.value):0;
     if(isNaN(initialIndex))initialIndex=0;
-    applyVariantByIndex(initialIndex);
+    applyVariantByIndex(initialIndex,!!qs('frq_L'));
   }else{
     render();
   }
