@@ -208,20 +208,22 @@
         </label>
         <label class="frq__typeChoice">
           <input type="radio" name="contact[Fendertype]" value="custom" data-frq-profile-kind>
-          <span><strong data-i18n="type_custom">Custom</strong><small>HB × B</small></span>
+          <span><strong data-i18n="type_custom">Custom</strong><small>HB</small></span>
         </label>
       </div>
 
       <div data-frq-variant-wrap>
-      <div class="frq__section-label" data-i18n="profile_variant">Profiel / variant</div>
+      <div class="frq__section-label" data-i18n="profile_variant">Startmaat uit variant</div>
 
       <div class="frq__row frq__row--3">
         <div data-frq-variant-picker>
-          <label class="frq__label" for="fender-rfq-demo-variant-select" data-i18n="choose_variant">Kies variant *</label>
-          <select class="frq__input" id="fender-rfq-demo-variant-select" required>
-            <option value="0" selected>DS Fender 100 x 100 mm solid - DS-100-100</option>
-            <option value="1">DD Fender 100 x 95 mm - D-bore 60 x 48 mm - DD-100-095</option>
-            <option value="2">DC Fender 100 x 100 mm - O-bore Ø 50 mm - DC-100-100</option>
+          <label class="frq__label" for="fender-rfq-demo-variant-select" data-i18n="choose_variant">Kies een startmaat</label>
+          <select class="frq__input" id="fender-rfq-demo-variant-select">
+            {% for variant in product.variants %}
+              <option value="{{ forloop.index0 }}" {% if variant.id == v.id %}selected{% endif %}>
+                {{ variant.title | escape }}{% if variant.sku != blank %} — {{ variant.sku | escape }}{% endif %}
+              </option>
+            {% endfor %}
             <option value="custom" data-i18n-option="custom_height">Aangepaste hoogte</option>
           </select>
           <div class="frq__hint" id="fender-rfq-demo-variant-meta">Geselecteerde SKU: DS-100-100</div>
@@ -232,12 +234,22 @@
           <input class="frq__input" id="fender-rfq-demo-CUSTOM-HB" name="contact[Aangepaste_profielhoogte_HB_mm]" type="text" inputmode="decimal" placeholder="bijv. 45" data-ph-nl="bijv. 45" data-ph-en="e.g. 45">
         </div>
 
-        <div class="frq__customHeight" id="fender-rfq-demo-custom-width-wrap" hidden>
-          <label class="frq__label" for="fender-rfq-demo-CUSTOM-B" data-i18n="custom_b">Aangepaste breedte B (mm) *</label>
-          <input class="frq__input" id="fender-rfq-demo-CUSTOM-B" name="contact[Aangepaste_profielbreedte_B_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
-          <div class="frq__hint" data-i18n="custom_hint">Kamerindicatie wordt bij aangepaste maten niet getekend.</div>
-        </div>
       </div>
+      </div>
+
+      <div data-frq-d-outer>
+        <div class="frq__section-label" data-i18n="outer_dimensions">Buitenmaten D-fender</div>
+        <div class="frq__row frq__row--2">
+          <div>
+            <label class="frq__label" for="fender-rfq-demo-OUTER-HB" data-i18n="outer_hb">Hoogte HB (mm) *</label>
+            <input class="frq__input" id="fender-rfq-demo-OUTER-HB" name="contact[Vrije_profielhoogte_HB_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
+            <div class="frq__hint" data-i18n="variant_start_hint">De variant is alleen een startmaat; deze maat is vrij aanpasbaar.</div>
+          </div>
+          <div>
+            <label class="frq__label" for="fender-rfq-demo-OUTER-B" data-i18n="outer_b">Breedte B (mm) *</label>
+            <input class="frq__input" id="fender-rfq-demo-OUTER-B" name="contact[Vrije_profielbreedte_B_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
+          </div>
+        </div>
       </div>
 
       <div class="frq__row frq__row--2" data-frq-dd-bore hidden>
@@ -485,6 +497,14 @@
   stroke-width:1;
   stroke-dasharray:9 5 2 5;
   opacity:.32;
+  vector-effect:non-scaling-stroke;
+}
+
+#fender-rfq-demo .f-custom-height-guide{
+  stroke:currentColor;
+  stroke-width:1.5;
+  stroke-dasharray:7 5;
+  opacity:.42;
   vector-effect:non-scaling-stroke;
 }
 
@@ -1145,7 +1165,7 @@
       front_view_ds:'Vooraanzicht · DS massief',
       front_view_dd:'Vooraanzicht · DD D-boring',
       front_view_dc:'Vooraanzicht · DC cilindrische boring',
-      front_view_custom:'Vooraanzicht · aangepast profiel',
+      front_view_custom:'Aangepaste hoogte',
       side_view:'Zijaanzicht',
       step_front:'Vooraanzicht',
       step_side:'Zijaanzicht & gaten',
@@ -1159,22 +1179,24 @@
       type_solid:'Massief',
       type_d_bore:'D-boring',
       type_c_bore:'Cilindrische boring',
-      type_custom:'Custom',
+      type_custom:'Custom hoogte',
       bore_h:'Hoogte D-boring (mm)',
       bore_w:'Breedte D-boring (mm)',
       bore_dia:'Diameter cilindrische boring (mm)',
       bore_half_hint:'Standaard de helft van de buitenmaat; vrij aanpasbaar.',
       bore_dia_hint:'Standaard de helft van de kleinste buitenmaat; vrij aanpasbaar.',
+      outer_dimensions:'Buitenmaten D-fender',
+      outer_hb:'Hoogte HB (mm) *',
+      outer_b:'Breedte B (mm) *',
+      variant_start_hint:'De variant is alleen een startmaat; deze maat is vrij aanpasbaar.',
       maker:'Technische tekening maker',
       language:'Taal',
       download_svg:'Download SVG',
       download_png:'Download PNG',
-      profile_variant:'Profiel / variant',
-      choose_variant:'Kies variant *',
-      custom_height:'Aangepast profiel',
+      profile_variant:'Startmaat uit variant',
+      choose_variant:'Kies een startmaat',
+      custom_height:'Aangepaste hoogte',
       custom_hb:'Aangepaste hoogte HB (mm) *',
-      custom_b:'Aangepaste breedte B (mm) *',
-      custom_hint:'Kamerindicatie wordt bij aangepaste maten niet getekend.',
       length:'Lengte (L) mm *',
       holes_dimensions:'Gaten / maatvoering',
       g_left:'G links (mm)',
@@ -1196,8 +1218,8 @@
       no_sku:'Geen SKU ingesteld',
       profile_height:' · profielhoogte: ',
       not_parsed:' · let op: profielmaten niet uit titel gelezen',
-      custom_height_fill:'Aangepast profiel: vul HB en B zelf in.',
-      custom_profile_height:'Aangepast profiel HB: ',
+      custom_height_fill:'Aangepaste hoogte: vul HB zelf in.',
+      custom_profile_height:'Aangepaste hoogte HB: ',
       choose_profile:'Kies een profielvariant of vul een aangepaste profielhoogte in.',
       enter_length:'Vul minimaal de lengte en profielhoogte in om de technische tekening op te bouwen.',
       check_details:'Controleer de tekening en vul je gegevens in om de configuratie te versturen.',
@@ -1227,7 +1249,7 @@
       front_view_ds:'Front view · DS solid',
       front_view_dd:'Front view · DD D-bore',
       front_view_dc:'Front view · DC cylindrical bore',
-      front_view_custom:'Front view · custom profile',
+      front_view_custom:'Custom height',
       side_view:'Side view',
       step_front:'Front view',
       step_side:'Side view & holes',
@@ -1241,22 +1263,24 @@
       type_solid:'Solid',
       type_d_bore:'D-bore',
       type_c_bore:'Cylindrical bore',
-      type_custom:'Custom',
+      type_custom:'Custom height',
       bore_h:'D-bore height (mm)',
       bore_w:'D-bore width (mm)',
       bore_dia:'Cylindrical bore diameter (mm)',
       bore_half_hint:'Defaults to half the outer dimension; freely adjustable.',
       bore_dia_hint:'Defaults to half the smallest outer dimension; freely adjustable.',
+      outer_dimensions:'D-fender outer dimensions',
+      outer_hb:'Height HB (mm) *',
+      outer_b:'Width B (mm) *',
+      variant_start_hint:'The variant is only a starting size; this dimension can be changed freely.',
       maker:'Technical drawing generator',
       language:'Language',
       download_svg:'Download SVG',
       download_png:'Download PNG',
-      profile_variant:'Profile / variant',
-      choose_variant:'Choose variant *',
-      custom_height:'Custom profile',
+      profile_variant:'Starting size from variant',
+      choose_variant:'Choose a starting size',
+      custom_height:'Custom height',
       custom_hb:'Custom height HB (mm) *',
-      custom_b:'Custom width B (mm) *',
-      custom_hint:'The chamber indication is not drawn for custom dimensions.',
       length:'Length (L) mm *',
       holes_dimensions:'Holes / dimensions',
       g_left:'G left (mm)',
@@ -1278,8 +1302,8 @@
       no_sku:'No SKU set',
       profile_height:' · profile height: ',
       not_parsed:' · note: profile dimensions could not be read from title',
-      custom_height_fill:'Custom profile: enter HB and B manually.',
-      custom_profile_height:'Custom profile HB: ',
+      custom_height_fill:'Custom height: enter HB manually.',
+      custom_profile_height:'Custom height HB: ',
       choose_profile:'Choose a profile variant or enter a custom profile height.',
       enter_length:'Enter at least the length and profile height to generate the technical drawing.',
       check_details:'Check the drawing and enter your details to send the configuration.',
@@ -1313,8 +1337,11 @@
   var variantDataEl=$('#fender-rfq-demo-variant-data');
   var customHbWrapEl=$('#fender-rfq-demo-custom-height-wrap');
   var customHbEl=$('#fender-rfq-demo-CUSTOM-HB');
-  var customBWrapEl=$('#fender-rfq-demo-custom-width-wrap');
-  var customBEl=$('#fender-rfq-demo-CUSTOM-B');
+  var bDimToggleEl=$('[data-frq-dim-toggle="B"]');
+  var bDimPillEl=bDimToggleEl&&bDimToggleEl.parentElement;
+  var dOuterWrapEl=$('[data-frq-d-outer]');
+  var outerHbEl=$('#fender-rfq-demo-OUTER-HB');
+  var outerBEl=$('#fender-rfq-demo-OUTER-B');
   var profileKindEls=root.querySelectorAll('[data-frq-profile-kind]');
   var variantPickerEl=$('[data-frq-variant-picker]');
   var ddBoreWrapEl=$('[data-frq-dd-bore]');
@@ -1387,6 +1414,7 @@
   });
 
   function isFrontComplete(){
+    if(selectedKind==='custom')return !!(selectedProfile&&selectedProfile.A>0);
     if(!(selectedProfile&&selectedProfile.A>0&&selectedProfile.B>0))return false;
 
     if(selectedKind==='DD'){
@@ -1432,7 +1460,7 @@
     if(nextStepBtn)nextStepBtn.disabled=!complete;
 
     if(frontNoticeEl){
-      var hasOuter=!!(selectedProfile&&selectedProfile.A>0&&selectedProfile.B>0);
+      var hasOuter=!!(selectedProfile&&selectedProfile.A>0&&(selectedKind==='custom'||selectedProfile.B>0));
       var noticeKey=complete?'front_ready':hasOuter&&selectedKind!=='DS'&&selectedKind!=='custom'?'front_bore_invalid':'front_incomplete';
       frontNoticeEl.textContent=tr(noticeKey);
       frontNoticeEl.classList.toggle('is-error',!complete);
@@ -1534,7 +1562,8 @@
 
     if(variantPickerEl)variantPickerEl.hidden=selectedKind==='custom';
     if(customHbWrapEl)customHbWrapEl.hidden=selectedKind!=='custom';
-    if(customBWrapEl)customBWrapEl.hidden=selectedKind!=='custom';
+    if(bDimPillEl)bDimPillEl.hidden=selectedKind==='custom';
+    if(dOuterWrapEl)dOuterWrapEl.hidden=selectedKind==='custom';
     if(ddBoreWrapEl)ddBoreWrapEl.hidden=selectedKind!=='DD';
     if(dcBoreWrapEl)dcBoreWrapEl.hidden=selectedKind!=='DC';
   }
@@ -1561,6 +1590,8 @@
   function filterVariantOptions(kind){
     if(!variantSelectEl)return;
 
+    var matchCount=0;
+
     Array.prototype.forEach.call(variantSelectEl.options,function(option,index){
       if(option.value==='custom'){
         option.hidden=true;
@@ -1570,15 +1601,18 @@
 
       var profile=variants[index]&&parseProfileFromTitle(variants[index].title);
       var matches=!!(profile&&profile.kind===kind);
+      if(matches)matchCount++;
       option.hidden=!matches;
       option.disabled=!matches;
     });
+
+    if(variantPickerEl)variantPickerEl.hidden=selectedKind==='custom'||matchCount===0;
+    return matchCount;
   }
 
   function buildCustomProfile(){
     var hb=num(customHbEl&&customHbEl.value);
-    var b=num(customBEl&&customBEl.value);
-    return hb>0&&b>0?{A:hb,B:b,C:null,D:null,kind:'custom',custom:true}:null;
+    return hb>0?{A:hb,B:null,C:null,D:null,kind:'custom',custom:true}:null;
   }
 
   function getThreadLabel(){
@@ -1592,15 +1626,24 @@
       selectedProfile=buildCustomProfile();
 
       if(customHbWrapEl)customHbWrapEl.hidden=false;
-      if(customBWrapEl)customBWrapEl.hidden=false;
       if(variantHiddenEl)variantHiddenEl.value=tr('custom_height');
       if(skuHiddenEl)skuHiddenEl.value='';
 
       if(variantMetaEl){
         variantMetaEl.textContent=selectedProfile?tr('custom_profile_height')+fmt(selectedProfile.A)+' mm':tr('custom_height_fill');
       }
-    }else if(selectedProfile){
+    }else{
+      var outerHB=num(outerHbEl&&outerHbEl.value);
+      var outerB=num(outerBEl&&outerBEl.value);
+
+      if(!selectedProfile){
+        selectedProfile={A:null,B:null,C:null,D:null,kind:selectedKind,custom:false};
+      }
+
+      selectedProfile.A=outerHB;
+      selectedProfile.B=outerB;
       selectedProfile.kind=selectedKind;
+      selectedProfile.custom=false;
 
       if(selectedKind==='DD'){
         selectedProfile.C=num(boreHEl&&boreHEl.value);
@@ -1626,7 +1669,6 @@
       selectedProfile=buildCustomProfile();
 
       if(customHbWrapEl)customHbWrapEl.hidden=false;
-      if(customBWrapEl)customBWrapEl.hidden=false;
       if(variantHiddenEl)variantHiddenEl.value=tr('custom_height');
       if(skuHiddenEl)skuHiddenEl.value='';
       if(variantMetaEl)variantMetaEl.textContent=tr('custom_height_fill');
@@ -1646,11 +1688,12 @@
     selectedProfile=parseProfileFromTitle(selectedVariant.title);
 
     setSelectedKind(selectedProfile&&selectedProfile.kind);
+    if(outerHbEl)outerHbEl.value=selectedProfile&&selectedProfile.A?fmt(selectedProfile.A):'';
+    if(outerBEl)outerBEl.value=selectedProfile&&selectedProfile.B?fmt(selectedProfile.B):'';
     filterVariantOptions(selectedKind);
     setBoreDefaults();
 
     if(customHbWrapEl)customHbWrapEl.hidden=true;
-    if(customBWrapEl)customBWrapEl.hidden=true;
     if(variantHiddenEl)variantHiddenEl.value=selectedVariant.title||'';
     if(skuHiddenEl)skuHiddenEl.value=selectedVariant.sku||'';
 
@@ -1715,11 +1758,7 @@
         p.delete('frq_CUSTOM_HB');
       }
 
-      if(customBEl&&customBEl.value){
-        p.set('frq_CUSTOM_B',customBEl.value);
-      }else{
-        p.delete('frq_CUSTOM_B');
-      }
+      p.delete('frq_CUSTOM_B');
     }else{
       p.delete('frq_profile');
       p.delete('frq_CUSTOM_HB');
@@ -1736,6 +1775,8 @@
     p.set('frq_kind',selectedKind);
 
     var fields={
+      frq_OUTER_HB:selectedKind==='custom'?'':outerHbEl&&outerHbEl.value,
+      frq_OUTER_B:selectedKind==='custom'?'':outerBEl&&outerBEl.value,
       frq_L:lenEl&&lenEl.value,
       frq_G:gEl&&gEl.value,
       frq_H:hhEl&&hhEl.value,
@@ -1975,6 +2016,31 @@
     return el;
   }
 
+  function renderCustomHeightView(HB){
+    if(!(HB>0))return;
+
+    var y=54;
+    var bottom=184;
+    var midY=(y+bottom)/2;
+    var guideX=600;
+    var dimX=548;
+    var title=tr('front_view_custom');
+
+    fFrontG.setAttribute('aria-label',title);
+    addText(fFrontG,'f-view-title',600,34,title,'middle');
+    addSvgLine(fFrontG,'f-custom-height-guide',guideX,y,guideX,bottom,false);
+    addSvgLine(fFrontG,'f-custom-height-guide',guideX-18,y,guideX+18,y,false);
+    addSvgLine(fFrontG,'f-custom-height-guide',guideX-18,bottom,guideX+18,bottom,false);
+
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',dimX,y,guideX-18,y,false),'HB','custom-et');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',dimX,bottom,guideX-18,bottom,false),'HB','custom-eb');
+    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',dimX,y,dimX,bottom,true),'HB','custom-line');
+
+    var hbText=addText(fFrontG,'dt f-front-dim',dimX-12,midY+5,'HB = '+fmt(HB)+' mm','middle');
+    hbText.setAttribute('transform','rotate(-90,'+px(dimX-12)+','+px(midY)+')');
+    markFrontDim(hbText,'HB','custom-text');
+  }
+
   function renderFrontView(HB,B){
     var available=selectedProfile&&HB>0&&B>0;
     if(!available)return;
@@ -2099,7 +2165,8 @@
     if(N!=null)N=Math.max(0,Math.round(N));
 
     updateSub();
-    renderFrontView(HB,B);
+    if(selectedKind==='custom')renderCustomHeightView(HB);
+    else renderFrontView(HB,B);
     updateFrontProgress();
 
     if(!(L>0)||!(HB>0)){
@@ -2288,7 +2355,6 @@
     if(profile==='custom'||kind==='custom'){
       if(variantSelectEl)variantSelectEl.value='custom';
       if(customHbEl&&qs('frq_CUSTOM_HB'))customHbEl.value=qs('frq_CUSTOM_HB');
-      if(customBEl&&qs('frq_CUSTOM_B'))customBEl.value=qs('frq_CUSTOM_B');
     }else{
       if(variantId)idx=getVariantIndexById(variantId);
       if(idx<0&&variantSku)idx=getVariantIndexBySku(variantSku);
@@ -2297,6 +2363,8 @@
     }
 
     var map={
+      frq_OUTER_HB:outerHbEl,
+      frq_OUTER_B:outerBEl,
       frq_L:lenEl,
       frq_G:gEl,
       frq_H:hhEl,
@@ -2400,6 +2468,7 @@
       '.f-front-shape{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-front-bore{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-front-centerline{stroke:#111827;stroke-width:1;stroke-dasharray:9 5 2 5;opacity:.32;vector-effect:non-scaling-stroke}',
+      '.f-custom-height-guide{stroke:#111827;stroke-width:1.5;stroke-dasharray:7 5;opacity:.42;vector-effect:non-scaling-stroke}',
       '.f-view-title{fill:#111827;font-size:13px;font-weight:800;letter-spacing:.5px;opacity:.58;font-family:Arial,Helvetica,sans-serif}',
       '.f-hole-proj,.f-hole-proj-line{display:none!important}',
       '.f-label-bg{fill:#fff;stroke:rgba(0,0,0,.08);stroke-width:1}',
@@ -2509,7 +2578,7 @@
     el.addEventListener('change',render,{passive:true});
   });
 
-  [customHbEl,customBEl,boreHEl,boreWEl,boreDiaEl].forEach(function(el){
+  [customHbEl,boreHEl,boreWEl,boreDiaEl].forEach(function(el){
     if(!el)return;
     el.addEventListener('input',function(){
       resetFrontApproval();
@@ -2519,6 +2588,20 @@
       resetFrontApproval();
       render();
     },{passive:true});
+  });
+
+  [outerHbEl,outerBEl].forEach(function(el){
+    if(!el)return;
+
+    function updateOuterDimensions(){
+      resetFrontApproval();
+      updateSelectedProfileFromState();
+      setBoreDefaults();
+      render();
+    }
+
+    el.addEventListener('input',updateOuterDimensions,{passive:true});
+    el.addEventListener('change',updateOuterDimensions,{passive:true});
   });
 
   profileKindEls.forEach(function(input){
@@ -2541,7 +2624,7 @@
       if(index>=0){
         applyVariantByIndex(index);
       }else{
-        if(selectedProfile)selectedProfile.kind=kind;
+        updateSelectedProfileFromState();
         setBoreDefaults();
         render();
       }
@@ -2624,6 +2707,8 @@
   if(qs('frq_BORE_H')&&boreHEl)boreHEl.value=qs('frq_BORE_H');
   if(qs('frq_BORE_W')&&boreWEl)boreWEl.value=qs('frq_BORE_W');
   if(qs('frq_BORE_DIA')&&boreDiaEl)boreDiaEl.value=qs('frq_BORE_DIA');
+  if(qs('frq_OUTER_HB')&&outerHbEl)outerHbEl.value=qs('frq_OUTER_HB');
+  if(qs('frq_OUTER_B')&&outerBEl)outerBEl.value=qs('frq_OUTER_B');
 
   render();
 
