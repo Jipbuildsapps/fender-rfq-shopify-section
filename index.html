@@ -43,6 +43,7 @@
           </defs>
 
           <g class="f-front-view"></g>
+          <g class="f-side-view">
           <text class="f-view-title f-side-view-title" x="95" y="328" data-i18n="side_view">Zijaanzicht</text>
 
           <rect class="f-fill" x="0" y="0" width="0" height="0" rx="2"></rect>
@@ -89,21 +90,22 @@
 
           <g class="f-hole-list"></g>
           <text class="f-warn" x="600" y="783" text-anchor="middle"></text>
+          </g>
         </svg>
       </div>
 
       <div class="frq__dimTools" aria-label="Dimension toggles">
         <div class="frq__dimToolsTitle" data-i18n="show_dimensions">Toon maatlijnen</div>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="L" checked><span>L</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="HB" checked><span>HB</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="G" checked><span>G</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="H" checked><span>H</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="GR" checked><span>GR</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="HC" checked><span>HC</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="CUM" checked><span data-i18n="hole_labels">Gatlabels</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="DIA" checked><span data-i18n="diameter_label">Ø-label</span></label>
-        <label class="frq__dimPill"><input type="checkbox" data-frq-dim-toggle="HLIST" checked><span data-i18n="hole_list_toggle">Gatposities lijst</span></label>
-        <label class="frq__dimPill" data-frq-front-toggle-wrap hidden><input type="checkbox" data-frq-dim-toggle="FRONT" checked><span data-i18n="front_view">Vooraanzicht</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="front"><input type="checkbox" data-frq-dim-toggle="B" checked><span>B</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="both"><input type="checkbox" data-frq-dim-toggle="HB" checked><span>HB</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="L" checked><span>L</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="G" checked><span>G</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="H" checked><span>H</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="GR" checked><span>GR</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="HC" checked><span>HC</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="CUM" checked><span data-i18n="hole_labels">Gatlabels</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="DIA" checked><span data-i18n="diameter_label">Ø-label</span></label>
+        <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="HLIST" checked><span data-i18n="hole_list_toggle">Gatposities lijst</span></label>
       </div>
     </div>
 
@@ -177,10 +179,44 @@
 ]
       </script>
 
+      <div class="frq__steps" role="tablist" aria-label="Configurator steps">
+        <button class="frq__stepTab is-active" type="button" role="tab" aria-selected="true" data-frq-step-tab="front">
+          <span class="frq__stepNumber">1</span>
+          <span data-i18n="step_front">Vooraanzicht</span>
+        </button>
+        <button class="frq__stepTab" type="button" role="tab" aria-selected="false" aria-disabled="true" data-frq-step-tab="side">
+          <span class="frq__stepNumber">2</span>
+          <span data-i18n="step_side">Zijaanzicht &amp; gaten</span>
+        </button>
+      </div>
+
+      <section class="frq__stepPanel" role="tabpanel" data-frq-step-panel="front">
+
+      <div class="frq__section-label" data-i18n="fender_type">Fendertype</div>
+      <div class="frq__typeChoices" role="radiogroup" aria-label="Fender type">
+        <label class="frq__typeChoice">
+          <input type="radio" name="contact[Fendertype]" value="DS" data-frq-profile-kind checked>
+          <span><strong>DS</strong><small data-i18n="type_solid">Massief</small></span>
+        </label>
+        <label class="frq__typeChoice">
+          <input type="radio" name="contact[Fendertype]" value="DD" data-frq-profile-kind>
+          <span><strong>DD</strong><small data-i18n="type_d_bore">D-boring</small></span>
+        </label>
+        <label class="frq__typeChoice">
+          <input type="radio" name="contact[Fendertype]" value="DC" data-frq-profile-kind>
+          <span><strong>DC</strong><small data-i18n="type_c_bore">Cilindrische boring</small></span>
+        </label>
+        <label class="frq__typeChoice">
+          <input type="radio" name="contact[Fendertype]" value="custom" data-frq-profile-kind>
+          <span><strong data-i18n="type_custom">Custom</strong><small>HB × B</small></span>
+        </label>
+      </div>
+
+      <div data-frq-variant-wrap>
       <div class="frq__section-label" data-i18n="profile_variant">Profiel / variant</div>
 
       <div class="frq__row frq__row--3">
-        <div>
+        <div data-frq-variant-picker>
           <label class="frq__label" for="fender-rfq-demo-variant-select" data-i18n="choose_variant">Kies variant *</label>
           <select class="frq__input" id="fender-rfq-demo-variant-select" required>
             <option value="0" selected>DS Fender 100 x 100 mm solid - DS-100-100</option>
@@ -194,9 +230,44 @@
         <div class="frq__customHeight" id="fender-rfq-demo-custom-height-wrap" hidden>
           <label class="frq__label" for="fender-rfq-demo-CUSTOM-HB" data-i18n="custom_hb">Aangepaste hoogte HB (mm) *</label>
           <input class="frq__input" id="fender-rfq-demo-CUSTOM-HB" name="contact[Aangepaste_profielhoogte_HB_mm]" type="text" inputmode="decimal" placeholder="bijv. 45" data-ph-nl="bijv. 45" data-ph-en="e.g. 45">
-          <div class="frq__hint" data-i18n="custom_hint">Kamerindicatie wordt bij aangepaste hoogte niet getekend.</div>
         </div>
 
+        <div class="frq__customHeight" id="fender-rfq-demo-custom-width-wrap" hidden>
+          <label class="frq__label" for="fender-rfq-demo-CUSTOM-B" data-i18n="custom_b">Aangepaste breedte B (mm) *</label>
+          <input class="frq__input" id="fender-rfq-demo-CUSTOM-B" name="contact[Aangepaste_profielbreedte_B_mm]" type="text" inputmode="decimal" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100">
+          <div class="frq__hint" data-i18n="custom_hint">Kamerindicatie wordt bij aangepaste maten niet getekend.</div>
+        </div>
+      </div>
+      </div>
+
+      <div class="frq__row frq__row--2" data-frq-dd-bore hidden>
+        <div>
+          <label class="frq__label" for="fender-rfq-demo-BORE-H" data-i18n="bore_h">Hoogte D-boring (mm)</label>
+          <input class="frq__input" id="fender-rfq-demo-BORE-H" name="contact[D_boring_hoogte_mm]" type="text" inputmode="decimal">
+          <div class="frq__hint" data-i18n="bore_half_hint">Standaard de helft van de buitenmaat; vrij aanpasbaar.</div>
+        </div>
+        <div>
+          <label class="frq__label" for="fender-rfq-demo-BORE-W" data-i18n="bore_w">Breedte D-boring (mm)</label>
+          <input class="frq__input" id="fender-rfq-demo-BORE-W" name="contact[D_boring_breedte_mm]" type="text" inputmode="decimal">
+        </div>
+      </div>
+
+      <div class="frq__row frq__row--2" data-frq-dc-bore hidden>
+        <div>
+          <label class="frq__label" for="fender-rfq-demo-BORE-DIA" data-i18n="bore_dia">Diameter cilindrische boring (mm)</label>
+          <input class="frq__input" id="fender-rfq-demo-BORE-DIA" name="contact[Cilindrische_boring_diameter_mm]" type="text" inputmode="decimal">
+          <div class="frq__hint" data-i18n="bore_dia_hint">Standaard de helft van de kleinste buitenmaat; vrij aanpasbaar.</div>
+        </div>
+      </div>
+
+      <div class="frq__stepNotice" data-frq-front-notice aria-live="polite"></div>
+      <button class="frq__btn frq__btn--next" type="button" data-frq-next-step data-i18n="continue_side">Ga door naar zijaanzicht</button>
+      </section>
+
+      <section class="frq__stepPanel" role="tabpanel" data-frq-step-panel="side" hidden>
+      <div class="frq__section-label" data-i18n="side_dimensions">Bloklengte / zijaanzicht</div>
+
+      <div class="frq__row frq__row--2">
         <div>
           <label class="frq__label" for="fender-rfq-demo-L" data-i18n="length">Lengte (L) mm *</label>
           <input class="frq__input" id="fender-rfq-demo-L" value="1000" name="contact[Lengte_mm]" type="text" inputmode="decimal" placeholder="bijv. 500" data-ph-nl="bijv. 500" data-ph-en="e.g. 500" required>
@@ -280,7 +351,11 @@
         </div>
       </div>
 
-      <button class="frq__btn" type="submit" data-i18n="submit">Tekening versturen</button>
+      <div class="frq__stepActions">
+        <button class="frq__btn frq__btn--back" type="button" data-frq-prev-step data-i18n="back_front">Terug naar vooraanzicht</button>
+        <button class="frq__btn" type="submit" data-i18n="submit">Tekening versturen</button>
+      </div>
+      </section>
     </form>
   </div>
 </div>
@@ -393,6 +468,13 @@
 
 #fender-rfq-demo .f-front-shape{
   fill:rgba(var(--frq-accent-rgb),.035);
+  stroke:currentColor;
+  stroke-width:2;
+  vector-effect:non-scaling-stroke;
+}
+
+#fender-rfq-demo .f-front-bore{
+  fill:#fff;
   stroke:currentColor;
   stroke-width:2;
   vector-effect:non-scaling-stroke;
@@ -511,6 +593,13 @@
   letter-spacing:.05em;
 }
 
+#fender-rfq-demo.is-step-front .frq__dimPill[data-frq-dim-scope="side"],
+#fender-rfq-demo.is-step-side .frq__dimPill[data-frq-dim-scope="front"],
+#fender-rfq-demo.is-step-front .f-side-view,
+#fender-rfq-demo.is-step-side .f-front-view{
+  display:none;
+}
+
 #fender-rfq-demo .frq__dimPill{
   display:inline-flex;
   align-items:center;
@@ -541,6 +630,7 @@
 }
 
 #fender-rfq-demo.is-dim-hidden-L [data-d^="L-"],
+#fender-rfq-demo.is-dim-hidden-B [data-d^="B-"],
 #fender-rfq-demo.is-dim-hidden-HB [data-d^="HB-"],
 #fender-rfq-demo.is-dim-hidden-G [data-d^="G-"],
 #fender-rfq-demo.is-dim-hidden-H [data-d^="H-"],
@@ -548,12 +638,12 @@
 #fender-rfq-demo.is-dim-hidden-HC [data-d^="HC-"],
 #fender-rfq-demo.is-dim-hidden-CUM .f-cum-label,
 #fender-rfq-demo.is-dim-hidden-DIA .f-dia-group,
-#fender-rfq-demo.is-dim-hidden-HLIST .f-hole-list,
-#fender-rfq-demo.is-dim-hidden-FRONT .f-front-view{
+#fender-rfq-demo.is-dim-hidden-HLIST .f-hole-list{
   display:none;
 }
 
 #fender-rfq-demo.is-hover-dim-L [data-d^="L-"],
+#fender-rfq-demo.is-hover-dim-B [data-d^="B-"],
 #fender-rfq-demo.is-hover-dim-HB [data-d^="HB-"],
 #fender-rfq-demo.is-hover-dim-G [data-d^="G-"],
 #fender-rfq-demo.is-hover-dim-H [data-d^="H-"],
@@ -575,17 +665,6 @@
 #fender-rfq-demo.is-hover-dim-DIA .f-dia-group rect{
   stroke:rgba(var(--frq-accent-rgb),.35) !important;
   fill:rgba(var(--frq-accent-rgb),.06) !important;
-}
-
-#fender-rfq-demo.is-hover-dim-FRONT .f-front-shape,
-#fender-rfq-demo.is-hover-dim-FRONT .f-front-view line{
-  stroke:var(--frq-accent) !important;
-  opacity:1 !important;
-}
-
-#fender-rfq-demo.is-hover-dim-FRONT .f-front-view text{
-  fill:var(--frq-accent) !important;
-  opacity:1 !important;
 }
 
 #fender-rfq-demo .frq__form{
@@ -643,6 +722,159 @@
   margin-bottom:14px;
 }
 
+#fender-rfq-demo .frq__steps{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  margin:18px 0 16px;
+  border-bottom:1px solid var(--frq-border);
+}
+
+#fender-rfq-demo .frq__stepTab{
+  min-height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 16px;
+  border:0;
+  border-bottom:3px solid transparent;
+  background:transparent;
+  color:var(--frq-muted);
+  font:inherit;
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+#fender-rfq-demo .frq__stepTab.is-active{
+  border-bottom-color:var(--frq-accent);
+  color:var(--frq-strong);
+}
+
+#fender-rfq-demo .frq__stepTab[aria-disabled="true"]{
+  cursor:not-allowed;
+  opacity:.46;
+}
+
+#fender-rfq-demo .frq__stepNumber{
+  width:26px;
+  height:26px;
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 26px;
+  border:1px solid currentColor;
+  border-radius:50%;
+  font-size:12px;
+}
+
+#fender-rfq-demo .frq__stepTab.is-active .frq__stepNumber{
+  border-color:var(--frq-accent);
+  background:var(--frq-accent);
+  color:#fff;
+}
+
+#fender-rfq-demo .frq__stepPanel[hidden]{
+  display:none;
+}
+
+#fender-rfq-demo .frq__typeChoices{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:14px;
+}
+
+#fender-rfq-demo .frq__typeChoice{
+  min-width:0;
+  cursor:pointer;
+}
+
+#fender-rfq-demo .frq__typeChoice input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+#fender-rfq-demo .frq__typeChoice span{
+  min-height:62px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:3px;
+  padding:10px 12px;
+  border:1px solid var(--frq-border);
+  border-radius:8px;
+  background:#fff;
+  color:var(--frq-muted);
+  text-align:center;
+}
+
+#fender-rfq-demo .frq__typeChoice strong{
+  color:var(--frq-strong);
+  font-size:15px;
+}
+
+#fender-rfq-demo .frq__typeChoice small{
+  font-size:11px;
+  line-height:1.2;
+}
+
+#fender-rfq-demo .frq__typeChoice input:checked + span{
+  border-color:var(--frq-accent);
+  background:var(--frq-accent-soft);
+  color:var(--frq-accent);
+  box-shadow:0 0 0 1px var(--frq-accent);
+}
+
+#fender-rfq-demo .frq__typeChoice input:focus-visible + span{
+  outline:2px solid var(--frq-accent);
+  outline-offset:2px;
+}
+
+#fender-rfq-demo .frq__stepNotice{
+  min-height:20px;
+  margin:4px 0 10px;
+  color:var(--frq-muted);
+  font-size:13px;
+}
+
+#fender-rfq-demo .frq__stepNotice.is-error{
+  color:#a31220;
+}
+
+#fender-rfq-demo .frq__btn--next{
+  width:auto;
+  min-width:240px;
+  margin-left:auto;
+  display:block;
+}
+
+#fender-rfq-demo .frq__btn:disabled{
+  cursor:not-allowed;
+  opacity:.48;
+  box-shadow:none;
+}
+
+#fender-rfq-demo .frq__stepActions{
+  display:grid;
+  grid-template-columns:minmax(200px,.45fr) 1fr;
+  gap:10px;
+}
+
+#fender-rfq-demo .frq__btn--back{
+  color:var(--frq-strong);
+  background:#fff;
+  border:1px solid var(--frq-border);
+  box-shadow:none;
+}
+
+#fender-rfq-demo .frq__btn--back:hover,
+#fender-rfq-demo .frq__btn--back:focus{
+  background:#f8fafc !important;
+  box-shadow:none !important;
+  filter:none;
+}
+
 #fender-rfq-demo .frq__section-label{
   display:inline-flex;
   align-items:center;
@@ -660,6 +892,10 @@
 
 #fender-rfq-demo .frq__row{
   margin-bottom:14px;
+}
+
+#fender-rfq-demo .frq__row[hidden]{
+  display:none;
 }
 
 #fender-rfq-demo .frq__row--2{
@@ -818,6 +1054,26 @@
   #fender-rfq-demo .frq__btn--download{
     width:100%;
   }
+
+  #fender-rfq-demo .frq__stepTab{
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:11px 8px;
+    font-size:12px;
+  }
+
+  #fender-rfq-demo .frq__typeChoices{
+    grid-template-columns:1fr 1fr;
+  }
+
+  #fender-rfq-demo .frq__btn--next{
+    width:100%;
+    min-width:0;
+  }
+
+  #fender-rfq-demo .frq__stepActions{
+    grid-template-columns:1fr;
+  }
 }
 /* Verberg de verticale hulplijnen onder de gaten volledig */
 #fender-rfq-demo .f-hole-proj,
@@ -887,16 +1143,38 @@
       hole_list_toggle:'Gatposities lijst',
       front_view:'Vooraanzicht',
       front_view_ds:'Vooraanzicht · DS massief',
+      front_view_dd:'Vooraanzicht · DD D-boring',
+      front_view_dc:'Vooraanzicht · DC cilindrische boring',
+      front_view_custom:'Vooraanzicht · aangepast profiel',
       side_view:'Zijaanzicht',
+      step_front:'Vooraanzicht',
+      step_side:'Zijaanzicht & gaten',
+      continue_side:'Ga door naar zijaanzicht',
+      back_front:'Terug naar vooraanzicht',
+      side_dimensions:'Bloklengte / zijaanzicht',
+      front_ready:'Vooraanzicht compleet. Je kunt door naar het zijaanzicht.',
+      front_incomplete:'Kies een profiel met geldige HB- en B-maten.',
+      front_bore_invalid:'De boring moet groter dan 0 en kleiner dan de buitenmaten zijn.',
+      fender_type:'Fendertype',
+      type_solid:'Massief',
+      type_d_bore:'D-boring',
+      type_c_bore:'Cilindrische boring',
+      type_custom:'Custom',
+      bore_h:'Hoogte D-boring (mm)',
+      bore_w:'Breedte D-boring (mm)',
+      bore_dia:'Diameter cilindrische boring (mm)',
+      bore_half_hint:'Standaard de helft van de buitenmaat; vrij aanpasbaar.',
+      bore_dia_hint:'Standaard de helft van de kleinste buitenmaat; vrij aanpasbaar.',
       maker:'Technische tekening maker',
       language:'Taal',
       download_svg:'Download SVG',
       download_png:'Download PNG',
       profile_variant:'Profiel / variant',
       choose_variant:'Kies variant *',
-      custom_height:'Aangepaste hoogte',
+      custom_height:'Aangepast profiel',
       custom_hb:'Aangepaste hoogte HB (mm) *',
-      custom_hint:'Kamerindicatie wordt bij aangepaste hoogte niet getekend.',
+      custom_b:'Aangepaste breedte B (mm) *',
+      custom_hint:'Kamerindicatie wordt bij aangepaste maten niet getekend.',
       length:'Lengte (L) mm *',
       holes_dimensions:'Gaten / maatvoering',
       g_left:'G links (mm)',
@@ -918,8 +1196,8 @@
       no_sku:'Geen SKU ingesteld',
       profile_height:' · profielhoogte: ',
       not_parsed:' · let op: profielmaten niet uit titel gelezen',
-      custom_height_fill:'Aangepaste hoogte: vul HB zelf in.',
-      custom_profile_height:'Aangepaste profielhoogte: ',
+      custom_height_fill:'Aangepast profiel: vul HB en B zelf in.',
+      custom_profile_height:'Aangepast profiel HB: ',
       choose_profile:'Kies een profielvariant of vul een aangepaste profielhoogte in.',
       enter_length:'Vul minimaal de lengte en profielhoogte in om de technische tekening op te bouwen.',
       check_details:'Controleer de tekening en vul je gegevens in om de configuratie te versturen.',
@@ -947,16 +1225,38 @@
       hole_list_toggle:'Hole position list',
       front_view:'Front view',
       front_view_ds:'Front view · DS solid',
+      front_view_dd:'Front view · DD D-bore',
+      front_view_dc:'Front view · DC cylindrical bore',
+      front_view_custom:'Front view · custom profile',
       side_view:'Side view',
+      step_front:'Front view',
+      step_side:'Side view & holes',
+      continue_side:'Continue to side view',
+      back_front:'Back to front view',
+      side_dimensions:'Block length / side view',
+      front_ready:'Front view complete. You can continue to the side view.',
+      front_incomplete:'Choose a profile with valid HB and B dimensions.',
+      front_bore_invalid:'The bore must be larger than 0 and smaller than the outer dimensions.',
+      fender_type:'Fender type',
+      type_solid:'Solid',
+      type_d_bore:'D-bore',
+      type_c_bore:'Cylindrical bore',
+      type_custom:'Custom',
+      bore_h:'D-bore height (mm)',
+      bore_w:'D-bore width (mm)',
+      bore_dia:'Cylindrical bore diameter (mm)',
+      bore_half_hint:'Defaults to half the outer dimension; freely adjustable.',
+      bore_dia_hint:'Defaults to half the smallest outer dimension; freely adjustable.',
       maker:'Technical drawing generator',
       language:'Language',
       download_svg:'Download SVG',
       download_png:'Download PNG',
       profile_variant:'Profile / variant',
       choose_variant:'Choose variant *',
-      custom_height:'Custom height',
+      custom_height:'Custom profile',
       custom_hb:'Custom height HB (mm) *',
-      custom_hint:'The chamber indication is not drawn for custom height.',
+      custom_b:'Custom width B (mm) *',
+      custom_hint:'The chamber indication is not drawn for custom dimensions.',
       length:'Length (L) mm *',
       holes_dimensions:'Holes / dimensions',
       g_left:'G left (mm)',
@@ -978,8 +1278,8 @@
       no_sku:'No SKU set',
       profile_height:' · profile height: ',
       not_parsed:' · note: profile dimensions could not be read from title',
-      custom_height_fill:'Custom height: enter HB manually.',
-      custom_profile_height:'Custom profile height: ',
+      custom_height_fill:'Custom profile: enter HB and B manually.',
+      custom_profile_height:'Custom profile HB: ',
       choose_profile:'Choose a profile variant or enter a custom profile height.',
       enter_length:'Enter at least the length and profile height to generate the technical drawing.',
       check_details:'Check the drawing and enter your details to send the configuration.',
@@ -1013,6 +1313,15 @@
   var variantDataEl=$('#fender-rfq-demo-variant-data');
   var customHbWrapEl=$('#fender-rfq-demo-custom-height-wrap');
   var customHbEl=$('#fender-rfq-demo-CUSTOM-HB');
+  var customBWrapEl=$('#fender-rfq-demo-custom-width-wrap');
+  var customBEl=$('#fender-rfq-demo-CUSTOM-B');
+  var profileKindEls=root.querySelectorAll('[data-frq-profile-kind]');
+  var variantPickerEl=$('[data-frq-variant-picker]');
+  var ddBoreWrapEl=$('[data-frq-dd-bore]');
+  var dcBoreWrapEl=$('[data-frq-dc-bore]');
+  var boreHEl=$('#fender-rfq-demo-BORE-H');
+  var boreWEl=$('#fender-rfq-demo-BORE-W');
+  var boreDiaEl=$('#fender-rfq-demo-BORE-DIA');
 
   var lenEl=$('#fender-rfq-demo-L');
   var gEl=$('#fender-rfq-demo-G');
@@ -1041,13 +1350,20 @@
   var subEl=$('[data-sub]');
   var sucEl=$('[data-success]');
   var svgWarn=$('#fender-rfq-demo-svgwarn');
-  var frontViewPill=$('[data-frq-front-toggle-wrap]');
+  var frontNoticeEl=$('[data-frq-front-notice]');
+  var nextStepBtn=$('[data-frq-next-step]');
+  var prevStepBtn=$('[data-frq-prev-step]');
+  var stepTabs=root.querySelectorAll('[data-frq-step-tab]');
+  var stepPanels=root.querySelectorAll('[data-frq-step-panel]');
 
   var variants=[];
   var selectedVariant=null;
   var selectedProfile=null;
   var lastGR=null;
   var lastHoleRows=[];
+  var currentStep='front';
+  var frontApproved=false;
+  var selectedKind='DS';
 
   try{
     variants=JSON.parse((variantDataEl&&variantDataEl.textContent)||'[]');
@@ -1069,6 +1385,70 @@
   svg.querySelectorAll('[data-d]').forEach(function(el){
     DIM[el.getAttribute('data-d')]=el;
   });
+
+  function isFrontComplete(){
+    if(!(selectedProfile&&selectedProfile.A>0&&selectedProfile.B>0))return false;
+
+    if(selectedKind==='DD'){
+      return selectedProfile.C>0&&selectedProfile.D>0&&selectedProfile.C<selectedProfile.A&&selectedProfile.D<selectedProfile.B;
+    }
+
+    if(selectedKind==='DC'){
+      return selectedProfile.D>0&&selectedProfile.D<Math.min(selectedProfile.A,selectedProfile.B);
+    }
+
+    return true;
+  }
+
+  function setStep(step){
+    if(step==='side'&&!frontApproved)return;
+
+    currentStep=step==='side'?'side':'front';
+    root.classList.toggle('is-step-front',currentStep==='front');
+    root.classList.toggle('is-step-side',currentStep==='side');
+
+    stepTabs.forEach(function(tab){
+      var active=tab.getAttribute('data-frq-step-tab')===currentStep;
+      tab.classList.toggle('is-active',active);
+      tab.setAttribute('aria-selected',active?'true':'false');
+
+      if(tab.getAttribute('data-frq-step-tab')==='side'){
+        tab.setAttribute('aria-disabled',frontApproved?'false':'true');
+      }
+    });
+
+    stepPanels.forEach(function(panel){
+      panel.hidden=panel.getAttribute('data-frq-step-panel')!==currentStep;
+    });
+
+    svg.setAttribute('viewBox',currentStep==='front'?'430 8 340 230':'0 280 1200 520');
+    svg.setAttribute('aria-label',currentStep==='front'?tr('front_view'):tr('side_view'));
+  }
+
+  function updateFrontProgress(){
+    var complete=isFrontComplete();
+
+    if(!complete)frontApproved=false;
+    if(nextStepBtn)nextStepBtn.disabled=!complete;
+
+    if(frontNoticeEl){
+      var hasOuter=!!(selectedProfile&&selectedProfile.A>0&&selectedProfile.B>0);
+      var noticeKey=complete?'front_ready':hasOuter&&selectedKind!=='DS'&&selectedKind!=='custom'?'front_bore_invalid':'front_incomplete';
+      frontNoticeEl.textContent=tr(noticeKey);
+      frontNoticeEl.classList.toggle('is-error',!complete);
+    }
+
+    stepTabs.forEach(function(tab){
+      if(tab.getAttribute('data-frq-step-tab')==='side'){
+        tab.setAttribute('aria-disabled',frontApproved?'false':'true');
+      }
+    });
+  }
+
+  function resetFrontApproval(){
+    frontApproved=false;
+    setStep('front');
+  }
 
   function applyLanguage(){
     root.querySelectorAll('[data-i18n]').forEach(function(el){
@@ -1145,9 +1525,60 @@
     return variantSelectEl&&String(variantSelectEl.value)==='custom';
   }
 
+  function setSelectedKind(kind){
+    selectedKind=(kind==='DD'||kind==='DC'||kind==='custom')?kind:'DS';
+
+    profileKindEls.forEach(function(input){
+      input.checked=input.value===selectedKind;
+    });
+
+    if(variantPickerEl)variantPickerEl.hidden=selectedKind==='custom';
+    if(customHbWrapEl)customHbWrapEl.hidden=selectedKind!=='custom';
+    if(customBWrapEl)customBWrapEl.hidden=selectedKind!=='custom';
+    if(ddBoreWrapEl)ddBoreWrapEl.hidden=selectedKind!=='DD';
+    if(dcBoreWrapEl)dcBoreWrapEl.hidden=selectedKind!=='DC';
+  }
+
+  function setBoreDefaults(){
+    if(!selectedProfile||!(selectedProfile.A>0&&selectedProfile.B>0))return;
+
+    if(selectedKind==='DD'){
+      if(boreHEl)boreHEl.value=fmt(selectedProfile.A/2);
+      if(boreWEl)boreWEl.value=fmt(selectedProfile.B/2);
+    }else if(selectedKind==='DC'&&boreDiaEl){
+      boreDiaEl.value=fmt(Math.min(selectedProfile.A,selectedProfile.B)/2);
+    }
+  }
+
+  function findFirstVariantForKind(kind){
+    for(var i=0;i<variants.length;i++){
+      var profile=parseProfileFromTitle(variants[i].title);
+      if(profile&&profile.kind===kind)return i;
+    }
+    return -1;
+  }
+
+  function filterVariantOptions(kind){
+    if(!variantSelectEl)return;
+
+    Array.prototype.forEach.call(variantSelectEl.options,function(option,index){
+      if(option.value==='custom'){
+        option.hidden=true;
+        option.disabled=true;
+        return;
+      }
+
+      var profile=variants[index]&&parseProfileFromTitle(variants[index].title);
+      var matches=!!(profile&&profile.kind===kind);
+      option.hidden=!matches;
+      option.disabled=!matches;
+    });
+  }
+
   function buildCustomProfile(){
     var hb=num(customHbEl&&customHbEl.value);
-    return hb>0?{A:hb,B:null,C:null,D:null,kind:'custom',custom:true}:null;
+    var b=num(customBEl&&customBEl.value);
+    return hb>0&&b>0?{A:hb,B:b,C:null,D:null,kind:'custom',custom:true}:null;
   }
 
   function getThreadLabel(){
@@ -1156,15 +1587,31 @@
 
   function updateSelectedProfileFromState(){
     if(isCustomProfile()){
+      setSelectedKind('custom');
       selectedVariant={id:'',title:tr('custom_height'),sku:''};
       selectedProfile=buildCustomProfile();
 
       if(customHbWrapEl)customHbWrapEl.hidden=false;
+      if(customBWrapEl)customBWrapEl.hidden=false;
       if(variantHiddenEl)variantHiddenEl.value=tr('custom_height');
       if(skuHiddenEl)skuHiddenEl.value='';
 
       if(variantMetaEl){
         variantMetaEl.textContent=selectedProfile?tr('custom_profile_height')+fmt(selectedProfile.A)+' mm':tr('custom_height_fill');
+      }
+    }else if(selectedProfile){
+      selectedProfile.kind=selectedKind;
+
+      if(selectedKind==='DD'){
+        selectedProfile.C=num(boreHEl&&boreHEl.value);
+        selectedProfile.D=num(boreWEl&&boreWEl.value);
+      }else if(selectedKind==='DC'){
+        var boreDia=num(boreDiaEl&&boreDiaEl.value);
+        selectedProfile.C=boreDia;
+        selectedProfile.D=boreDia;
+      }else{
+        selectedProfile.C=null;
+        selectedProfile.D=null;
       }
     }
   }
@@ -1174,10 +1621,12 @@
 
     if(String(index)==='custom'){
       variantSelectEl.value='custom';
+      setSelectedKind('custom');
       selectedVariant={id:'',title:tr('custom_height'),sku:''};
       selectedProfile=buildCustomProfile();
 
       if(customHbWrapEl)customHbWrapEl.hidden=false;
+      if(customBWrapEl)customBWrapEl.hidden=false;
       if(variantHiddenEl)variantHiddenEl.value=tr('custom_height');
       if(skuHiddenEl)skuHiddenEl.value='';
       if(variantMetaEl)variantMetaEl.textContent=tr('custom_height_fill');
@@ -1196,7 +1645,12 @@
     selectedVariant=variants[index];
     selectedProfile=parseProfileFromTitle(selectedVariant.title);
 
+    setSelectedKind(selectedProfile&&selectedProfile.kind);
+    filterVariantOptions(selectedKind);
+    setBoreDefaults();
+
     if(customHbWrapEl)customHbWrapEl.hidden=true;
+    if(customBWrapEl)customBWrapEl.hidden=true;
     if(variantHiddenEl)variantHiddenEl.value=selectedVariant.title||'';
     if(skuHiddenEl)skuHiddenEl.value=selectedVariant.sku||'';
 
@@ -1212,7 +1666,7 @@
   }
 
   function updateHiddenProfileFields(){
-    if(modeHiddenEl)modeHiddenEl.value=(selectedProfile&&selectedProfile.custom)?tr('custom_height'):'Variant';
+    if(modeHiddenEl)modeHiddenEl.value=(selectedProfile&&selectedProfile.custom)?tr('custom_height'):selectedKind;
     if(threadHiddenEl)threadHiddenEl.value=getThreadLabel();
     if(hbHiddenEl)hbHiddenEl.value=selectedProfile&&selectedProfile.A?fmt(selectedProfile.A):'';
     if(bHiddenEl)bHiddenEl.value=selectedProfile&&selectedProfile.B?fmt(selectedProfile.B):'';
@@ -1260,9 +1714,16 @@
       }else{
         p.delete('frq_CUSTOM_HB');
       }
+
+      if(customBEl&&customBEl.value){
+        p.set('frq_CUSTOM_B',customBEl.value);
+      }else{
+        p.delete('frq_CUSTOM_B');
+      }
     }else{
       p.delete('frq_profile');
       p.delete('frq_CUSTOM_HB');
+      p.delete('frq_CUSTOM_B');
 
       if(selectedVariant&&selectedVariant.id)p.set('frq_variant',selectedVariant.id);
       if(selectedVariant&&selectedVariant.sku)p.set('frq_sku',selectedVariant.sku);
@@ -1271,6 +1732,8 @@
     if(diaTypeEl&&diaTypeEl.value)p.set('frq_DIA_TYPE',diaTypeEl.value);
 
     p.set('frq_lang',currentLang);
+    p.set('frq_step',currentStep);
+    p.set('frq_kind',selectedKind);
 
     var fields={
       frq_L:lenEl&&lenEl.value,
@@ -1279,6 +1742,9 @@
       frq_DIA:diaEl&&diaEl.value,
       frq_N:nEl&&nEl.value,
       frq_HC:hcEl&&hcEl.value,
+      frq_BORE_H:boreHEl&&boreHEl.value,
+      frq_BORE_W:boreWEl&&boreWEl.value,
+      frq_BORE_DIA:boreDiaEl&&boreDiaEl.value,
       frq_QTY:qtyEl&&qtyEl.value
     };
 
@@ -1335,7 +1801,7 @@
     if(!summEl)return;
 
     var profileTitle=(selectedVariant&&selectedVariant.title)||'';
-    var profileMode=isCustomProfile()?tr('custom_height'):'Variant';
+    var profileMode=isCustomProfile()?tr('custom_height'):selectedKind;
     var sku=(selectedVariant&&selectedVariant.sku)||'';
 
     var HB=(selectedProfile&&selectedProfile.A)?fmt(selectedProfile.A):'';
@@ -1486,9 +1952,31 @@
     return el;
   }
 
-  function renderDsFrontView(HB,B){
-    var available=selectedProfile&&selectedProfile.kind==='DS'&&HB>0&&B>0;
-    if(frontViewPill)frontViewPill.hidden=!available;
+  function dProfilePath(x,y,w,h){
+    var midX=x+w/2;
+    var capRx=w/2;
+    var capRy=Math.min(capRx,h*.72);
+    var capBaseY=y+capRy;
+    var bottom=y+h;
+    var bezier=.5522848;
+
+    return [
+      'M',px(x),px(bottom),
+      'L',px(x),px(capBaseY),
+      'C',px(x),px(capBaseY-capRy*bezier),px(midX-capRx*bezier),px(y),px(midX),px(y),
+      'C',px(midX+capRx*bezier),px(y),px(x+w),px(capBaseY-capRy*bezier),px(x+w),px(capBaseY),
+      'L',px(x+w),px(bottom),
+      'Z'
+    ].join(' ');
+  }
+
+  function markFrontDim(el,key,part){
+    if(el)el.setAttribute('data-d',key+'-front-'+part);
+    return el;
+  }
+
+  function renderFrontView(HB,B){
+    var available=selectedProfile&&HB>0&&B>0;
     if(!available)return;
 
     var NS='http://www.w3.org/2000/svg';
@@ -1502,41 +1990,58 @@
     var bottom=y+h;
     var midX=x+w/2;
     var midY=y+h/2;
-    var capRx=w/2;
-    var capRy=Math.min(capRx,h*.72);
-    var capBaseY=y+capRy;
-    var bezier=.5522848;
+    var kind=selectedProfile.kind||'D';
+    var titleKey=kind==='DD'?'front_view_dd':kind==='DC'?'front_view_dc':kind==='custom'?'front_view_custom':'front_view_ds';
+    var title=tr(titleKey);
 
-    fFrontG.setAttribute('aria-label',tr('front_view_ds'));
-    addText(fFrontG,'f-view-title',600,34,tr('front_view_ds'),'middle');
+    fFrontG.setAttribute('aria-label',title);
+    addText(fFrontG,'f-view-title',600,34,title,'middle');
 
     var shape=document.createElementNS(NS,'path');
     shape.setAttribute('class','f-front-shape');
-    shape.setAttribute('d',[
-      'M',px(x),px(bottom),
-      'L',px(x),px(capBaseY),
-      'C',px(x),px(capBaseY-capRy*bezier),px(midX-capRx*bezier),px(y),px(midX),px(y),
-      'C',px(midX+capRx*bezier),px(y),px(x+w),px(capBaseY-capRy*bezier),px(x+w),px(capBaseY),
-      'L',px(x+w),px(bottom),
-      'Z'
-    ].join(' '));
+    shape.setAttribute('d',dProfilePath(x,y,w,h));
     fFrontG.appendChild(shape);
+
+    if(kind==='DD'&&selectedProfile.C>0&&selectedProfile.D>0){
+      var boreW=Math.min(selectedProfile.D*scale,w-18);
+      var boreH=Math.min(selectedProfile.C*scale,h-18);
+
+      if(boreW>10&&boreH>10){
+        var bore=document.createElementNS(NS,'path');
+        bore.setAttribute('class','f-front-bore');
+        bore.setAttribute('d',dProfilePath(midX-boreW/2,midY-boreH/2,boreW,boreH));
+        fFrontG.appendChild(bore);
+      }
+    }else if(kind==='DC'&&(selectedProfile.D>0||selectedProfile.C>0)){
+      var boreDia=selectedProfile.D||selectedProfile.C;
+      var boreRadius=Math.min(boreDia*scale/2,w/2-9,h/2-9);
+
+      if(boreRadius>5){
+        var circle=document.createElementNS(NS,'circle');
+        circle.setAttribute('class','f-front-bore');
+        circle.setAttribute('cx',px(midX));
+        circle.setAttribute('cy',px(midY));
+        circle.setAttribute('r',px(boreRadius));
+        fFrontG.appendChild(circle);
+      }
+    }
 
     addSvgLine(fFrontG,'f-front-centerline',midX,y-12,midX,bottom+12,false);
 
     var bDimY=bottom+42;
-    addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,bDimY,false);
-    addSvgLine(fFrontG,'de f-front-dim',x+w,bottom,x+w,bDimY,false);
-    addSvgLine(fFrontG,'dl f-front-dim',x,bDimY,x+w,bDimY,true);
-    addText(fFrontG,'dt f-front-dim',x+w/2,bDimY-8,'B = '+fmt(B)+' mm','middle');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,bDimY,false),'B','el');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x+w,bottom,x+w,bDimY,false),'B','er');
+    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',x,bDimY,x+w,bDimY,true),'B','line');
+    markFrontDim(addText(fFrontG,'dt f-front-dim',x+w/2,bDimY-8,'B = '+fmt(B)+' mm','middle'),'B','text');
 
     var hbDimX=x-48;
-    addSvgLine(fFrontG,'de f-front-dim',hbDimX,y,x,y,false);
-    addSvgLine(fFrontG,'de f-front-dim',hbDimX,bottom,x,bottom,false);
-    addSvgLine(fFrontG,'dl f-front-dim',hbDimX,y,hbDimX,bottom,true);
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',hbDimX,y,x,y,false),'HB','et');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',hbDimX,bottom,x,bottom,false),'HB','eb');
+    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',hbDimX,y,hbDimX,bottom,true),'HB','line');
 
     var hbText=addText(fFrontG,'dt f-front-dim',hbDimX-12,midY+5,'HB = '+fmt(HB)+' mm','middle');
     hbText.setAttribute('transform','rotate(-90,'+px(hbDimX-12)+','+px(midY)+')');
+    markFrontDim(hbText,'HB','text');
   }
 
   function addLabel(parent,cls,x,y,t,anchor,groupCls){
@@ -1594,7 +2099,8 @@
     if(N!=null)N=Math.max(0,Math.round(N));
 
     updateSub();
-    renderDsFrontView(HB,B);
+    renderFrontView(HB,B);
+    updateFrontProgress();
 
     if(!(L>0)||!(HB>0)){
       updateHiddenProfileFields();
@@ -1774,16 +2280,19 @@
     var variantId=qs('frq_variant');
     var variantSku=qs('frq_sku');
     var lang=qs('frq_lang');
+    var kind=qs('frq_kind');
     var idx=-1;
 
     if(lang==='en'||lang==='nl')currentLang=lang;
 
-    if(profile==='custom'){
+    if(profile==='custom'||kind==='custom'){
       if(variantSelectEl)variantSelectEl.value='custom';
       if(customHbEl&&qs('frq_CUSTOM_HB'))customHbEl.value=qs('frq_CUSTOM_HB');
+      if(customBEl&&qs('frq_CUSTOM_B'))customBEl.value=qs('frq_CUSTOM_B');
     }else{
       if(variantId)idx=getVariantIndexById(variantId);
       if(idx<0&&variantSku)idx=getVariantIndexBySku(variantSku);
+      if(idx<0&&(kind==='DS'||kind==='DD'||kind==='DC'))idx=findFirstVariantForKind(kind);
       if(idx>=0&&variantSelectEl)variantSelectEl.value=String(idx);
     }
 
@@ -1794,6 +2303,9 @@
       frq_DIA:diaEl,
       frq_N:nEl,
       frq_HC:hcEl,
+      frq_BORE_H:boreHEl,
+      frq_BORE_W:boreWEl,
+      frq_BORE_DIA:boreDiaEl,
       frq_QTY:qtyEl
     };
 
@@ -1840,6 +2352,7 @@
   function applyDownloadVisibility(clone){
     var hiddenMap={
       L:'[data-d^="L-"]',
+      B:'[data-d^="B-"]',
       HB:'[data-d^="HB-"]',
       G:'[data-d^="G-"]',
       H:'[data-d^="H-"]',
@@ -1847,8 +2360,7 @@
       HC:'[data-d^="HC-"]',
       CUM:'.f-cum-label',
       DIA:'.f-dia-group',
-      HLIST:'.f-hole-list',
-      FRONT:'.f-front-view'
+      HLIST:'.f-hole-list'
     };
 
     Object.keys(hiddenMap).forEach(function(key){
@@ -1875,6 +2387,7 @@
     clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
     clone.setAttribute('width','1200');
     clone.setAttribute('height','800');
+    clone.setAttribute('viewBox','0 0 1200 800');
     clone.setAttribute('style','background:#fff;color:#111827;');
 
     applyDownloadVisibility(clone);
@@ -1885,6 +2398,7 @@
       '.f-outline{fill:none;stroke:#111827;opacity:.65;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-hidden{stroke:#111827;opacity:.52;stroke-width:1.2;stroke-dasharray:7 5;vector-effect:non-scaling-stroke}',
       '.f-front-shape{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
+      '.f-front-bore{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-front-centerline{stroke:#111827;stroke-width:1;stroke-dasharray:9 5 2 5;opacity:.32;vector-effect:non-scaling-stroke}',
       '.f-view-title{fill:#111827;font-size:13px;font-weight:800;letter-spacing:.5px;opacity:.58;font-family:Arial,Helvetica,sans-serif}',
       '.f-hole-proj,.f-hole-proj-line{display:none!important}',
@@ -1987,12 +2501,81 @@
   applyLanguage();
   fillTracking();
   checkPosted();
+  setStep('front');
 
-  [lenEl,gEl,hhEl,diaEl,nEl,hcEl,customHbEl,qtyEl,nameEl,emailEl].forEach(function(el){
+  [lenEl,gEl,hhEl,diaEl,nEl,hcEl,qtyEl,nameEl,emailEl].forEach(function(el){
     if(!el)return;
     el.addEventListener('input',render,{passive:true});
     el.addEventListener('change',render,{passive:true});
   });
+
+  [customHbEl,customBEl,boreHEl,boreWEl,boreDiaEl].forEach(function(el){
+    if(!el)return;
+    el.addEventListener('input',function(){
+      resetFrontApproval();
+      render();
+    },{passive:true});
+    el.addEventListener('change',function(){
+      resetFrontApproval();
+      render();
+    },{passive:true});
+  });
+
+  profileKindEls.forEach(function(input){
+    input.addEventListener('change',function(){
+      if(!this.checked)return;
+
+      resetFrontApproval();
+
+      if(this.value==='custom'){
+        applyVariantByIndex('custom');
+        return;
+      }
+
+      var kind=this.value;
+      var index=findFirstVariantForKind(kind);
+
+      setSelectedKind(kind);
+      filterVariantOptions(kind);
+
+      if(index>=0){
+        applyVariantByIndex(index);
+      }else{
+        if(selectedProfile)selectedProfile.kind=kind;
+        setBoreDefaults();
+        render();
+      }
+    });
+  });
+
+  stepTabs.forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var step=this.getAttribute('data-frq-step-tab');
+      if(step==='front'){
+        setStep('front');
+        render();
+      }else if(frontApproved){
+        setStep('side');
+        render();
+      }
+    });
+  });
+
+  if(nextStepBtn){
+    nextStepBtn.addEventListener('click',function(){
+      if(!isFrontComplete())return;
+      frontApproved=true;
+      setStep('side');
+      render();
+    });
+  }
+
+  if(prevStepBtn){
+    prevStepBtn.addEventListener('click',function(){
+      setStep('front');
+      render();
+    });
+  }
 
   if(diaTypeEl){
     diaTypeEl.addEventListener('change',applyDiaType);
@@ -2000,6 +2583,7 @@
 
   if(variantSelectEl){
     variantSelectEl.addEventListener('change',function(){
+      resetFrontApproval();
       applyVariantByIndex(this.value);
     });
   }
@@ -2034,6 +2618,18 @@
     if(isNaN(initialIndex))initialIndex=0;
     applyVariantByIndex(initialIndex);
   }else{
+    render();
+  }
+
+  if(qs('frq_BORE_H')&&boreHEl)boreHEl.value=qs('frq_BORE_H');
+  if(qs('frq_BORE_W')&&boreWEl)boreWEl.value=qs('frq_BORE_W');
+  if(qs('frq_BORE_DIA')&&boreDiaEl)boreDiaEl.value=qs('frq_BORE_DIA');
+
+  render();
+
+  if(qs('frq_step')==='side'&&isFrontComplete()){
+    frontApproved=true;
+    setStep('side');
     render();
   }
 })();
