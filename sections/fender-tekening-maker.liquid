@@ -40,8 +40,6 @@
 
           <g class="f-front-view"></g>
           <g class="f-side-view">
-          <text class="f-view-title f-side-view-title" x="95" y="328" data-i18n="side_view">Zijaanzicht</text>
-
           <rect class="f-fill" x="0" y="0" width="0" height="0" rx="2"></rect>
           <rect class="f-outline" x="0" y="0" width="0" height="0" rx="2"></rect>
 
@@ -49,6 +47,7 @@
           <line class="f-hidden" data-d="C-bot"></line>
 
           <g class="f-hole-proj"></g>
+          <g class="f-counterbores"></g>
           <g class="f-holes"></g>
           <g class="f-hole-labels"></g>
 
@@ -58,10 +57,10 @@
             <line class="dl" data-d="L-line" marker-start="url(#{{ uid }}-arr)" marker-end="url(#{{ uid }}-arr)"></line>
             <text class="dt" data-d="L-text" text-anchor="middle"></text>
 
-            <line class="de" data-d="HB-et"></line>
-            <line class="de" data-d="HB-eb"></line>
-            <line class="dl" data-d="HB-line" marker-start="url(#{{ uid }}-arr)" marker-end="url(#{{ uid }}-arr)"></line>
-            <text class="dt" data-d="HB-text" text-anchor="middle"></text>
+            <line class="de f-side-vertical-dim" data-d="B-side-et"></line>
+            <line class="de f-side-vertical-dim" data-d="B-side-eb"></line>
+            <line class="dl f-side-vertical-dim" data-d="B-side-line" marker-start="url(#{{ uid }}-arr)" marker-end="url(#{{ uid }}-arr)"></line>
+            <text class="dt f-side-vertical-dim" data-d="B-side-text" text-anchor="middle"></text>
 
             <line class="de" data-d="G-el"></line>
             <line class="de" data-d="G-em"></line>
@@ -92,8 +91,8 @@
 
       <div class="frq__dimTools" aria-label="Dimension toggles">
         <div class="frq__dimToolsTitle" data-i18n="show_dimensions">Toon maatlijnen</div>
+        <label class="frq__dimPill" data-frq-dim-scope="both"><input type="checkbox" data-frq-dim-toggle="A" checked><span>A</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="both"><input type="checkbox" data-frq-dim-toggle="B" checked><span>B</span></label>
-        <label class="frq__dimPill" data-frq-dim-scope="both"><input type="checkbox" data-frq-dim-toggle="HB" checked><span>HB</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="L" checked><span>L</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="G" checked><span>G</span></label>
         <label class="frq__dimPill" data-frq-dim-scope="side"><input type="checkbox" data-frq-dim-toggle="H" checked><span>H</span></label>
@@ -143,10 +142,12 @@
 
       <input type="hidden" name="contact[Profielmodus]" id="{{ uid }}-profile-mode-hidden">
       <input type="hidden" name="contact[Schroefmaat]" id="{{ uid }}-thread-hidden">
-      <input type="hidden" name="contact[Profielhoogte_HB_mm]" id="{{ uid }}-HB-hidden">
-      <input type="hidden" name="contact[Profielbreedte_B_mm]" id="{{ uid }}-B-hidden">
-      <input type="hidden" name="contact[Kamerhoogte_C_mm]" id="{{ uid }}-C-hidden">
-      <input type="hidden" name="contact[Kamerbreedte_D_mm]" id="{{ uid }}-D-hidden">
+      <input type="hidden" name="contact[Profielbreedte_A_mm]" id="{{ uid }}-A-hidden">
+      <input type="hidden" name="contact[Profielhoogte_B_mm]" id="{{ uid }}-B-hidden">
+      <input type="hidden" name="contact[Boringmaat_C_mm]" id="{{ uid }}-C-hidden">
+      <input type="hidden" name="contact[Boringmaat_D_mm]" id="{{ uid }}-D-hidden">
+      <input type="hidden" name="contact[Profielorientatie]" id="{{ uid }}-orientation-hidden">
+      <input type="hidden" name="contact[Verzinkdiameter_mm]" id="{{ uid }}-counterbore-hidden">
       <input type="hidden" name="contact[Rechterafstand_GR_mm]" id="{{ uid }}-GR-hidden">
       <input type="hidden" name="contact[Gatposities]" id="{{ uid }}-holes-hidden">
       <input type="hidden" name="contact[Productspecificatie_A_mm]" id="{{ uid }}-spec-a-hidden">
@@ -249,7 +250,7 @@
         </label>
         <label class="frq__typeChoice">
           <input type="radio" name="contact[Fendertype]" value="custom" data-frq-profile-kind>
-          <span><strong data-i18n="type_custom">Custom</strong><small>HB</small></span>
+          <span><strong data-i18n="type_custom">Custom</strong><small>B</small></span>
         </label>
       </div>
 
@@ -264,8 +265,8 @@
         </div>
 
         <div class="frq__customHeight" id="{{ uid }}-custom-height-wrap" hidden>
-          <label class="frq__label" for="{{ uid }}-CUSTOM-HB" data-i18n="custom_hb">Aangepaste hoogte HB (mm) *</label>
-          <input class="frq__input" id="{{ uid }}-CUSTOM-HB" name="contact[Aangepaste_profielhoogte_HB_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 45" data-ph-nl="bijv. 45" data-ph-en="e.g. 45" data-frq-number>
+          <label class="frq__label" for="{{ uid }}-CUSTOM-HB" data-i18n="custom_hb">Aangepaste hoogte B (mm) *</label>
+          <input class="frq__input" id="{{ uid }}-CUSTOM-HB" name="contact[Aangepaste_profielhoogte_B_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 45" data-ph-nl="bijv. 45" data-ph-en="e.g. 45" data-frq-number>
         </div>
 
       </div>
@@ -275,14 +276,28 @@
         <div class="frq__section-label" data-i18n="outer_dimensions">Buitenmaten D-fender</div>
         <div class="frq__row frq__row--2">
           <div>
-            <label class="frq__label" for="{{ uid }}-OUTER-HB" data-i18n="outer_hb">Hoogte HB (mm) *</label>
-            <input class="frq__input" id="{{ uid }}-OUTER-HB" name="contact[Vrije_profielhoogte_HB_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
+            <label class="frq__label" for="{{ uid }}-OUTER-HB" data-i18n="outer_hb">Hoogte B (mm) *</label>
+            <input class="frq__input" id="{{ uid }}-OUTER-HB" name="contact[Vrije_profielhoogte_B_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
             <div class="frq__hint" data-i18n="variant_start_hint">De variant is alleen een startmaat; deze maat is vrij aanpasbaar.</div>
           </div>
           <div>
-            <label class="frq__label" for="{{ uid }}-OUTER-B" data-i18n="outer_b">Breedte B (mm) *</label>
-            <input class="frq__input" id="{{ uid }}-OUTER-B" name="contact[Vrije_profielbreedte_B_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
+            <label class="frq__label" for="{{ uid }}-OUTER-B" data-i18n="outer_b">Breedte A (mm) *</label>
+            <input class="frq__input" id="{{ uid }}-OUTER-B" name="contact[Vrije_profielbreedte_A_mm]" type="number" inputmode="decimal" min="1" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
           </div>
+        </div>
+      </div>
+
+      <div data-frq-orientation-wrap>
+        <div class="frq__section-label" data-i18n="profile_orientation">Profielstand</div>
+        <div class="frq__typeChoices frq__orientationChoices" role="radiogroup" aria-label="Profielstand">
+          <label class="frq__typeChoice">
+            <input type="radio" name="contact[Profielstand]" value="upright" data-frq-orientation checked>
+            <span><strong data-i18n="orientation_upright">D omhoog</strong><small>0°</small></span>
+          </label>
+          <label class="frq__typeChoice">
+            <input type="radio" name="contact[Profielstand]" value="right" data-frq-orientation>
+            <span><strong data-i18n="orientation_right">Kwartslag rechts</strong><small>90°</small></span>
+          </label>
         </div>
       </div>
 
@@ -316,7 +331,7 @@
       <div class="frq__row frq__row--2">
         <div>
           <label class="frq__label" for="{{ uid }}-L" data-i18n="length">Lengte (L) mm *</label>
-          <input class="frq__input" id="{{ uid }}-L" name="contact[Lengte_mm]" type="number" inputmode="decimal" min="1" step="10" placeholder="bijv. 500" data-ph-nl="bijv. 500" data-ph-en="e.g. 500" data-frq-number required>
+          <input class="frq__input" id="{{ uid }}-L" name="contact[Lengte_mm]" type="number" inputmode="decimal" min="1" step="10" value="900" placeholder="bijv. 900" data-ph-nl="bijv. 900" data-ph-en="e.g. 900" data-frq-number required>
           <div class="frq__hint" data-frq-length-hint></div>
         </div>
       </div>
@@ -326,12 +341,12 @@
       <div class="frq__row frq__row--6">
         <div>
           <label class="frq__label" for="{{ uid }}-G" data-i18n="g_left">G links (mm)</label>
-          <input class="frq__input" id="{{ uid }}-G" name="contact[G_links_mm]" type="number" inputmode="decimal" min="0" step="1" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
+          <input class="frq__input" id="{{ uid }}-G" name="contact[G_links_mm]" type="number" inputmode="decimal" min="0" step="1" value="100" placeholder="bijv. 100" data-ph-nl="bijv. 100" data-ph-en="e.g. 100" data-frq-number>
         </div>
 
         <div>
           <label class="frq__label" for="{{ uid }}-HH" data-i18n="h_center">H hart-op-hart (mm)</label>
-          <input class="frq__input" id="{{ uid }}-HH" name="contact[H_hart_op_hart_mm]" type="number" inputmode="decimal" min="0" step="1" placeholder="bijv. 250" data-ph-nl="bijv. 250" data-ph-en="e.g. 250" data-frq-number>
+          <input class="frq__input" id="{{ uid }}-HH" name="contact[H_hart_op_hart_mm]" type="number" inputmode="decimal" min="0" step="1" value="350" placeholder="bijv. 350" data-ph-nl="bijv. 350" data-ph-en="e.g. 350" data-frq-number>
         </div>
 
         <div>
@@ -343,7 +358,7 @@
             <option value="M10" data-dia="11">M10 — Ø 11 mm</option>
             <option value="M12" data-dia="13.5">M12 — Ø 13,5 mm</option>
             <option value="M16" data-dia="17.5">M16 — Ø 17,5 mm</option>
-            <option value="M20" data-dia="22">M20 — Ø 22 mm</option>
+            <option value="M20" data-dia="22" selected>M20 — Ø 22 mm</option>
             <option value="M24" data-dia="26">M24 — Ø 26 mm</option>
             <option value="M30" data-dia="33">M30 — Ø 33 mm</option>
           </select>
@@ -351,17 +366,22 @@
 
         <div>
           <label class="frq__label" for="{{ uid }}-DIA" data-i18n="diameter">Gatdiameter Ø (mm)</label>
-          <input class="frq__input" id="{{ uid }}-DIA" name="contact[Gatdiameter_mm]" type="number" inputmode="decimal" min="0.5" step="0.5" placeholder="bijv. 30" data-ph-nl="bijv. 30" data-ph-en="e.g. 30" data-frq-number>
+          <input class="frq__input" id="{{ uid }}-DIA" name="contact[Gatdiameter_mm]" type="number" inputmode="decimal" min="0.5" step="0.5" value="22" placeholder="bijv. 30" data-ph-nl="bijv. 30" data-ph-en="e.g. 30" data-frq-number>
         </div>
 
         <div>
           <label class="frq__label" for="{{ uid }}-N" data-i18n="hole_count">Aantal gaten</label>
-          <input class="frq__input" id="{{ uid }}-N" name="contact[Aantal_gaten]" type="number" min="0" max="20" step="1" placeholder="bijv. 2" data-ph-nl="bijv. 2" data-ph-en="e.g. 2" data-frq-number>
+          <input class="frq__input" id="{{ uid }}-N" name="contact[Aantal_gaten]" type="number" min="0" max="20" step="1" value="3" placeholder="bijv. 3" data-ph-nl="bijv. 3" data-ph-en="e.g. 3" data-frq-number>
         </div>
 
         <div>
-          <label class="frq__label" for="{{ uid }}-HC" data-i18n="hc">HC vanaf onderzijde (mm)</label>
-          <input class="frq__input" id="{{ uid }}-HC" name="contact[Hart_hoogte_gaten_mm]" type="number" inputmode="decimal" min="0" step="1" placeholder="bijv. 21" data-ph-nl="bijv. 21" data-ph-en="e.g. 21" data-frq-number>
+          <label class="frq__label" for="{{ uid }}-HC" data-i18n="hc" data-frq-hc-label>HC vanaf onderzijde (mm)</label>
+          <input class="frq__input" id="{{ uid }}-HC" name="contact[Hart_hoogte_gaten_mm]" type="number" inputmode="decimal" min="0" step="1" value="50" placeholder="bijv. 50" data-ph-nl="bijv. 50" data-ph-en="e.g. 50" data-frq-number>
+        </div>
+
+        <div data-frq-counterbore hidden>
+          <label class="frq__label" for="{{ uid }}-COUNTERBORE-DIA" data-i18n="counterbore_dia">Verzinkdiameter ØV (mm)</label>
+          <input class="frq__input" id="{{ uid }}-COUNTERBORE-DIA" name="contact[Verzinkdiameter_mm]" type="number" inputmode="decimal" min="1" step="0.5" value="36" data-frq-number>
         </div>
       </div>
       <div class="frq__constraintNotice" data-frq-hole-notice aria-live="polite"></div>
@@ -390,7 +410,7 @@
       <div class="frq__row frq__row--2">
         <div>
           <label class="frq__label" for="{{ uid }}-qty" data-i18n="quantity">Aantal stuks</label>
-          <input class="frq__input" id="{{ uid }}-qty" name="contact[Quantity]" type="number" min="1" step="1" data-frq-number>
+          <input class="frq__input" id="{{ uid }}-qty" name="contact[Quantity]" type="number" min="1" step="1" value="10" data-frq-number>
         </div>
 
         <div>
@@ -536,15 +556,6 @@
   vector-effect:non-scaling-stroke;
 }
 
-#{{ uid }} .f-view-title{
-  fill:currentColor;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:.5px;
-  opacity:.58;
-  text-transform:uppercase;
-}
-
 #{{ uid }} .f-hole-proj-line{
   stroke:currentColor;
   opacity:.28;
@@ -564,6 +575,15 @@
   stroke-width:1.5;
   vector-effect:non-scaling-stroke;
   opacity:.86;
+}
+
+#{{ uid }} .f-counterbores circle{
+  fill:rgba(var(--frq-accent-rgb),.045);
+  stroke:currentColor;
+  stroke-width:1.25;
+  stroke-dasharray:4 3;
+  vector-effect:non-scaling-stroke;
+  opacity:.52;
 }
 
 #{{ uid }} .de{
@@ -648,7 +668,7 @@
   display:none;
 }
 
-#{{ uid }}.is-step-side.has-side-front .f-side-view [data-d^="HB-"]{
+#{{ uid }}.is-step-side.has-side-front .f-side-vertical-dim{
   display:none;
 }
 
@@ -682,8 +702,8 @@
 }
 
 #{{ uid }}.is-dim-hidden-L [data-d^="L-"],
+#{{ uid }}.is-dim-hidden-A [data-d^="A-"],
 #{{ uid }}.is-dim-hidden-B [data-d^="B-"],
-#{{ uid }}.is-dim-hidden-HB [data-d^="HB-"],
 #{{ uid }}.is-dim-hidden-G [data-d^="G-"],
 #{{ uid }}.is-dim-hidden-H [data-d^="H-"],
 #{{ uid }}.is-dim-hidden-GR [data-d^="GR-"],
@@ -696,8 +716,8 @@
 }
 
 #{{ uid }}.is-hover-dim-L [data-d^="L-"],
+#{{ uid }}.is-hover-dim-A [data-d^="A-"],
 #{{ uid }}.is-hover-dim-B [data-d^="B-"],
-#{{ uid }}.is-hover-dim-HB [data-d^="HB-"],
 #{{ uid }}.is-hover-dim-G [data-d^="G-"],
 #{{ uid }}.is-hover-dim-H [data-d^="H-"],
 #{{ uid }}.is-hover-dim-GR [data-d^="GR-"],
@@ -835,6 +855,11 @@
   grid-template-columns:repeat(4,1fr);
   gap:8px;
   margin-bottom:14px;
+}
+
+#{{ uid }} .frq__orientationChoices{
+  max-width:520px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
 #{{ uid }} .frq__typeChoice{
@@ -1260,11 +1285,10 @@
     var oBore=s.match(/(?:o-bore|cylind(?:rical|risch)?e?\s+bore)\s*[Øø]?\s*(\d+(?:[.,]\d+)?)\s*mm/i);
 
     if(dBore){
-      C=num(dBore[2]);
-      D=num(dBore[1]);
+      C=num(dBore[1]);
+      D=num(dBore[2]);
     }else if(oBore){
       C=num(oBore[1]);
-      D=C;
     }
 
     return {A:num(outer[2]),B:num(outer[1]),C:C,D:D,kind:kind,custom:false};
@@ -1291,21 +1315,27 @@
       back_front:'Terug naar vooraanzicht',
       side_dimensions:'Bloklengte / zijaanzicht',
       front_ready:'Vooraanzicht compleet. Je kunt door naar het zijaanzicht.',
-      front_incomplete:'Kies een profiel met geldige HB- en B-maten.',
+      front_incomplete:'Kies een profiel met geldige A- en B-maten.',
       front_bore_invalid:'De boring moet groter dan 0 en kleiner dan de buitenmaten zijn.',
       fender_type:'Fendertype',
       type_solid:'Massief',
       type_d_bore:'D-boring',
       type_c_bore:'Cilindrische boring',
       type_custom:'Custom hoogte',
+      profile_orientation:'Profielstand',
+      orientation_upright:'D omhoog',
+      orientation_right:'Kwartslag rechts',
+      orientation_upright_value:'D omhoog (0°)',
+      orientation_right_value:'Kwartslag rechts (90°)',
+      counterbore_dia:'Verzinkdiameter ØV (mm)',
       bore_h:'Hoogte D-boring (mm)',
       bore_w:'Breedte D-boring (mm)',
       bore_dia:'Diameter cilindrische boring (mm)',
       bore_half_hint:'Standaard de helft van de buitenmaat; vrij aanpasbaar.',
       bore_dia_hint:'Standaard de helft van de kleinste buitenmaat; vrij aanpasbaar.',
       outer_dimensions:'Buitenmaten D-fender',
-      outer_hb:'Hoogte HB (mm) *',
-      outer_b:'Breedte B (mm) *',
+      outer_hb:'Hoogte B (mm) *',
+      outer_b:'Breedte A (mm) *',
       variant_start_hint:'De variant is alleen een startmaat; deze maat is vrij aanpasbaar.',
       maker:'Technische tekening maker',
       language:'Taal',
@@ -1314,7 +1344,7 @@
       profile_variant:'Startprofiel',
       choose_variant:'Kies een standaardmaat',
       custom_height:'Aangepaste hoogte',
-      custom_hb:'Aangepaste hoogte HB (mm) *',
+      custom_hb:'Aangepaste hoogte B (mm) *',
       length:'Lengte (L) mm *',
       holes_dimensions:'Gaten / maatvoering',
       g_left:'G links (mm)',
@@ -1324,9 +1354,9 @@
       diameter:'Gatdiameter Ø (mm)',
       hole_count:'Aantal gaten',
       hc:'HC vanaf onderzijde (mm)',
-      length_default:'Standaardlengte voor dit profiel: ',
-      length_adjustable:' mm. Deze waarde blijft vrij aanpasbaar.',
-      holes_guarded:'Maximaal 20 gaten. Ø, G, H en HC worden automatisch binnen het profiel begrensd.',
+      hc_centered:'HC midden profiel (automatisch)',
+      length_start_hint:'Startlengte 900 mm; deze waarde blijft vrij aanpasbaar.',
+      holes_guarded:'Maximaal 20 gaten. Ø, ØV, G, H en HC worden automatisch binnen het profiel begrensd.',
       holes_adjusted:'Een of meer waarden zijn aangepast zodat alle gaten volledig binnen het profiel blijven.',
       increase_value:'Waarde verhogen',
       decrease_value:'Waarde verlagen',
@@ -1340,18 +1370,18 @@
       sub_default:'Stel je fenderblok samen en controleer direct de technische maatvoering.',
       selected_sku:'Geselecteerde SKU: ',
       no_sku:'Geen SKU ingesteld',
-      profile_height:' · profielhoogte: ',
+      profile_height:' · profielhoogte B: ',
       not_parsed:' · let op: profielmaten niet uit titel gelezen',
-      custom_height_fill:'Aangepaste hoogte: vul HB zelf in.',
-      custom_profile_height:'Aangepaste hoogte HB: ',
+      custom_height_fill:'Aangepaste hoogte: vul B zelf in.',
+      custom_profile_height:'Aangepaste hoogte B: ',
       choose_profile:'Kies een profielvariant of vul een aangepaste profielhoogte in.',
-      enter_length:'Vul minimaal de lengte en profielhoogte in om de technische tekening op te bouwen.',
+      enter_length:'Vul minimaal L en profielhoogte B in om de technische tekening op te bouwen.',
       check_details:'Controleer de tekening en vul je gegevens in om de configuratie te versturen.',
       ready:'Alles staat klaar. De maatvoering, gatentabel en configuratie-URL worden meegestuurd.',
       thanks:'Bedankt. Je technische configuratie is verzonden.',
       own_dia:'Eigen Ø',
       hole_positions:'Gatposities',
-      hole_height:'Hoogte gat = ',
+      hole_height:'HC = ',
       hole_diameter:'Diameter gat Ø = ',
       hole:'Gat ',
       holes_dont_fit:'Gaten passen niet binnen het blok — controleer G, H, Ø, HC en lengte.',
@@ -1381,21 +1411,27 @@
       back_front:'Back to front view',
       side_dimensions:'Block length / side view',
       front_ready:'Front view complete. You can continue to the side view.',
-      front_incomplete:'Choose a profile with valid HB and B dimensions.',
+      front_incomplete:'Choose a profile with valid A and B dimensions.',
       front_bore_invalid:'The bore must be larger than 0 and smaller than the outer dimensions.',
       fender_type:'Fender type',
       type_solid:'Solid',
       type_d_bore:'D-bore',
       type_c_bore:'Cylindrical bore',
       type_custom:'Custom height',
+      profile_orientation:'Profile orientation',
+      orientation_upright:'D facing up',
+      orientation_right:'Quarter turn right',
+      orientation_upright_value:'D facing up (0°)',
+      orientation_right_value:'Quarter turn right (90°)',
+      counterbore_dia:'Counterbore diameter ØV (mm)',
       bore_h:'D-bore height (mm)',
       bore_w:'D-bore width (mm)',
       bore_dia:'Cylindrical bore diameter (mm)',
       bore_half_hint:'Defaults to half the outer dimension; freely adjustable.',
       bore_dia_hint:'Defaults to half the smallest outer dimension; freely adjustable.',
       outer_dimensions:'D-fender outer dimensions',
-      outer_hb:'Height HB (mm) *',
-      outer_b:'Width B (mm) *',
+      outer_hb:'Height B (mm) *',
+      outer_b:'Width A (mm) *',
       variant_start_hint:'The variant is only a starting size; this dimension can be changed freely.',
       maker:'Technical drawing generator',
       language:'Language',
@@ -1404,7 +1440,7 @@
       profile_variant:'Starting profile',
       choose_variant:'Choose a standard size',
       custom_height:'Custom height',
-      custom_hb:'Custom height HB (mm) *',
+      custom_hb:'Custom height B (mm) *',
       length:'Length (L) mm *',
       holes_dimensions:'Holes / dimensions',
       g_left:'G left (mm)',
@@ -1414,9 +1450,9 @@
       diameter:'Hole diameter Ø (mm)',
       hole_count:'Number of holes',
       hc:'HC from bottom edge (mm)',
-      length_default:'Default length for this profile: ',
-      length_adjustable:' mm. You can freely adjust this value.',
-      holes_guarded:'Maximum 20 holes. Ø, G, H and HC are automatically constrained within the profile.',
+      hc_centered:'HC centered in profile (automatic)',
+      length_start_hint:'Starting length 900 mm; you can freely adjust this value.',
+      holes_guarded:'Maximum 20 holes. Ø, ØV, G, H and HC are automatically constrained within the profile.',
       holes_adjusted:'One or more values were adjusted so every hole remains fully inside the profile.',
       increase_value:'Increase value',
       decrease_value:'Decrease value',
@@ -1430,18 +1466,18 @@
       sub_default:'Configure your fender block and instantly check the technical dimensions.',
       selected_sku:'Selected SKU: ',
       no_sku:'No SKU set',
-      profile_height:' · profile height: ',
+      profile_height:' · profile height B: ',
       not_parsed:' · note: profile dimensions could not be read from title',
-      custom_height_fill:'Custom height: enter HB manually.',
-      custom_profile_height:'Custom height HB: ',
+      custom_height_fill:'Custom height: enter B manually.',
+      custom_profile_height:'Custom height B: ',
       choose_profile:'Choose a profile variant or enter a custom profile height.',
-      enter_length:'Enter at least the length and profile height to generate the technical drawing.',
+      enter_length:'Enter at least L and profile height B to generate the technical drawing.',
       check_details:'Check the drawing and enter your details to send the configuration.',
       ready:'Everything is ready. The dimensions, hole table and configuration URL will be included.',
       thanks:'Thank you. Your technical configuration has been sent.',
       own_dia:'Custom Ø',
       hole_positions:'Hole positions',
-      hole_height:'Hole height = ',
+      hole_height:'HC = ',
       hole_diameter:'Hole diameter Ø = ',
       hole:'Hole ',
       holes_dont_fit:'Holes do not fit inside the block — check G, H, Ø, HC and length.',
@@ -1468,6 +1504,8 @@
   var catalogDataEl=$('#{{ uid }}-catalog-data');
   var customHbWrapEl=$('#{{ uid }}-custom-height-wrap');
   var customHbEl=$('#{{ uid }}-CUSTOM-HB');
+  var aDimToggleEl=$('[data-frq-dim-toggle="A"]');
+  var aDimPillEl=aDimToggleEl&&aDimToggleEl.parentElement;
   var bDimToggleEl=$('[data-frq-dim-toggle="B"]');
   var bDimPillEl=bDimToggleEl&&bDimToggleEl.parentElement;
   var dOuterWrapEl=$('[data-frq-d-outer]');
@@ -1480,6 +1518,10 @@
   var boreHEl=$('#{{ uid }}-BORE-H');
   var boreWEl=$('#{{ uid }}-BORE-W');
   var boreDiaEl=$('#{{ uid }}-BORE-DIA');
+  var orientationWrapEl=$('[data-frq-orientation-wrap]');
+  var orientationEls=root.querySelectorAll('[data-frq-orientation]');
+  var counterboreWrapEl=$('[data-frq-counterbore]');
+  var counterboreDiaEl=$('#{{ uid }}-COUNTERBORE-DIA');
 
   var lenEl=$('#{{ uid }}-L');
   var gEl=$('#{{ uid }}-G');
@@ -1488,6 +1530,7 @@
   var diaEl=$('#{{ uid }}-DIA');
   var nEl=$('#{{ uid }}-N');
   var hcEl=$('#{{ uid }}-HC');
+  var hcLabelEl=$('[data-frq-hc-label]');
   var lengthHintEl=$('[data-frq-length-hint]');
   var holeNoticeEl=$('[data-frq-hole-notice]');
   var qtyEl=$('#{{ uid }}-qty');
@@ -1498,10 +1541,12 @@
 
   var modeHiddenEl=$('#{{ uid }}-profile-mode-hidden');
   var threadHiddenEl=$('#{{ uid }}-thread-hidden');
-  var hbHiddenEl=$('#{{ uid }}-HB-hidden');
+  var aHiddenEl=$('#{{ uid }}-A-hidden');
   var bHiddenEl=$('#{{ uid }}-B-hidden');
   var cHiddenEl=$('#{{ uid }}-C-hidden');
   var dHiddenEl=$('#{{ uid }}-D-hidden');
+  var orientationHiddenEl=$('#{{ uid }}-orientation-hidden');
+  var counterboreHiddenEl=$('#{{ uid }}-counterbore-hidden');
   var grHiddenEl=$('#{{ uid }}-GR-hidden');
   var holesHiddenEl=$('#{{ uid }}-holes-hidden');
   var specAHiddenEl=$('#{{ uid }}-spec-a-hidden');
@@ -1535,6 +1580,7 @@
   var currentStep='front';
   var frontApproved=false;
   var selectedKind='DS';
+  var profileOrientation='upright';
   var holeValuesAdjusted=false;
 
   try{
@@ -1557,9 +1603,8 @@
     var profile={
       A:Number(row.B),
       B:Number(row.A),
-      C:row.k==='DD'?Number(row.D):row.k==='DC'?Number(row.C):null,
-      D:row.k==='DD'?Number(row.C):row.k==='DC'?Number(row.C):null,
-      boreOffset:row.k==='DC'?Number(row.D):null,
+      C:row.k==='DD'||row.k==='DC'?Number(row.C):null,
+      D:row.k==='DD'||row.k==='DC'?Number(row.D):null,
       kind:row.k,
       custom:false
     };
@@ -1608,7 +1653,6 @@
       B:profile.B,
       C:profile.C,
       D:profile.D,
-      boreOffset:profile.boreOffset,
       kind:profile.kind,
       custom:false
     };
@@ -1652,12 +1696,12 @@
   var svg=root.querySelector('.frq__svg');
   var fFill=svg.querySelector('.f-fill');
   var fOutline=svg.querySelector('.f-outline');
+  var fCounterboresG=svg.querySelector('.f-counterbores');
   var fHolesG=svg.querySelector('.f-holes');
   var fProjG=svg.querySelector('.f-hole-proj');
   var fLabelsG=svg.querySelector('.f-hole-labels');
   var fListG=svg.querySelector('.f-hole-list');
   var fFrontG=svg.querySelector('.f-front-view');
-  var fSideTitle=svg.querySelector('.f-side-view-title');
   var fWarnTxt=svg.querySelector('.f-warn');
 
   var DIM={};
@@ -1665,16 +1709,73 @@
     DIM[el.getAttribute('data-d')]=el;
   });
 
+  function isProfileRotated(){
+    return profileOrientation==='right'&&selectedKind!=='custom';
+  }
+
+  function getVisualProfileHeight(){
+    if(!selectedProfile)return null;
+    return isProfileRotated()?selectedProfile.B:selectedProfile.A;
+  }
+
+  function getVisualProfileWidth(){
+    if(!selectedProfile)return null;
+    return isProfileRotated()?selectedProfile.A:selectedProfile.B;
+  }
+
+  function suggestedCounterboreDia(){
+    var dia=num(diaEl&&diaEl.value)||0;
+    if(!(dia>0))return null;
+    return Math.ceil(Math.max(dia+8,dia*1.6)*2)/2;
+  }
+
+  function syncOrientationState(resetCounterbore){
+    var rotated=isProfileRotated();
+
+    if(orientationWrapEl)orientationWrapEl.hidden=selectedKind==='custom';
+    if(counterboreWrapEl)counterboreWrapEl.hidden=!rotated;
+    root.classList.toggle('is-profile-rotated',rotated);
+
+    orientationEls.forEach(function(input){
+      input.checked=input.value===profileOrientation;
+    });
+
+    if(hcEl){
+      hcEl.readOnly=rotated;
+      if(rotated&&getVisualProfileHeight()>0){
+        hcEl.value=inputValue(getVisualProfileHeight()/2);
+      }
+    }
+
+    if(hcLabelEl){
+      hcLabelEl.setAttribute('data-i18n',rotated?'hc_centered':'hc');
+      hcLabelEl.textContent=tr(rotated?'hc_centered':'hc');
+    }
+
+    if(rotated&&counterboreDiaEl){
+      var suggested=suggestedCounterboreDia();
+      var current=num(counterboreDiaEl.value);
+      if(suggested>0&&(resetCounterbore||!(current>num(diaEl&&diaEl.value)))){
+        counterboreDiaEl.value=inputValue(suggested);
+      }
+    }
+  }
+
+  function setProfileOrientation(value,resetCounterbore){
+    profileOrientation=value==='right'?'right':'upright';
+    syncOrientationState(resetCounterbore);
+  }
+
   function isFrontComplete(){
     if(selectedKind==='custom')return !!(selectedProfile&&selectedProfile.A>0);
     if(!(selectedProfile&&selectedProfile.A>0&&selectedProfile.B>0))return false;
 
     if(selectedKind==='DD'){
-      return selectedProfile.C>0&&selectedProfile.D>0&&selectedProfile.C<selectedProfile.A&&selectedProfile.D<selectedProfile.B;
+      return selectedProfile.C>0&&selectedProfile.D>0&&selectedProfile.C<selectedProfile.B&&selectedProfile.D<selectedProfile.A;
     }
 
     if(selectedKind==='DC'){
-      return selectedProfile.D>0&&selectedProfile.D<Math.min(selectedProfile.A,selectedProfile.B);
+      return selectedProfile.C>0&&selectedProfile.C<Math.min(selectedProfile.A,selectedProfile.B);
     }
 
     return true;
@@ -1823,21 +1924,22 @@
 
     if(variantPickerEl)variantPickerEl.hidden=selectedKind==='custom';
     if(customHbWrapEl)customHbWrapEl.hidden=selectedKind!=='custom';
-    if(bDimPillEl)bDimPillEl.hidden=selectedKind==='custom';
+    if(aDimPillEl)aDimPillEl.hidden=selectedKind==='custom';
     if(frontToggleWrapEl)frontToggleWrapEl.hidden=selectedKind==='custom';
     if(dOuterWrapEl)dOuterWrapEl.hidden=selectedKind==='custom';
     if(ddBoreWrapEl)ddBoreWrapEl.hidden=selectedKind!=='DD';
     if(dcBoreWrapEl)dcBoreWrapEl.hidden=selectedKind!=='DC';
+    syncOrientationState(false);
   }
 
   function setBoreDefaults(useProfileValues){
     if(!selectedProfile||!(selectedProfile.A>0&&selectedProfile.B>0))return;
 
     if(selectedKind==='DD'){
-      if(boreHEl)boreHEl.value=inputValue(useProfileValues&&selectedProfile.C>0?selectedProfile.C:selectedProfile.A/2);
-      if(boreWEl)boreWEl.value=inputValue(useProfileValues&&selectedProfile.D>0?selectedProfile.D:selectedProfile.B/2);
+      if(boreHEl)boreHEl.value=inputValue(useProfileValues&&selectedProfile.D>0?selectedProfile.D:selectedProfile.A/2);
+      if(boreWEl)boreWEl.value=inputValue(useProfileValues&&selectedProfile.C>0?selectedProfile.C:selectedProfile.B/2);
     }else if(selectedKind==='DC'&&boreDiaEl){
-      boreDiaEl.value=inputValue(useProfileValues&&selectedProfile.D>0?selectedProfile.D:Math.min(selectedProfile.A,selectedProfile.B)/2);
+      boreDiaEl.value=inputValue(useProfileValues&&selectedProfile.C>0?selectedProfile.C:Math.min(selectedProfile.A,selectedProfile.B)/2);
     }
   }
 
@@ -1897,7 +1999,7 @@
 
   function constrainHoleInputs(){
     var L=num(lenEl&&lenEl.value);
-    var HB=selectedProfile&&selectedProfile.A;
+    var profileHeight=getVisualProfileHeight();
     var adjusted=false;
     var N=num(nEl&&nEl.value);
 
@@ -1908,7 +2010,7 @@
 
     setDynamicLimit(nEl,'max',20);
 
-    if(!(L>0&&HB>0)){
+    if(!(L>0&&profileHeight>0)){
       if(holeNoticeEl){
         holeNoticeEl.textContent=tr('holes_guarded');
         holeNoticeEl.classList.remove('is-adjusted');
@@ -1916,14 +2018,15 @@
       return adjusted;
     }
 
-    var maxDia=Math.max(0.5,floorTenth(Math.min(L,HB)));
+    var maxDia=Math.max(0.5,floorTenth(Math.min(L,profileHeight)));
+    var maxThroughDia=isProfileRotated()?Math.max(0.5,floorTenth(maxDia-0.5)):maxDia;
     var DIA=num(diaEl&&diaEl.value);
-    setDynamicLimit(diaEl,'max',maxDia);
+    setDynamicLimit(diaEl,'max',maxThroughDia);
 
     if(diaTypeEl){
       Array.prototype.forEach.call(diaTypeEl.options,function(option){
         var optionDia=num(option.getAttribute('data-dia'));
-        option.disabled=optionDia!=null&&optionDia>maxDia;
+        option.disabled=optionDia!=null&&optionDia>maxThroughDia;
       });
 
       var selectedOption=diaTypeEl.options[diaTypeEl.selectedIndex];
@@ -1934,8 +2037,8 @@
       }
     }
 
-    if(DIA!=null&&DIA>maxDia){
-      DIA=maxDia;
+    if(DIA!=null&&DIA>maxThroughDia){
+      DIA=maxThroughDia;
       adjusted=setConstrainedValue(diaEl,DIA)||adjusted;
     }
 
@@ -1947,9 +2050,33 @@
       return adjusted;
     }
 
-    var radius=DIA/2;
+    var effectiveDia=DIA;
+
+    if(isProfileRotated()&&counterboreDiaEl){
+      var counterboreDia=num(counterboreDiaEl.value);
+      var minCounterbore=Math.min(maxDia,DIA+0.5);
+      var suggested=suggestedCounterboreDia();
+
+      setDynamicLimit(counterboreDiaEl,'min',minCounterbore);
+      setDynamicLimit(counterboreDiaEl,'max',maxDia);
+
+      if(!(counterboreDia>DIA)){
+        counterboreDia=Math.min(maxDia,Math.max(minCounterbore,suggested||minCounterbore));
+        adjusted=setConstrainedValue(counterboreDiaEl,counterboreDia)||adjusted;
+      }else if(counterboreDia>maxDia){
+        counterboreDia=maxDia;
+        adjusted=setConstrainedValue(counterboreDiaEl,counterboreDia)||adjusted;
+      }
+
+      effectiveDia=Math.max(DIA,counterboreDia||DIA);
+    }else{
+      setDynamicLimit(counterboreDiaEl,'min',1);
+      setDynamicLimit(counterboreDiaEl,'max',null);
+    }
+
+    var radius=effectiveDia/2;
     var maxG=Math.max(radius,floorTenth(L-radius));
-    var maxHC=Math.max(radius,floorTenth(HB-radius));
+    var maxHC=Math.max(radius,floorTenth(profileHeight-radius));
     var G=num(gEl&&gEl.value);
     var HC=num(hcEl&&hcEl.value);
 
@@ -1963,14 +2090,17 @@
       adjusted=setConstrainedValue(gEl,G)||adjusted;
     }
 
-    if(HC!=null){
+    if(isProfileRotated()){
+      HC=profileHeight/2;
+      adjusted=setConstrainedValue(hcEl,HC)||adjusted;
+    }else if(HC!=null){
       HC=clamp(HC,radius,maxHC);
       adjusted=setConstrainedValue(hcEl,HC)||adjusted;
     }
 
     if(N>1&&G!=null){
       var freeRun=Math.max(0,L-radius-G);
-      var maxCount=Math.max(1,Math.floor(freeRun/Math.max(DIA,0.5))+1);
+      var maxCount=Math.max(1,Math.floor(freeRun/Math.max(effectiveDia,0.5))+1);
 
       if(N>maxCount){
         N=Math.min(20,maxCount);
@@ -1980,11 +2110,11 @@
       if(N>1){
         var maxHH=floorTenth(freeRun/(N-1));
         var HH=num(hhEl&&hhEl.value);
-        setDynamicLimit(hhEl,'min',DIA);
+        setDynamicLimit(hhEl,'min',effectiveDia);
         setDynamicLimit(hhEl,'max',maxHH);
 
         if(HH!=null){
-          HH=clamp(HH,DIA,maxHH);
+          HH=clamp(HH,effectiveDia,maxHH);
           adjusted=setConstrainedValue(hhEl,HH)||adjusted;
         }
       }
@@ -2034,8 +2164,8 @@
         if(num(boreHEl&&boreHEl.value)>=outerHB)setConstrainedValue(boreHEl,Math.max(1,outerHB-1));
         if(num(boreWEl&&boreWEl.value)>=outerB)setConstrainedValue(boreWEl,Math.max(1,outerB-1));
 
-        selectedProfile.C=num(boreHEl&&boreHEl.value);
-        selectedProfile.D=num(boreWEl&&boreWEl.value);
+        selectedProfile.C=num(boreWEl&&boreWEl.value);
+        selectedProfile.D=num(boreHEl&&boreHEl.value);
       }else if(selectedKind==='DC'){
         var maxBore=Math.min(outerHB||0,outerB||0)-1;
         setDynamicLimit(boreDiaEl,'max',maxBore>0?maxBore:null);
@@ -2043,11 +2173,12 @@
 
         var boreDia=num(boreDiaEl&&boreDiaEl.value);
         selectedProfile.C=boreDia;
-        selectedProfile.D=boreDia;
       }else{
         selectedProfile.C=null;
         selectedProfile.D=null;
       }
+
+      syncOrientationState(false);
     }
   }
 
@@ -2085,8 +2216,8 @@
     filterVariantOptions(selectedKind);
     setBoreDefaults(true);
 
-    if(lenEl&&selectedVariant.maxLength>0&&!preserveLength){
-      lenEl.value=inputValue(selectedVariant.maxLength);
+    if(lenEl&&!preserveLength){
+      lenEl.value='900';
     }
 
     if(customHbWrapEl)customHbWrapEl.hidden=true;
@@ -2096,14 +2227,13 @@
     if(variantMetaEl){
       var txt=selectedVariant.sku?tr('selected_sku')+selectedVariant.sku:tr('no_sku');
       if(selectedVariant.weight>0)txt+=' · '+fmt(selectedVariant.weight)+' kg/m';
-      if(selectedVariant.maxLength>0)txt+=' · L '+fmt(selectedVariant.maxLength)+' mm';
       if(!selectedVariant.catalog&&selectedProfile&&selectedProfile.A)txt+=tr('profile_height')+fmt(selectedProfile.A)+' mm';
       if(!selectedProfile)txt+=tr('not_parsed');
       variantMetaEl.textContent=txt;
     }
 
     if(lengthHintEl){
-      lengthHintEl.textContent=selectedVariant.maxLength>0?tr('length_default')+fmt(selectedVariant.maxLength)+tr('length_adjustable'):'';
+      lengthHintEl.textContent=tr('length_start_hint');
     }
 
     updateHiddenProfileFields();
@@ -2113,10 +2243,12 @@
   function updateHiddenProfileFields(){
     if(modeHiddenEl)modeHiddenEl.value=(selectedProfile&&selectedProfile.custom)?tr('custom_height'):selectedKind;
     if(threadHiddenEl)threadHiddenEl.value=getThreadLabel();
-    if(hbHiddenEl)hbHiddenEl.value=selectedProfile&&selectedProfile.A?fmt(selectedProfile.A):'';
-    if(bHiddenEl)bHiddenEl.value=selectedProfile&&selectedProfile.B?fmt(selectedProfile.B):'';
+    if(aHiddenEl)aHiddenEl.value=selectedProfile&&selectedProfile.B?fmt(selectedProfile.B):'';
+    if(bHiddenEl)bHiddenEl.value=selectedProfile&&selectedProfile.A?fmt(selectedProfile.A):'';
     if(cHiddenEl)cHiddenEl.value=selectedProfile&&selectedProfile.C?fmt(selectedProfile.C):'';
     if(dHiddenEl)dHiddenEl.value=selectedProfile&&selectedProfile.D?fmt(selectedProfile.D):'';
+    if(orientationHiddenEl)orientationHiddenEl.value=isProfileRotated()?tr('orientation_right_value'):tr('orientation_upright_value');
+    if(counterboreHiddenEl)counterboreHiddenEl.value=isProfileRotated()&&counterboreDiaEl?fmt(num(counterboreDiaEl.value)):'';
     if(grHiddenEl)grHiddenEl.value=lastGR!=null?fmt(lastGR):'';
     if(holesHiddenEl)holesHiddenEl.value=lastHoleRows.join(' | ');
     if(specAHiddenEl)specAHiddenEl.value=selectedVariant&&selectedVariant.specA?fmt(selectedVariant.specA):'';
@@ -2181,6 +2313,7 @@
     p.set('frq_lang',currentLang);
     p.set('frq_step',currentStep);
     p.set('frq_kind',selectedKind);
+    p.set('frq_orientation',profileOrientation);
 
     var fields={
       frq_OUTER_HB:selectedKind==='custom'?'':outerHbEl&&outerHbEl.value,
@@ -2194,6 +2327,7 @@
       frq_BORE_H:boreHEl&&boreHEl.value,
       frq_BORE_W:boreWEl&&boreWEl.value,
       frq_BORE_DIA:boreDiaEl&&boreDiaEl.value,
+      frq_COUNTERBORE_DIA:counterboreDiaEl&&counterboreDiaEl.value,
       frq_QTY:qtyEl&&qtyEl.value
     };
 
@@ -2253,8 +2387,8 @@
     var profileMode=isCustomProfile()?tr('custom_height'):selectedKind;
     var sku=(selectedVariant&&selectedVariant.sku)||'';
 
-    var HB=(selectedProfile&&selectedProfile.A)?fmt(selectedProfile.A):'';
-    var B=(selectedProfile&&selectedProfile.B)?fmt(selectedProfile.B):'';
+    var A=(selectedProfile&&selectedProfile.B)?fmt(selectedProfile.B):'';
+    var B=(selectedProfile&&selectedProfile.A)?fmt(selectedProfile.A):'';
     var C=(selectedProfile&&selectedProfile.C)?fmt(selectedProfile.C):'';
     var D=(selectedProfile&&selectedProfile.D)?fmt(selectedProfile.D):'';
 
@@ -2264,6 +2398,7 @@
     var DIA=num(diaEl&&diaEl.value);
     var N=num(nEl&&nEl.value);
     var HC=num(hcEl&&hcEl.value);
+    var counterboreDia=isProfileRotated()?num(counterboreDiaEl&&counterboreDiaEl.value):null;
 
     summEl.value=[
       'BEKIJK DE AFBEELDING:',
@@ -2279,11 +2414,12 @@
       'Productspecificatie C: '+(selectedVariant&&selectedVariant.specC?fmt(selectedVariant.specC):'')+' mm',
       'Productspecificatie D: '+(selectedVariant&&selectedVariant.specD?fmt(selectedVariant.specD):'')+' mm',
       'Gewicht: '+(selectedVariant&&selectedVariant.weight?fmt(selectedVariant.weight):'')+' kg/m',
-      'Standaard max. lengte: '+(selectedVariant&&selectedVariant.maxLength?fmt(selectedVariant.maxLength):'')+' mm',
-      'HB profielhoogte: '+HB+' mm',
-      'B profielbreedte: '+B+' mm',
-      'C kamerhoogte: '+C+' mm',
-      'D kamerbreedte: '+D+' mm',
+      'Product max. lengte: '+(selectedVariant&&selectedVariant.maxLength?fmt(selectedVariant.maxLength):'')+' mm',
+      'A profielbreedte: '+A+' mm',
+      'B profielhoogte: '+B+' mm',
+      'C boringmaat: '+C+' mm',
+      'D boringmaat: '+D+' mm',
+      'Profielstand: '+(isProfileRotated()?tr('orientation_right_value'):tr('orientation_upright_value')),
       '',
       'BLOK / GATEN',
       'L lengte: '+(L?fmt(L):'')+' mm',
@@ -2292,6 +2428,7 @@
       'GR rechts: '+(lastGR!=null?fmt(lastGR):'')+' mm',
       'Gatkeuze: '+getThreadLabel(),
       'Gatdiameter: Ø '+(DIA?fmt(DIA):'')+' mm',
+      'Verzinkdiameter: '+(counterboreDia?'ØV '+fmt(counterboreDia)+' mm':'niet van toepassing'),
       'Aantal gaten: '+(N?fmt(N):''),
       'HC vanaf onderzijde: '+(HC?fmt(HC):'')+' mm',
       '',
@@ -2328,6 +2465,7 @@
     setA(fOutline,'width',0);
     setA(fOutline,'height',0);
 
+    fCounterboresG.innerHTML='';
     fHolesG.innerHTML='';
     fProjG.innerHTML='';
     fLabelsG.innerHTML='';
@@ -2342,7 +2480,7 @@
 
     [
       'L-el','L-er','L-line','L-text',
-      'HB-et','HB-eb','HB-line','HB-text',
+      'B-side-et','B-side-eb','B-side-line','B-side-text',
       'G-el','G-em','G-line','G-text',
       'H-em','H-er','H-line','H-text',
       'GR-el','GR-er','GR-line','GR-text',
@@ -2431,42 +2569,42 @@
     return el;
   }
 
-  function renderCustomHeightView(HB){
-    if(!(HB>0))return;
+  function renderCustomHeightView(heightB){
+    if(!(heightB>0))return;
 
     var y=54;
     var bottom=184;
     var midY=(y+bottom)/2;
     var guideX=600;
     var dimX=548;
-    var title=tr('front_view_custom');
-
-    fFrontG.setAttribute('aria-label',title);
-    addText(fFrontG,'f-view-title',600,34,title,'middle');
+    fFrontG.setAttribute('aria-label',tr('front_view_custom'));
     addSvgLine(fFrontG,'f-custom-height-guide',guideX,y,guideX,bottom,false);
     addSvgLine(fFrontG,'f-custom-height-guide',guideX-18,y,guideX+18,y,false);
     addSvgLine(fFrontG,'f-custom-height-guide',guideX-18,bottom,guideX+18,bottom,false);
 
-    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',dimX,y,guideX-18,y,false),'HB','custom-et');
-    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',dimX,bottom,guideX-18,bottom,false),'HB','custom-eb');
-    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',dimX,y,dimX,bottom,true),'HB','custom-line');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',dimX,y,guideX-18,y,false),'B','custom-et');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',dimX,bottom,guideX-18,bottom,false),'B','custom-eb');
+    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',dimX,y,dimX,bottom,true),'B','custom-line');
 
-    var hbText=addText(fFrontG,'dt f-front-dim',dimX-12,midY+5,'HB = '+fmt(HB)+' mm','middle');
-    hbText.setAttribute('transform','rotate(-90,'+px(dimX-12)+','+px(midY)+')');
-    markFrontDim(hbText,'HB','custom-text');
+    var heightText=addText(fFrontG,'dt f-front-dim',dimX-12,midY+5,'B = '+fmt(heightB)+' mm','middle');
+    heightText.setAttribute('transform','rotate(-90,'+px(dimX-12)+','+px(midY)+')');
+    markFrontDim(heightText,'B','custom-text');
   }
 
-  function renderFrontView(HB,B,layout){
-    var available=selectedProfile&&HB>0&&B>0;
+  function renderFrontView(heightB,widthA,layout){
+    var available=selectedProfile&&heightB>0&&widthA>0;
     if(!available)return;
 
     var NS='http://www.w3.org/2000/svg';
     var sideMode=!!(layout&&layout.side);
+    var rotated=isProfileRotated();
     var maxW=160;
     var maxH=130;
-    var scale=sideMode?layout.h/HB:Math.min(maxW/B,maxH/HB);
-    var w=sideMode?layout.w:B*scale;
-    var h=sideMode?layout.h:HB*scale;
+    var visualWidth=rotated?heightB:widthA;
+    var visualHeight=rotated?widthA:heightB;
+    var scale=sideMode?layout.h/visualHeight:Math.min(maxW/visualWidth,maxH/visualHeight);
+    var w=sideMode?layout.w:visualWidth*scale;
+    var h=sideMode?layout.h:visualHeight*scale;
     var x=sideMode?layout.x:600-w/2;
     var y=sideMode?layout.y:54+(maxH-h)/2;
     var bottom=y+h;
@@ -2474,61 +2612,61 @@
     var midY=y+h/2;
     var kind=selectedProfile.kind||'D';
     var titleKey=kind==='DD'?'front_view_dd':kind==='DC'?'front_view_dc':kind==='custom'?'front_view_custom':'front_view_ds';
-    var title=tr(titleKey);
+    fFrontG.setAttribute('aria-label',tr(titleKey));
 
-    fFrontG.setAttribute('aria-label',title);
-    addText(fFrontG,'f-view-title',midX,sideMode?y-86:34,title,'middle');
+    var sourceW=widthA*scale;
+    var sourceH=heightB*scale;
+    var sourceX=midX-sourceW/2;
+    var sourceY=midY-sourceH/2;
+    var rotation=rotated?'rotate(90 '+px(midX)+' '+px(midY)+')':'';
 
     var shape=document.createElementNS(NS,'path');
     shape.setAttribute('class','f-front-shape');
-    shape.setAttribute('d',dProfilePath(x,y,w,h));
+    shape.setAttribute('d',dProfilePath(sourceX,sourceY,sourceW,sourceH));
+    if(rotation)shape.setAttribute('transform',rotation);
     fFrontG.appendChild(shape);
 
     if(kind==='DD'&&selectedProfile.C>0&&selectedProfile.D>0){
-      var boreW=Math.min(selectedProfile.D*scale,w-18);
-      var boreH=Math.min(selectedProfile.C*scale,h-18);
+      var boreW=Math.min(selectedProfile.C*scale,sourceW-18);
+      var boreH=Math.min(selectedProfile.D*scale,sourceH-18);
 
       if(boreW>10&&boreH>10){
         var bore=document.createElementNS(NS,'path');
         bore.setAttribute('class','f-front-bore');
         bore.setAttribute('d',dProfilePath(midX-boreW/2,midY-boreH/2,boreW,boreH));
+        if(rotation)bore.setAttribute('transform',rotation);
         fFrontG.appendChild(bore);
       }
-    }else if(kind==='DC'&&(selectedProfile.D>0||selectedProfile.C>0)){
-      var boreDia=selectedProfile.D||selectedProfile.C;
+    }else if(kind==='DC'&&selectedProfile.C>0){
+      var boreDia=selectedProfile.C;
       var boreRadius=Math.min(boreDia*scale/2,w/2-9,h/2-9);
 
       if(boreRadius>5){
-        var boreCenterY=midY;
-
-        if(selectedProfile.boreOffset>0){
-          boreCenterY=bottom-(selectedProfile.boreOffset+boreDia/2)*scale;
-          boreCenterY=clamp(boreCenterY,y+boreRadius,bottom-boreRadius);
-        }
-
         var circle=document.createElementNS(NS,'circle');
         circle.setAttribute('class','f-front-bore');
         circle.setAttribute('cx',px(midX));
-        circle.setAttribute('cy',px(boreCenterY));
+        circle.setAttribute('cy',px(midY));
         circle.setAttribute('r',px(boreRadius));
         fFrontG.appendChild(circle);
       }
     }
 
-    var bDimY=bottom+(sideMode?52:42);
-    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,bDimY,false),'B','el');
-    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x+w,bottom,x+w,bDimY,false),'B','er');
-    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',x,bDimY,x+w,bDimY,true),'B','line');
-    markFrontDim(addText(fFrontG,'dt f-front-dim',x+w/2,bDimY-8,'B = '+fmt(B)+' mm','middle'),'B','text');
+    var horizontalAxis=rotated?'B':'A';
+    var verticalAxis=rotated?'A':'B';
+    var horizontalDimY=bottom+(sideMode?52:42);
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x,bottom,x,horizontalDimY,false),horizontalAxis,'el');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',x+w,bottom,x+w,horizontalDimY,false),horizontalAxis,'er');
+    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',x,horizontalDimY,x+w,horizontalDimY,true),horizontalAxis,'line');
+    markFrontDim(addText(fFrontG,'dt f-front-dim',x+w/2,horizontalDimY-8,horizontalAxis+' = '+fmt(visualWidth)+' mm','middle'),horizontalAxis,'text');
 
-    var hbDimX=x-(sideMode?58:48);
-    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',hbDimX,y,midX,y,false),'HB','et');
-    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',hbDimX,bottom,x,bottom,false),'HB','eb');
-    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',hbDimX,y,hbDimX,bottom,true),'HB','line');
+    var verticalDimX=x-(sideMode?58:48);
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',verticalDimX,y,midX,y,false),verticalAxis,'et');
+    markFrontDim(addSvgLine(fFrontG,'de f-front-dim',verticalDimX,bottom,x,bottom,false),verticalAxis,'eb');
+    markFrontDim(addSvgLine(fFrontG,'dl f-front-dim',verticalDimX,y,verticalDimX,bottom,true),verticalAxis,'line');
 
-    var hbText=addText(fFrontG,'dt f-front-dim',hbDimX-12,midY+5,'HB = '+fmt(HB)+' mm','middle');
-    hbText.setAttribute('transform','rotate(-90,'+px(hbDimX-12)+','+px(midY)+')');
-    markFrontDim(hbText,'HB','text');
+    var verticalText=addText(fFrontG,'dt f-front-dim',verticalDimX-12,midY+5,verticalAxis+' = '+fmt(visualHeight)+' mm','middle');
+    verticalText.setAttribute('transform','rotate(-90,'+px(verticalDimX-12)+','+px(midY)+')');
+    markFrontDim(verticalText,verticalAxis,'text');
   }
 
   function addLabel(parent,cls,x,y,t,anchor,groupCls){
@@ -2551,14 +2689,16 @@
     return addText(g,cls,x,y,t,anchor);
   }
 
-  function renderHoleList(fx,fy,fW,fH,rows,hcValue,diaValue){
+  function renderHoleList(fx,fy,fW,fH,rows,hcValue,diaValue,counterboreValue){
     if(!rows.length)return;
 
     var x=fx;
     var y=fy+fH+128;
 
     addText(fListG,'f-hole-list-title',x,y,tr('hole_positions'),'start');
-    addText(fListG,'f-hole-list-text',x,y+26,tr('hole_height')+fmt(hcValue)+' mm · '+tr('hole_diameter')+fmt(diaValue)+' mm','start');
+    var detail=tr('hole_height')+fmt(hcValue)+' mm · '+tr('hole_diameter')+fmt(diaValue)+' mm';
+    if(counterboreValue>0)detail+=' · ØV = '+fmt(counterboreValue)+' mm';
+    addText(fListG,'f-hole-list-text',x,y+26,detail,'start');
 
     rows.forEach(function(row,i){
       var col=Math.floor(i/4);
@@ -2650,9 +2790,16 @@
     resetAll();
 
     var L=num(lenEl&&lenEl.value);
-    var HB=selectedProfile&&selectedProfile.A?selectedProfile.A:null;
-    var B=selectedProfile&&selectedProfile.B?selectedProfile.B:null;
-    var chamberC=selectedProfile&&!selectedProfile.custom&&selectedProfile.C?selectedProfile.C:null;
+    var heightB=selectedProfile&&selectedProfile.A?selectedProfile.A:null;
+    var widthA=selectedProfile&&selectedProfile.B?selectedProfile.B:null;
+    var visualHeight=getVisualProfileHeight();
+    var visualWidth=getVisualProfileWidth();
+    var chamberSize=null;
+
+    if(selectedProfile&&!selectedProfile.custom){
+      if(selectedKind==='DD')chamberSize=isProfileRotated()?selectedProfile.C:selectedProfile.D;
+      else if(selectedKind==='DC')chamberSize=selectedProfile.C;
+    }
     var G=num(gEl&&gEl.value);
     var HH=num(hhEl&&hhEl.value);
     var DIA=num(diaEl&&diaEl.value);
@@ -2668,16 +2815,17 @@
 
     if(currentStep==='front'){
       root.classList.remove('has-side-front');
-      if(bDimPillEl)bDimPillEl.hidden=selectedKind==='custom';
-      if(selectedKind==='custom')renderCustomHeightView(HB);
-      else renderFrontView(HB,B);
+      if(aDimPillEl)aDimPillEl.hidden=selectedKind==='custom';
+      if(bDimPillEl)bDimPillEl.hidden=false;
+      if(selectedKind==='custom')renderCustomHeightView(heightB);
+      else renderFrontView(heightB,widthA);
       updateHiddenProfileFields();
       updateSummary();
       fitLiveSvg();
       return;
     }
 
-    if(!(L>0)||!(HB>0)){
+    if(!(L>0)||!(visualHeight>0)){
       root.classList.remove('has-side-front');
       updateHiddenProfileFields();
       updateSummary();
@@ -2694,13 +2842,13 @@
 
     var maxFW=SVG_W-PAD_L-PAD_R;
     var maxFH=SVG_H-PAD_T-PAD_B;
-    var showSideFront=selectedKind!=='custom'&&B>0&&!root.classList.contains('is-dim-hidden-FRONT');
+    var showSideFront=selectedKind!=='custom'&&visualWidth>0&&!root.classList.contains('is-dim-hidden-FRONT');
     var frontGap=120;
-    var widthScale=showSideFront?(maxFW-frontGap)/(L+B):maxFW/L;
+    var widthScale=showSideFront?(maxFW-frontGap)/(L+visualWidth):maxFW/L;
 
-    var scale=Math.min(widthScale,maxFH/HB);
+    var scale=Math.min(widthScale,maxFH/visualHeight);
     var fW=L*scale;
-    var fH=HB*scale;
+    var fH=visualHeight*scale;
     var clamped=false;
 
     if(fW<50){
@@ -2716,25 +2864,21 @@
     var fy=PAD_T+(maxFH-fH)/2;
     var fx;
     var scaleX=fW/L;
-    var scaleY=fH/HB;
+    var scaleY=fH/visualHeight;
 
     root.classList.toggle('has-side-front',showSideFront);
-    if(bDimPillEl)bDimPillEl.hidden=!showSideFront;
+    if(aDimPillEl)aDimPillEl.hidden=selectedKind==='custom'||(!showSideFront&&!isProfileRotated());
+    if(bDimPillEl)bDimPillEl.hidden=!showSideFront&&isProfileRotated();
 
     if(showSideFront){
-      var frontDisplayW=B*scaleY;
+      var frontDisplayW=visualWidth*scaleY;
       var compositionW=frontDisplayW+frontGap+fW;
       var frontX=PAD_L+(maxFW-compositionW)/2;
 
       fx=frontX+frontDisplayW+frontGap;
-      renderFrontView(HB,B,{side:true,x:frontX,y:fy,w:frontDisplayW,h:fH});
+      renderFrontView(heightB,widthA,{side:true,x:frontX,y:fy,w:frontDisplayW,h:fH});
     }else{
       fx=PAD_L+(maxFW-fW)/2;
-    }
-
-    if(fSideTitle){
-      setA(fSideTitle,'x',fx);
-      setA(fSideTitle,'y',fy-86);
     }
 
     setA(fFill,'x',fx);
@@ -2747,8 +2891,8 @@
     setA(fOutline,'width',fW);
     setA(fOutline,'height',fH);
 
-    if(chamberC>0&&chamberC<HB){
-      var cH=chamberC*scaleY;
+    if(chamberSize>0&&chamberSize<visualHeight){
+      var cH=chamberSize*scaleY;
       var yC1=fy+(fH-cH)/2;
       var yC2=yC1+cH;
 
@@ -2761,15 +2905,27 @@
     var xDimH=fx-52;
     var midY=fy+fH/2;
 
-    line('HB-et',xDimH,fy,fx,fy);
-    line('HB-eb',xDimH,fy+fH,fx,fy+fH);
-    line('HB-line',xDimH,fy,xDimH,fy+fH);
+    var sideVerticalAxis=isProfileRotated()?'A':'B';
+    var sideVerticalParts={
+      'B-side-et':'et',
+      'B-side-eb':'eb',
+      'B-side-line':'line',
+      'B-side-text':'text'
+    };
 
-    var hbText=DIM['HB-text'];
-    if(hbText){
-      hbText.removeAttribute('transform');
-      hbText.setAttribute('transform','rotate(-90,'+px(xDimH-12)+','+px(midY)+')');
-      text('HB-text',xDimH-12,midY+5,'HB = '+fmt(HB)+' mm','middle');
+    Object.keys(sideVerticalParts).forEach(function(key){
+      if(DIM[key])DIM[key].setAttribute('data-d',sideVerticalAxis+'-side-'+sideVerticalParts[key]);
+    });
+
+    line('B-side-et',xDimH,fy,fx,fy);
+    line('B-side-eb',xDimH,fy+fH,fx,fy+fH);
+    line('B-side-line',xDimH,fy,xDimH,fy+fH);
+
+    var verticalText=DIM['B-side-text'];
+    if(verticalText){
+      verticalText.removeAttribute('transform');
+      verticalText.setAttribute('transform','rotate(-90,'+px(xDimH-12)+','+px(midY)+')');
+      text('B-side-text',xDimH-12,midY+5,sideVerticalAxis+' = '+fmt(visualHeight)+' mm','middle');
     }
 
     var hasHoles=G>0&&DIA>0&&N>0;
@@ -2783,7 +2939,9 @@
 
     if(hasHoles){
       var NS='http://www.w3.org/2000/svg';
+      var counterboreDia=isProfileRotated()?num(counterboreDiaEl&&counterboreDiaEl.value):null;
       var rH=(DIA/2)*Math.min(scaleX,scaleY);
+      var rOuter=(counterboreDia>DIA?counterboreDia:DIA)/2*Math.min(scaleX,scaleY);
 
       holeCy=HC>0?fy+fH-HC*scaleY:fy+fH/2;
 
@@ -2815,9 +2973,17 @@
 
         addLabel(fLabelsG,'f-hole-label',cx,labelY,fmt(dist)+' mm','middle','f-cum-label');
 
-        if(cx-rH<fx-.5||cx+rH>fx+fW+.5||holeCy-rH<fy-.5||holeCy+rH>fy+fH+.5){
+        if(cx-rOuter<fx-.5||cx+rOuter>fx+fW+.5||holeCy-rOuter<fy-.5||holeCy+rOuter>fy+fH+.5){
           holeFitWarn=true;
           continue;
+        }
+
+        if(counterboreDia>DIA){
+          var counterbore=document.createElementNS(NS,'circle');
+          counterbore.setAttribute('cx',px(cx));
+          counterbore.setAttribute('cy',px(holeCy));
+          counterbore.setAttribute('r',px(rOuter));
+          fCounterboresG.appendChild(counterbore);
         }
 
         var c=document.createElementNS(NS,'circle');
@@ -2853,12 +3019,13 @@
 
       if(DIA>0&&first){
         var diaLabel=(getThreadLabel()!==tr('own_dia')?getThreadLabel()+' / ':'')+'Ø '+fmt(DIA)+' mm';
-        addLabel(fLabelsG,'f-dia-text',first.x,holeCy-rH-10,diaLabel,'middle','f-dia-group');
+        if(counterboreDia>DIA)diaLabel+=' / ØV '+fmt(counterboreDia)+' mm';
+        addLabel(fLabelsG,'f-dia-text',first.x,holeCy-rOuter-10,diaLabel,'middle','f-dia-group');
       }
 
       var xHC=fx+fW+92;
       var yBot=fy+fH;
-      var hcVal=HC>0?HC:HB/2;
+      var hcVal=HC>0?HC:visualHeight/2;
 
       line('HC-et',last.x,holeCy,xHC,holeCy);
       line('HC-eb',last.x,yBot,xHC,yBot);
@@ -2872,7 +3039,7 @@
       fWarnTxt.textContent=tr('not_to_scale');
     }
 
-    renderHoleList(fx,fy,fW,fH,holeRows,(HC>0?HC:HB/2),DIA);
+    renderHoleList(fx,fy,fW,fH,holeRows,(HC>0?HC:visualHeight/2),DIA,isProfileRotated()?num(counterboreDiaEl&&counterboreDiaEl.value):null);
 
     updateHiddenProfileFields();
     updateSummary();
@@ -2885,9 +3052,11 @@
     var variantSku=qs('frq_sku');
     var lang=qs('frq_lang');
     var kind=qs('frq_kind');
+    var orientation=qs('frq_orientation');
     var idx=-1;
 
     if(lang==='en'||lang==='nl')currentLang=lang;
+    if(orientation==='right'||orientation==='upright')profileOrientation=orientation;
 
     if(profile==='custom'||kind==='custom'){
       if(variantSelectEl)variantSelectEl.value='custom';
@@ -2911,6 +3080,7 @@
       frq_BORE_H:boreHEl,
       frq_BORE_W:boreWEl,
       frq_BORE_DIA:boreDiaEl,
+      frq_COUNTERBORE_DIA:counterboreDiaEl,
       frq_QTY:qtyEl
     };
 
@@ -3011,8 +3181,8 @@
   function applyDownloadVisibility(clone){
     var hiddenMap={
       L:'[data-d^="L-"]',
+      A:'[data-d^="A-"]',
       B:'[data-d^="B-"]',
-      HB:'[data-d^="HB-"]',
       G:'[data-d^="G-"]',
       H:'[data-d^="H-"]',
       GR:'[data-d^="GR-"]',
@@ -3043,7 +3213,7 @@
         el.style.display='none';
       });
     }else if(root.classList.contains('has-side-front')&&!root.classList.contains('is-dim-hidden-FRONT')){
-      clone.querySelectorAll('.f-side-view [data-d^="HB-"]').forEach(function(el){
+      clone.querySelectorAll('.f-side-view .f-side-vertical-dim').forEach(function(el){
         el.setAttribute('display','none');
         el.style.display='none';
       });
@@ -3140,9 +3310,9 @@
       '.f-front-shape{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-front-bore{fill:#fff;stroke:#111827;stroke-width:2;vector-effect:non-scaling-stroke}',
       '.f-custom-height-guide{stroke:#111827;stroke-width:1.5;stroke-dasharray:7 5;opacity:.42;vector-effect:non-scaling-stroke}',
-      '.f-view-title{fill:#111827;font-size:13px;font-weight:800;letter-spacing:.5px;opacity:.58;font-family:Arial,Helvetica,sans-serif}',
       '.f-hole-proj,.f-hole-proj-line{display:none!important}',
       '.f-label-bg{fill:#fff;stroke:rgba(0,0,0,.08);stroke-width:1}',
+      '.f-counterbores circle{fill:#fff;stroke:#111827;stroke-width:1.25;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.52}',
       '.f-holes circle{fill:#fff;stroke:#111827;stroke-width:1.5;vector-effect:non-scaling-stroke;opacity:.86}',
       '.de{stroke:#111827;opacity:.45;stroke-width:1;vector-effect:non-scaling-stroke}',
       '.dl{stroke:#111827;opacity:.55;stroke-width:1;vector-effect:non-scaling-stroke}',
@@ -3252,7 +3422,7 @@
   checkPosted();
   setStep('front');
 
-  [lenEl,gEl,hhEl,diaEl,nEl,hcEl,qtyEl,nameEl,emailEl].forEach(function(el){
+  [lenEl,gEl,hhEl,diaEl,nEl,hcEl,counterboreDiaEl,qtyEl,nameEl,emailEl].forEach(function(el){
     if(!el)return;
     el.addEventListener('input',render,{passive:true});
     el.addEventListener('change',render,{passive:true});
@@ -3308,6 +3478,15 @@
         setBoreDefaults();
         render();
       }
+    });
+  });
+
+  orientationEls.forEach(function(input){
+    input.addEventListener('change',function(){
+      if(!this.checked)return;
+      resetFrontApproval();
+      setProfileOrientation(this.value,true);
+      render();
     });
   });
 
