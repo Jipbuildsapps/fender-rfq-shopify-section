@@ -30,15 +30,7 @@ section = section
     /(<select class="frq__input" id="fender-rfq-demo-variant-select" required>)[\s\S]*?(<option value="custom")/,
     `$1\n${variants.map((variant, index) => `            <option value="${index}"${index === 0 ? ' selected' : ''}>${variant.title} - ${variant.sku}</option>`).join('\n')}\n            $2`
   )
-  .replaceAll('action="/contact"', 'action="#" data-demo-form')
-  .replace('id="fender-rfq-demo-L" name=', 'id="fender-rfq-demo-L" value="1000" name=')
-  .replace('id="fender-rfq-demo-G" name=', 'id="fender-rfq-demo-G" value="120" name=')
-  .replace('id="fender-rfq-demo-HH" name=', 'id="fender-rfq-demo-HH" value="250" name=')
-  .replace('<option value="M20" data-dia="22">', '<option value="M20" data-dia="22" selected>')
-  .replace('id="fender-rfq-demo-DIA" name=', 'id="fender-rfq-demo-DIA" value="22" name=')
-  .replace('id="fender-rfq-demo-N" name=', 'id="fender-rfq-demo-N" value="4" name=')
-  .replace('id="fender-rfq-demo-HC" name=', 'id="fender-rfq-demo-HC" value="50" name=')
-  .replace('id="fender-rfq-demo-qty" name=', 'id="fender-rfq-demo-qty" value="10" name=');
+  .replaceAll('action="/contact"', 'action="#" data-demo-form');
 
 const page = `<!doctype html>
 <html lang="nl">
